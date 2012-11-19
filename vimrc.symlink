@@ -1,0 +1,132 @@
+set nocompatible                " choose no compatibility with legacy vi
+filetype off
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+
+Bundle 'mileszs/ack.vim'
+Bundle 'tpope/vim-surround'
+Bundle 'Shougo/neocomplcache'
+Bundle 'Shougo/neocomplcache-snippets-complete'
+Bundle 'kien/ctrlp.vim'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'mattn/zencoding-vim'
+Bundle 'klen/python-mode'
+Bundle 'skammer/vim-css-color'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'majutsushi/tagbar'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-git'
+Bundle 'groenewege/vim-less'
+Bundle 'tomtom/tcomment_vim'
+" After new, run :BundleInstall
+
+filetype plugin indent on       " load file type plugins + indentation
+
+syntax enable
+set encoding=utf-8
+set showcmd                     " display incomplete commands
+"set shellcmdflag=-ic            " use RVM version of ruby
+set shell=/bin/sh            " use RVM version (Using vim with rvm)
+set number
+set colorcolumn=80
+
+"" Whitespace
+set nowrap                      " don't wrap lines
+set tabstop=2 shiftwidth=2      " a tab is two spaces (or set this to 4)
+set expandtab                   " use spaces, not tabs (optional)
+set backspace=indent,eol,start  " backspace through everything in insert mode
+set foldmethod=indent
+
+"" Searching
+set hlsearch                    " highlight matches
+set incsearch                   " incremental searching
+set ignorecase                  " searches are case insensitive...
+set smartcase                   " ... unless they contain at least one capital letter
+
+set ruler
+set clipboard=unnamed
+" :help fugitive#statusline
+" set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+set laststatus=2
+
+set list
+set listchars=tab:>.,trail:.,extends:#,nbsp:.
+
+if has("gui_running")
+  set guioptions-=T
+  set guioptions-=r
+  set guioptions-=L
+  set guifont=Inconsolata:h14
+endif
+
+set background=dark
+colorscheme solarized
+
+set backupdir=/var/tmp
+set directory=/var/tmp
+
+let mapleader = ","
+let g:mapleader = ","
+
+" turn off highlighting
+nnoremap <leader><space> :noh<cr>
+" search forwards
+nmap <space> /
+" search backwards
+nmap <S-space> ?
+
+" map esc
+imap jj <ESC>
+
+" ACK
+set grepprg=ack
+nnoremap <leader>a :Ack 
+nnoremap <leader>n :cn<cr>
+
+" Move windows
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" ctrlp
+let g:ctrlp_map = '<leader>f'
+nnoremap <leader>l :CtrlP /Users/mfrauenholtz/Documents/Envs/bb/lib/python2.7/site-packages/<CR>
+set wildignore+=*.pyc " ignore compiled python
+
+" AutoComplete
+let g:neocomplcache_enable_at_startup = 1
+" Use smartcase.
+let g:neocomplcache_enable_smart_case = 1
+" Use camel case completion.
+let g:neocomplcache_enable_camel_case_completion = 1
+" Use underbar completion.
+let g:neocomplcache_enable_underbar_completion = 1
+" Set minimum syntax keyword length.
+let g:neocomplcache_min_syntax_length = 3
+" <CR>: close popup and save indent.
+inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+imap <leader>s     <Plug>(neocomplcache_snippets_expand)
+smap <leader>s     <Plug>(neocomplcache_snippets_expand)
+
+" zencoding
+let g:user_zen_expandabbr_key = '<leader>H'
+
+" tagbar
+nnoremap <leader>t :TagbarOpenAutoClose<CR>
+
+" python-mode
+" quick way to get rid of quickfix
+nnoremap <leader>c :ccl<CR>
+let g:pymode_virtualenv = 1
+let g:pymode_rope = 1
+let g:pymode_folding = 0
+let g:pymode_lint = 0
+let g:pymode_lint_write = 0

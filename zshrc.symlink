@@ -1,0 +1,104 @@
+# Path to your oh-my-zsh configuration.
+ZSH=$HOME/.oh-my-zsh
+
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# time that oh-my-zsh is loaded.
+ZSH_THEME="hgtheme"
+
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+alias cel="./manage.py celeryd -l INFO"
+alias gun="./manage.py gunserver 0.0.0.0 --workers=8 --timeout=600"
+alias gunhg="gunicorn --bind 0.0.0.0:8002 --config conf/debug.conf.py --timeout 120 bridgehgweb:application"
+alias bbcel="cdbb && cd bitbucket && workon bb && ./manage.py celeryd -l INFO"
+alias bbgun="cdbb && cd bitbucket && workon bb && ./manage.py gunserver 0.0.0.0 --workers=8 --timeout=600"
+alias bbgunhg="cdbb && cd bitbucket && workon bb && gunicorn --bind 0.0.0.0:8002 --config conf/debug.conf.py --timeout 120 bridgehgweb:application"
+
+alias gcs='git checkout staging'
+alias gcp='git checkout production'
+alias cdbb="cd ~/Documents/Code/bb/"
+alias mvim='nocorrect mvim'
+alias hglog='hg log -d -1 | grep Frauenholtz -A 2'
+alias blog='hg log -b $(hgbranch)'
+alias ie9_css='./manage.py collectstatic --settings=settings.dev --noinput && 
+./manage.py compress --settings=settings.dev --force && 
+sed -i "" -e "s/\(TEMPLATE_DEBUG = \)True/\1False/" settings/dev.py && 
+sed -i "" -e "s/\(STATIC_DEBUG = \)False/\1True/" settings/dev.py'
+alias dev_css='sed -i "" -e "s/\(TEMPLATE_DEBUG = \)False/\1True/" settings/dev.py && 
+sed -i "" -e "s/\(STATIC_DEBUG = \)True/\1False/" settings/dev.py'
+alias hgsetup='cat >> .hg/hgrc <<EOF
+
+[hooks]
+preupdate.piphook = `pwd`/scripts/piphook.sh
+EOF
+cp settings/dev_dist.py settings/dev.py'
+
+hgdiff() {
+  hg cat $1 | vim - -c  ":vert diffsplit $1" -c "map q :qa!<CR>";
+}
+
+commit() {
+  hg commit -m "$(hgbug) - $*"
+}
+
+push() {
+  hg push --new-branch --branch $(hgbranch)
+  hg up default
+}
+
+hgbug() {
+  hg prompt '{branch}' | grep -o 'BB-\d*' | cat
+}
+
+hgbranch() {
+  hg prompt '{branch}'
+}
+
+branch() {
+  hg branch mfrauenholtz/BB-$1
+}
+
+up() {
+  hg up mfrauenholtz/BB-$1
+}
+
+# Set to this to use case-sensitive completion
+# CASE_SENSITIVE="true"
+
+# Comment this out to disable weekly auto-update checks
+# DISABLE_AUTO_UPDATE="true"
+
+# Uncomment following line if you want to disable colors in ls
+# DISABLE_LS_COLORS="true"
+
+# Uncomment following line if you want to disable autosetting terminal title.
+# DISABLE_AUTO_TITLE="true"
+
+# Uncomment following line if you want red dots to be displayed while waiting for completion
+# COMPLETION_WAITING_DOTS="true"
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+plugins=(git mercurial vi-mode)
+
+source $ZSH/oh-my-zsh.sh
+
+export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
+export EDITOR='mvim -f'
+export GIT_PAGER='mvim -R -'
+
+export HUBOT_HIPCHAT_JID='10804_36277@chat.hipchat.com'
+export HUBOT_HIPCHAT_PASSWORD='ZOfgF4wwBO'
+export HUBOT_HIPCHAT_NAME='Herbert B.'
+export HUBOT_HIPCHAT_ROOMS='10804_zz_bot_test@conf.hipchat.com'
+
+export DJANGO_SETTINGS_MODULE="bitbucket.settings.dev"
+export WORKON_HOME="$HOME/Documents/Envs"
+export VIRTUALENV_USE_DISTRIBUTE=1
+# figure out what this is in ZSH
+#[[ -n "$(command -v virtualenvwrapper.sh)" ]] && source virtualenvwrapper.sh
+source virtualenvwrapper.sh
