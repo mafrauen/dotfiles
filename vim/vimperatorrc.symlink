@@ -6,4 +6,4 @@ source! /Users/mfrauenholtz/.vimperatorrc.local
 :no j 4j
 :no k 4k
 
-:set editor=subl
+:set editor=/usr/local/bin/mvim
