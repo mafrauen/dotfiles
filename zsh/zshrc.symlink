@@ -17,6 +17,8 @@ alias bbcel="cdbb && cd bitbucket && workon bb && ./manage.py celeryd -l INFO"
 alias bbgun="cdbb && cd bitbucket && workon bb && ./manage.py gunserver 0.0.0.0 --workers=8 --timeout=600"
 alias bbgunhg="cdbb && cd bitbucket && workon bb && gunicorn --bind 0.0.0.0:8002 --config conf/debug.conf.py --timeout 120 bridgehgweb:application"
 
+alias pmp='python manage.py'
+alias gdo='git diff origin/$(current_branch)..HEAD'
 alias gcs='git checkout staging'
 alias gcp='git checkout production'
 alias cdbb="cd ~/Documents/Code/bb/"
@@ -26,8 +28,12 @@ alias blog='hg log -b $(hgbranch)'
 alias ie9_css='./manage.py collectstatic --settings=settings.dev --noinput && 
 ./manage.py compress --settings=settings.dev --force && 
 sed -i "" -e "s/\(TEMPLATE_DEBUG = \)True/\1False/" settings/dev.py && 
+sed -i "" -e "s/\(COMPRESS_ENABLED = \)False/\1True/" settings/dev.py && 
+sed -i "" -e "s/\(COMPRESS_OFFLINE = \)True/\1False/" settings/dev.py && 
 sed -i "" -e "s/\(STATIC_DEBUG = \)False/\1True/" settings/dev.py'
 alias dev_css='sed -i "" -e "s/\(TEMPLATE_DEBUG = \)False/\1True/" settings/dev.py && 
+sed -i "" -e "s/\(COMPRESS_ENABLED = \)True/\1False/" settings/dev.py && 
+sed -i "" -e "s/\(COMPRESS_OFFLINE = \)False/\1True/" settings/dev.py && 
 sed -i "" -e "s/\(STATIC_DEBUG = \)True/\1False/" settings/dev.py'
 alias hgsetup='cat >> .hg/hgrc <<EOF
 
@@ -80,6 +86,9 @@ up() {
 # Uncomment following line if you want red dots to be displayed while waiting for completion
 # COMPLETION_WAITING_DOTS="true"
 
+wiki() {
+  dig +short txt $1.wp.dg.cx
+}
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
@@ -102,3 +111,6 @@ export VIRTUALENV_USE_DISTRIBUTE=1
 # figure out what this is in ZSH
 #[[ -n "$(command -v virtualenvwrapper.sh)" ]] && source virtualenvwrapper.sh
 source virtualenvwrapper.sh
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
