@@ -9,7 +9,7 @@ Bundle 'gmarik/vundle'
 Bundle 'mileszs/ack.vim'
 Bundle 'tpope/vim-surround'
 Bundle 'Shougo/neocomplcache'
-Bundle 'Shougo/neocomplcache-snippets-complete'
+Bundle 'Shougo/neosnippet.git'
 Bundle 'kien/ctrlp.vim'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'mattn/zencoding-vim'
@@ -22,6 +22,10 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-git'
 Bundle 'groenewege/vim-less'
 Bundle 'tomtom/tcomment_vim'
+Bundle 'tpope/vim-markdown'
+Bundle 'juvenn/mustache.vim'
+Bundle 'Raimondi/delimitMate'
+Bundle 'nathanaelkane/vim-indent-guides'
 " After new, run :BundleInstall
 
 filetype plugin indent on       " load file type plugins + indentation
@@ -39,7 +43,7 @@ set nowrap                      " don't wrap lines
 set tabstop=2 shiftwidth=2      " a tab is two spaces (or set this to 4)
 set expandtab                   " use spaces, not tabs (optional)
 set backspace=indent,eol,start  " backspace through everything in insert mode
-set foldmethod=indent
+" set foldmethod=indent
 
 "" Searching
 set hlsearch                    " highlight matches
@@ -51,7 +55,11 @@ set ruler
 set clipboard=unnamed
 " :help fugitive#statusline
 " set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
-set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+" Original statusline
+" set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
+if has("statusline")
+ set statusline=%<%f\ %h%m%r%=%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"]\ \"}%k\ %-14.(%l,%c%V%)\ %P
+endif
 set laststatus=2
 
 set list
@@ -94,10 +102,15 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+" fugitive
+nnoremap <leader>s :Gstatus<cr>
+
 " ctrlp
 let g:ctrlp_map = '<leader>f'
 nnoremap <leader>l :CtrlP /Users/mfrauenholtz/Documents/Envs/bb/lib/python2.7/site-packages/<CR>
 set wildignore+=*.pyc " ignore compiled python
+set wildignore+=*/node_modules/*
+set wildignore+=*/local/* " ignore static files
 
 " AutoComplete
 let g:neocomplcache_enable_at_startup = 1
@@ -110,7 +123,8 @@ let g:neocomplcache_enable_underbar_completion = 1
 " Set minimum syntax keyword length.
 let g:neocomplcache_min_syntax_length = 3
 " <CR>: close popup and save indent.
-inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+" Doesn't play nice with delimitMate
+" inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
 " <TAB>: completion.
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 imap <leader>s     <Plug>(neocomplcache_snippets_expand)
@@ -122,6 +136,11 @@ let g:user_zen_expandabbr_key = '<leader>H'
 " tagbar
 nnoremap <leader>t :TagbarOpenAutoClose<CR>
 
+" delimitMate
+let delimitMate_expand_cr = 1
+let delimitMate_expand_space = 1
+au FileType htmldjango,html let b:delimitMate_matchpairs = "(:),[:],{:},<:>,%: %"
+
 " python-mode
 " quick way to get rid of quickfix
 nnoremap <leader>c :ccl<CR>
@@ -130,3 +149,7 @@ let g:pymode_rope = 1
 let g:pymode_folding = 0
 let g:pymode_lint = 0
 let g:pymode_lint_write = 0
+
+" Indent
+let g:indent_guides_start_level = 2
+let g:indent_guides_guide_size = 1
