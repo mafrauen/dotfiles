@@ -1,1 +1,3 @@
 --ignore-dir=local
+--type-add=html=.mustache
+--type-add=css=.less
