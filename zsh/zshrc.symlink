@@ -19,12 +19,13 @@ alias bbgunhg="cdbb && cd bitbucket && workon bb && gunicorn --bind 0.0.0.0:8002
 
 alias pmp='python manage.py'
 alias gdo='git diff origin/$(current_branch)..HEAD'
+alias glo='git log origin/$(current_branch)..HEAD'
 alias gcs='git checkout staging'
 alias gcp='git checkout production'
 alias cdbb="cd ~/Documents/Code/bb/"
 alias mvim='nocorrect mvim'
-alias hglog='hg log -d -1 | grep Frauenholtz -A 2'
-alias blog='hg log -b $(hgbranch)'
+# alias hglog='hg log -d -1 | grep Frauenholtz -A 2'
+# alias blog='hg log -b $(hgbranch)'
 alias ie9_css='./manage.py collectstatic --settings=settings.dev --noinput && 
 ./manage.py compress --settings=settings.dev --force && 
 sed -i "" -e "s/\(TEMPLATE_DEBUG = \)True/\1False/" settings/dev.py && 
@@ -35,41 +36,41 @@ alias dev_css='sed -i "" -e "s/\(TEMPLATE_DEBUG = \)False/\1True/" settings/dev.
 sed -i "" -e "s/\(COMPRESS_ENABLED = \)True/\1False/" settings/dev.py && 
 sed -i "" -e "s/\(COMPRESS_OFFLINE = \)False/\1True/" settings/dev.py && 
 sed -i "" -e "s/\(STATIC_DEBUG = \)True/\1False/" settings/dev.py'
-alias hgsetup='cat >> .hg/hgrc <<EOF
+# alias hgsetup='cat >> .hg/hgrc <<EOF
+# 
+# [hooks]
+# preupdate.piphook = `pwd`/scripts/piphook.sh
+# EOF
+# cp settings/dev_dist.py settings/dev.py'
 
-[hooks]
-preupdate.piphook = `pwd`/scripts/piphook.sh
-EOF
-cp settings/dev_dist.py settings/dev.py'
-
-hgdiff() {
-  hg cat $1 | vim - -c  ":vert diffsplit $1" -c "map q :qa!<CR>";
-}
-
-commit() {
-  hg commit -m "$(hgbug) - $*"
-}
-
-push() {
-  hg push --new-branch --branch $(hgbranch)
-  hg up default
-}
-
-hgbug() {
-  hg prompt '{branch}' | grep -o 'BB-\d*' | cat
-}
-
-hgbranch() {
-  hg prompt '{branch}'
-}
-
-branch() {
-  hg branch mfrauenholtz/BB-$1
-}
-
-up() {
-  hg up mfrauenholtz/BB-$1
-}
+# hgdiff() {
+#   hg cat $1 | vim - -c  ":vert diffsplit $1" -c "map q :qa!<CR>";
+# }
+# 
+# commit() {
+#   hg commit -m "$(hgbug) - $*"
+# }
+# 
+# push() {
+#   hg push --new-branch --branch $(hgbranch)
+#   hg up default
+# }
+# 
+# hgbug() {
+#   hg prompt '{branch}' | grep -o 'BB-\d*' | cat
+# }
+# 
+# hgbranch() {
+#   hg prompt '{branch}'
+# }
+# 
+# branch() {
+#   hg branch mfrauenholtz/BB-$1
+# }
+# 
+# up() {
+#   hg up mfrauenholtz/BB-$1
+# }
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
