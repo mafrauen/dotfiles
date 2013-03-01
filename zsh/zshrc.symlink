@@ -78,7 +78,7 @@ export WORKON_HOME="$HOME/Documents/Envs"
 export VIRTUALENV_USE_DISTRIBUTE=1
 source virtualenvwrapper.sh
 
-. /Users/mfrauenholtz/Documents/Code/pure/prompt.zsh
+. $HOME/.pure
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
