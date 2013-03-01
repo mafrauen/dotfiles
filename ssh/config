@@ -1,0 +1,7 @@
+Host bb
+    HostName kvm09.private.bitbucket.org
+    User root
+
+Host linode
+    HostName 192.155.87.47
+    User root
