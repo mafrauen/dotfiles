@@ -6,17 +6,16 @@ call vundle#rc()
 
 Bundle 'gmarik/vundle'
 
-" Colors
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'chriskempson/vim-tomorrow-theme'
-Bundle 'skammer/vim-css-color'
-
 " Languages
+Bundle 'pangloss/vim-javascript'
+Bundle 'klen/python-mode'
+" Bundle 'vim-scripts/python.vim--Vasiliev'
 Bundle 'tpope/vim-git'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'digitaltoad/vim-jade'
 Bundle 'tpope/vim-markdown'
 Bundle 'groenewege/vim-less'
+Bundle 'hail2u/vim-css3-syntax'
 Bundle 'juvenn/mustache.vim'
 
 Bundle 'mileszs/ack.vim'
@@ -28,8 +27,15 @@ Bundle 'majutsushi/tagbar'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tomtom/tcomment_vim'
 Bundle 'Raimondi/delimitMate'
-Bundle 'Valloric/YouCompleteMe'
 Bundle 'scrooloose/syntastic'
+Bundle 'Valloric/YouCompleteMe'
+Bundle 'davidhalter/jedi-vim'
+
+" Colors
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'chriskempson/vim-tomorrow-theme'
+Bundle 'skammer/vim-css-color'
+
 " After new, run :BundleInstall
 
 filetype plugin indent on       " load file type plugins + indentation
@@ -41,6 +47,7 @@ set showcmd                     " display incomplete commands
 set shell=/bin/sh            " use RVM version (Using vim with rvm)
 set number
 set colorcolumn=80
+set synmaxcol=400
 
 "" Whitespace
 set nowrap                      " don't wrap lines
@@ -81,6 +88,7 @@ colorscheme Tomorrow-Night
 
 set backupdir=/var/tmp
 set directory=/var/tmp
+" Source the vimrc file after saving it
 
 let mapleader = ","
 let g:mapleader = ","
@@ -91,9 +99,17 @@ nnoremap <leader><space> :noh<cr>
 " map esc
 imap jj <ESC>
 
+" Used with matchit to go to next paren, etc.
+map <tab> %
+
+" Just testing this behavior
+noremap H ^
+noremap L $
+vnoremap L g_
+
 " ACK
 set grepprg=ack
-nnoremap <leader>a :Ack 
+nnoremap <leader>a :Ack<space>
 nnoremap <leader>n :cn<cr>
 
 " Move windows
@@ -101,6 +117,34 @@ nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
+nnoremap <C-D-cr> <C-W>_<C-W>\|
+nnoremap <D-cr> :call MaximizeToggle ()<CR>
+
+function! MaximizeToggle()
+  if exists("s:maximize_session")
+    exec "source " . s:maximize_session
+    call delete(s:maximize_session)
+    unlet s:maximize_session
+    let &hidden=s:maximize_hidden_save
+    unlet s:maximize_hidden_save
+  else
+    let s:maximize_hidden_save = &hidden
+    let s:maximize_session = tempname()
+    set hidden
+    exec "mksession! " . s:maximize_session
+    only
+  endif
+endfunction
+
+" Tomorrow Night
+"
+" call <SID>X("javaScriptBranch", s:purple, "", "")
+" " git Highlighting
+" call <SID>X("diffAdd", s:green, s:line, "")
+" call <SID>X("diffDelete", s:red, s:line, "")
+" call <SID>X("diffChange", s:orange, s:line, "")
+" call <SID>X("diffText", s:blue, s:line, "")
 
 " EasyMotion
 " search forwards
@@ -120,9 +164,11 @@ set wildignore+=*/node_modules/*
 set wildignore+=*/local/static/* " ignore static files
 
 " zencoding
-let g:user_zen_expandabbr_key = '<leader>H'
+let g:user_zen_expandabbr_key = '<leader><C-h>'
 
 " tagbar
+let g:tagbar_foldlevel = 0
+let g:tagbar_autoshowtag = 1
 nnoremap <leader>t :TagbarOpenAutoClose<CR>
 
 " delimitMate
@@ -132,3 +178,25 @@ autocmd BufRead,BufNewFile *.mustache,*.html let b:delimitMate_matchpairs = "(:)
 
 " quick way to get rid of quickfix
 nnoremap <leader>c :ccl<CR>
+
+" python
+let g:pymode_virtualenv = 1
+let g:pymode_folding = 0
+let g:pymode_lint_write = 0
+" for fast machines
+let g:pymode_syntax_slow_sync=0
+" don't let rope recursively search dirs for .ropeproject
+let g:pymode_rope_guess_project=0
+" add projects dir to python path
+let g:pymode_paths=['~/Documents/Code/bb']
+
+" django
+autocmd BufRead,BufNewFile *.mustache,*.html set syntax=htmldjango
+
+" jedi
+let g:jedi#use_tabs_not_buffers = 0
+let g:jedi#popup_select_first = 0
+let g:jedi#popup_on_dot = 0
+
+" chromelogger shortcut
+nnoremap <leader>C oimport chromelogger as console; console.log()<left>
