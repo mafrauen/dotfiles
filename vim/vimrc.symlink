@@ -118,6 +118,9 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
+nnoremap <C-v> <C-w>v
+nnoremap <C-s> <C-w>s
+
 nnoremap <C-D-cr> <C-W>_<C-W>\|
 nnoremap <D-cr> :call MaximizeToggle ()<CR>
 

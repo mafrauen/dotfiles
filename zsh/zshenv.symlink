@@ -1,0 +1,88 @@
+#
+# Defines environment variables.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
+
+#
+# Browser
+#
+
+if [[ "$OSTYPE" == darwin* ]]; then
+  export BROWSER='open'
+fi
+
+#
+# Editors
+#
+
+export EDITOR='mvim -f'
+export VISUAL='mvim -f'
+export PAGER='less'
+# export GIT_PAGER='mvim -R -'
+
+#
+# Language
+#
+
+if [[ -z "$LANG" ]]; then
+  export LANG='en_US.UTF-8'
+fi
+
+#
+# Paths
+#
+
+typeset -gU cdpath fpath mailpath path
+
+# Set the the list of directories that cd searches.
+# cdpath=(
+#   $cdpath
+# )
+
+# Set the list of directories that Zsh searches for programs.
+path=(
+  /usr/local/{bin,sbin}
+  /usr/{bin,sbin}
+  /{bin,sbin}
+  $path
+)
+
+#
+# Less
+#
+
+# Set the default Less options.
+# Mouse-wheel scrolling has been disabled by -X (disable screen clearing).
+# Remove -X and -F (exit if the content fits on one screen) to enable it.
+export LESS='-F -g -i -M -R -S -w -X -z-4'
+
+# Set the Less input preprocessor.
+if (( $+commands[lesspipe.sh] )); then
+  export LESSOPEN='| /usr/bin/env lesspipe.sh %s 2>&-'
+fi
+
+#
+# Temporary Files
+#
+
+if [[ -d "$TMPDIR" ]]; then
+  export TMPPREFIX="${TMPDIR%/}/zsh"
+  if [[ ! -d "$TMPPREFIX" ]]; then
+    mkdir -p "$TMPPREFIX"
+  fi
+fi
+
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+export DJANGO_SETTINGS_MODULE="bitbucket.settings.dev"
+export WORKON_HOME="$HOME/Code/Envs"
+export VIRTUALENV_USE_DISTRIBUTE=1
+export PYTHONSTARTUP=~/.pystartup
+[[ -n "$(command -v virtualenvwrapper.sh)" ]] && source virtualenvwrapper.sh
+
+export HUBOT_HIPCHAT_JID='10804_36277@chat.hipchat.com'
+export HUBOT_HIPCHAT_PASSWORD='ZOfgF4wwBO'
+export HUBOT_HIPCHAT_NAME='Herbert B.'
+export HUBOT_HIPCHAT_ROOMS='10804_zz_bot_test@conf.hipchat.com'
+
