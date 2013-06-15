@@ -25,7 +25,8 @@ alias vimbot='mvim ~/Documents/Code/bb/bot/'
 alias ag='nocorrect ag'
 
 alias cel="./manage.py celeryd -l INFO --settings=settings.dev"
-alias gun="gunicorn_django --config=conf/debug.conf.py --bind=0.0.0.0"
+alias gun="./manage.py gunserver -b 0.0.0.0:8000"
+# alias gun="gunicorn_django --config=conf/debug.conf.py --bind=0.0.0.0"
 alias gunhg="gunicorn --bind 0.0.0.0:8002 --config conf/debug.conf.py --timeout 120 bridgehgweb:application"
 alias gungit="gunicorn --bind 0.0.0.0:8004 --config conf/debug.conf.py --timeout 120 gitweb:application"
 alias bbcel="cd ~/bitbucket && workon bb && cel"
