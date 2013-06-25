@@ -13,20 +13,15 @@ fi
 # Customize to your needs...
 . $HOME/.pure
 
-alias vz='vvim ~/.zshrc'
-alias sz='source ~/.zshrc'
-
-alias stopspot='sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search && killall SystemUIServer'
-alias startspot='sudo chmod 755 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search && killall SystemUIServer'
+alias spot_stop='sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search && killall SystemUIServer'
+alias spot_start='sudo chmod 755 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search && killall SystemUIServer'
 
 alias mvim='nocorrect mvim'
 alias vvim='mvim -v'
-alias vimbot='mvim ~/Documents/Code/bb/bot/'
 alias ag='nocorrect ag'
 
 alias cel="./manage.py celeryd -l INFO --settings=settings.dev"
 alias gun="./manage.py gunserver -b 0.0.0.0:8000"
-# alias gun="gunicorn_django --config=conf/debug.conf.py --bind=0.0.0.0"
 alias gunhg="gunicorn --bind 0.0.0.0:8002 --config conf/debug.conf.py --timeout 120 bridgehgweb:application"
 alias gungit="gunicorn --bind 0.0.0.0:8004 --config conf/debug.conf.py --timeout 120 gitweb:application"
 alias bbcel="cd ~/bitbucket && workon bb && cel"
@@ -36,10 +31,6 @@ alias bbgungit="cd ~/bitbucket && workon bb && gungit"
 
 alias pin='pip install --upgrade --no-deps'
 alias pmp='python manage.py'
-
-# alias gdo='git diff origin/$(current_branch)..HEAD'
-# alias glo='git log origin/$(current_branch)..HEAD'
-# alias gpb='git push origin "$(git-branch-current 2> /dev/null)"'
 
 alias ie9_css='./manage.py collectstatic --settings=settings.dev --noinput && 
 ./manage.py compress --settings=settings.dev --force && 
@@ -64,3 +55,4 @@ saybb() {
   curl http://kvm09.private.bitbucket.org:3333/hubot/say -G --data-urlencode "bb=$*"
 }
 
+alias -g out="| mvim -R -"
