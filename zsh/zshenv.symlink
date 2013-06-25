@@ -46,6 +46,8 @@ path=(
   /usr/local/{bin,sbin}
   /usr/{bin,sbin}
   /{bin,sbin}
+  /usr/local/share/npm/bin
+  $HOME/.rvm/bin
   $path
 )
 
