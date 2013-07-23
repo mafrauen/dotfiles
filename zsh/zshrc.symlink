@@ -23,7 +23,7 @@ alias ag='nocorrect ag'
 alias cel="./manage.py celeryd -l INFO --settings=settings.dev"
 alias gun="./manage.py gunserver -b 0.0.0.0:8000"
 alias gunhg="gunicorn --bind 0.0.0.0:8002 --config conf/debug.conf.py --timeout 120 bridgehgweb:application"
-alias gungit="gunicorn --bind 0.0.0.0:8004 --config conf/debug.conf.py --timeout 120 gitweb:application"
+alias gungit='gunicorn -c conf/gunicorn-gitweb.conf.py -b 0:8004 gitweb:application'
 alias bbcel="cd ~/bitbucket && workon bb && cel"
 alias bbgun="cd ~/bitbucket && workon bb && gun"
 alias bbgunhg="cd ~/bitbucket && workon bb && gunhg"
@@ -48,11 +48,15 @@ wiki() {
 }
 
 saytest() {
-  curl http://kvm09.private.bitbucket.org:3333/hubot/say -G --data-urlencode "test=$*"
+  curl http://hubot.ash-private.bitbucket.org:3333/hubot/say -G --data-urlencode "test=$*"
 }
 
 saybb() {
-  curl http://kvm09.private.bitbucket.org:3333/hubot/say -G --data-urlencode "bb=$*"
+  curl http://hubot.ash-private.bitbucket.org:3333/hubot/say -G --data-urlencode "bb=$*"
 }
 
-alias -g out="| mvim -R -"
+giffy() {
+  ffmpeg -i $1 -s 600x400 -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=10 > $2
+}
+
+alias -g outv="| mvim -R -"
