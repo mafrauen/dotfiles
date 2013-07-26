@@ -59,4 +59,10 @@ giffy() {
   ffmpeg -i $1 -s 600x400 -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=10 > $2
 }
 
+encode() {
+  local mime=`file --mime-type $1 | cut -d\: -f2- | cut -d\  -f2`
+  local b64=`openssl base64 < $1 | tr -d '\n'`
+  echo 'data:'$mime';base64,'$b64 | pbcopy
+}
+
 alias -g outv="| mvim -R -"
