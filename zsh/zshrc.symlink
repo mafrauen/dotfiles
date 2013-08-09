@@ -20,7 +20,7 @@ alias mvim='nocorrect mvim'
 alias vvim='mvim -v'
 alias ag='nocorrect ag'
 
-alias cel="./manage.py celeryd -l INFO --settings=settings.dev"
+alias cel="./manage.py celeryd -l INFO --settings=bitbucket.settings.dev"
 alias gun="./manage.py gunserver -b 0.0.0.0:8000"
 alias gunhg="gunicorn --bind 0.0.0.0:8002 --config conf/debug.conf.py --timeout 120 bridgehgweb:application"
 alias gungit='gunicorn -c conf/gunicorn-gitweb.conf.py -b 0:8004 gitweb:application'
@@ -62,7 +62,7 @@ giffy() {
 encode() {
   local mime=`file --mime-type $1 | cut -d\: -f2- | cut -d\  -f2`
   local b64=`openssl base64 < $1 | tr -d '\n'`
-  echo 'data:'$mime';base64,'$b64 | pbcopy
+  echo 'data:'$mime';base64,'$b64 | tr -d '\n' | pbcopy
 }
 
 alias -g outv="| mvim -R -"
