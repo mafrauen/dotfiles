@@ -173,7 +173,6 @@ nnoremap <leader>t :TagbarOpenAutoClose<CR>
 " delimitMate
 let delimitMate_expand_cr = 1
 let delimitMate_expand_space = 1
-autocmd BufRead,BufNewFile *.mustache,*.html let b:delimitMate_matchpairs = "(:),[:],{:},<:>,%: %"
 
 " quick way to get rid of quickfix
 nnoremap <leader>c :ccl<CR>
@@ -196,9 +195,6 @@ autocmd BufRead,BufNewFile *.mustache,*.html set syntax=htmldjango
 let g:jedi#use_tabs_not_buffers = 0
 let g:jedi#popup_select_first = 0
 let g:jedi#popup_on_dot = 0
-
-" chromelogger shortcut
-nnoremap <leader>C oimport chromelogger as console; console.log()<left>
 
 " Syntastic
 let g:syntastic_python_checkers=['pyflakes', 'python']
