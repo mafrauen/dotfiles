@@ -33,6 +33,10 @@ task :install do
     `ln -s "$PWD/#{linkable}" "#{target}"`
   end
 
+  skip_all = false
+  overwrite_all = false
+  backup_all = false
+
   vim_snippets = Dir.glob('*/**{.snippets}')
   `mkdir -p "$HOME/.vim/snippets"`
   vim_snippets.each do |snippet|
