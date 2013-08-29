@@ -32,6 +32,8 @@ alias bbgungit="cd ~/bitbucket && workon bb && gungit"
 alias pin='pip install --upgrade --no-deps'
 alias pmp='python manage.py'
 
+alias add_flag='python manage.py datamigration bb'
+
 alias ie9_css='./manage.py collectstatic --settings=settings.dev --noinput && 
 ./manage.py compress --settings=settings.dev --force && 
 sed -i "" -e "s/\(TEMPLATE_DEBUG = \)True/\1False/" settings/dev.py && 
