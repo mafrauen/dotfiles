@@ -166,7 +166,7 @@ set wildignore+=*/local/static/* " ignore static files
 nnoremap <leader>T :CtrlPTag<CR>
 
 " zencoding
-let g:user_zen_expandabbr_key = '<leader><S-h>'
+let g:user_emmet_expandabbr_key='<C-l>'
 
 " tagbar
 let g:tagbar_foldlevel = 0
@@ -192,7 +192,7 @@ let g:pymode_rope_guess_project=0
 let g:pymode_paths=['~/bitbucket']
 
 " django
-autocmd BufRead,BufNewFile *.mustache,*.html set syntax=htmldjango
+autocmd BufRead,BufNewFile *.mustache,*.html set ft=htmldjango
 
 " jedi
 let g:jedi#use_tabs_not_buffers = 0
