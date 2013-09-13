@@ -11,7 +11,7 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
-. $HOME/.pure
+prompt pure
 
 alias spot_stop='sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search && killall SystemUIServer'
 alias spot_start='sudo chmod 755 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search && killall SystemUIServer'
@@ -24,10 +24,13 @@ alias cel="./manage.py celeryd -l INFO --settings=bitbucket.settings.dev"
 alias gun="./manage.py gunserver -b 0.0.0.0:8000"
 alias gunhg="gunicorn --bind 0.0.0.0:8002 --config conf/debug.conf.py --timeout 120 bridgehgweb:application"
 alias gungit='gunicorn -c conf/gunicorn-gitweb.conf.py -b 0:8004 gitweb:application'
-alias bbcel="cd ~/bitbucket && workon bb && cel"
-alias bbgun="cd ~/bitbucket && workon bb && gun"
-alias bbgunhg="cd ~/bitbucket && workon bb && gunhg"
-alias bbgungit="cd ~/bitbucket && workon bb && gungit"
+alias bb="cd ~/bitbucket && workon bb"
+alias bbcel="bb && cel"
+alias bbgun="bb && gun"
+alias bbgunhg="bb && gunhg"
+alias bbgungit="bb && gungit"
+
+alias mvnaid="mvn clean install -Dmaven.test.skip"
 
 alias pin='pip install --upgrade --no-deps'
 alias pmp='python manage.py'

@@ -37,7 +37,7 @@ task :install do
   overwrite_all = false
   backup_all = false
 
-  vim_snippets = Dir.glob('*/**{.snippets}')
+  vim_snippets = Dir.glob('snippets/*')
   `mkdir -p "$HOME/.vim/snippets"`
   vim_snippets.each do |snippet|
     overwrite = false
@@ -62,6 +62,36 @@ task :install do
       `mv "$HOME/.vim/.#{file}" "$HOME/.vim/.#{file}.backup"` if backup || backup_all
     end
     `ln -s "$PWD/#{snippet}" "#{target}"`
+  end
+
+  skip_all = false
+  overwrite_all = false
+  backup_all = false
+
+  prompts = Dir.glob('prompt/*')
+  prompts.each do |prompt|
+    overwrite = false
+    backup = false
+
+    basename = File.basename(prompt, '.*')
+    target = "#{ENV["HOME"]}/.zprezto/modules/prompt/functions/prompt_#{basename}_setup"
+
+    if File.exists?(target) || File.symlink?(target)
+      unless skip_all || overwrite_all || backup_all
+        puts "File already exists: #{target}, what do you want to do? [s]kip, [S]kip all, [o]verwrite, [O]verwrite all, [b]ackup, [B]ackup all"
+        case STDIN.gets.chomp
+        when 'o' then overwrite = true
+        when 'b' then backup = true
+        when 'O' then overwrite_all = true
+        when 'B' then backup_all = true
+        when 'S' then skip_all = true
+        when 's' then next
+        end
+      end
+      `mv "#{target}" "#{target}.backup"` if backup || backup_all
+      FileUtils.rm_rf(target) if overwrite || overwrite_all
+    end
+    `ln -s "$PWD/#{prompt}" "#{target}"`
   end
 end
 
