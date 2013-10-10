@@ -1,7 +1,14 @@
-Host bb
-    HostName kvm09.private.bitbucket.org
+Host bb01
+    HostName bitbucket01.ash-private.bitbucket.org
+    User mfrauenholtz
+
+Host do
+    HostName 198.199.112.172
     User root
 
-Host linode
-    HostName 192.155.87.47
-    User root
+Host hubot
+    HostName hubot.ash-private.bitbucket.org
+
+Host gz
+    HostName db03.ash-private.bitbucket.org
+    User mfrauenholtz
