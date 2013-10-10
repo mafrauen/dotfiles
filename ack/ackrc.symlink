@@ -1,4 +1,3 @@
 --ignore-dir=local
---ignore-file=tags
 --type-add=html=.mustache
 --type-add=css=.less

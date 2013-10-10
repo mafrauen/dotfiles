@@ -160,7 +160,7 @@ nnoremap <leader>s :Gstatus<cr>
 " ctrlp
 let g:ctrlp_map = '<leader>f'
 nmap <leader>F :CtrlPClearCache<CR>
-nnoremap <leader>l :CtrlP /Users/mfrauenholtz/Documents/Envs/bb/lib/python2.7/site-packages/<CR>
+nnoremap <leader>l :CtrlP /Users/mfrauenholtz/Code/Envs/bb/lib/python2.7/site-packages/<CR>
 set wildignore+=*.pyc " ignore compiled python
 set wildignore+=*/node_modules/*
 set wildignore+=*/local/static/* " ignore static files
