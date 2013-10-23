@@ -15,8 +15,6 @@ Bundle 'groenewege/vim-less'
 Bundle 'hail2u/vim-css3-syntax'
 Bundle 'juvenn/mustache.vim'
 Bundle 'kchmck/vim-coffee-script'
-" Bundle 'vim-scripts/python.vim--Vasiliev'
-" Bundle 'digitaltoad/vim-jade'
 
 Bundle 'mileszs/ack.vim'
 Bundle 'tpope/vim-surround'
@@ -32,7 +30,6 @@ Bundle 'davidhalter/jedi-vim'
 
 " Snippets
 Bundle "SirVer/ultisnips"
-" Bundle 'honza/vim-snippets'
 
 " Colors
 Bundle 'altercation/vim-colors-solarized'
