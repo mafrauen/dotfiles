@@ -1,5 +1,6 @@
 --ignore-dir=local
 --ignore-dir=locale
+--ignore-dir=extra/static/migration
 --ignore-file=is:tags
 --type-add=html=.mustache
 --type-add=css=.less

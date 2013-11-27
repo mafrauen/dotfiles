@@ -54,12 +54,11 @@ prompt_pure_precmd() {
   # git info
   vcs_info
 
-  print -P '\n%F{247}`prompt_pure_venv`%F{blue}%2c%F{red}$vcs_info_msg_0_`prompt_pure_git_dirty` %F{236}$prompt_pure_username%f %F{yellow}`prompt_pure_cmd_exec_time`%f'
+  print -P '\n%F{247}`prompt_pure_venv`%F{blue}%2c%F{red}$vcs_info_msg_0_`prompt_pure_git_dirty` %F{yellow}`prompt_pure_cmd_exec_time`%f'
 
   # reset value since `preexec` isn't always triggered
   unset cmd_timestamp
 }
-
 
 prompt_pure_setup() {
   prompt_opts=(cr subst percent)
