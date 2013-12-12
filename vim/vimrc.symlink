@@ -144,12 +144,17 @@ function! MaximizeToggle()
   endif
 endfunction
 
+nnoremap <Leader>r :%s/\<<C-r><C-w>\>/
+
 " EasyMotion
 " search forwards
 nmap <space> <leader><leader>f
+vmap <space> <leader><leader>f
 " search backwards
 nmap <S-space> <leader><leader>F
 nmap <C-space> <leader><leader>F
+vmap <S-space> <leader><leader>F
+vmap <C-space> <leader><leader>F
 
 " fugitive
 nnoremap <leader>s :Gstatus<cr>
