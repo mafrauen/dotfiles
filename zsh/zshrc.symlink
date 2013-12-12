@@ -22,6 +22,10 @@ alias ag='nocorrect ag'
 
 alias cel="./manage.py celeryd -l INFO --settings=bitbucket.settings.dev"
 alias gun="./manage.py gunserver -b 0.0.0.0:8000"
+alias gunn="./manage.py gunserver -b 0.0.0.0:7639 -w 0"
+alias run="./manage.py runserver 0.0.0.0:8000"
+alias mon="python -c 'import conf.monitor; conf.monitor.start()
+while True: pass'"
 alias gunhg="gunicorn --bind 0.0.0.0:8002 --config conf/debug.conf.py --timeout 120 bridgehgweb:application"
 alias gungit='gunicorn -c conf/gunicorn-gitweb.conf.py -b 0:8004 gitweb:application'
 alias bb="cd ~/bitbucket && workon bb"
