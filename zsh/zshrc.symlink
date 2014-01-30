@@ -22,7 +22,7 @@ alias ag='nocorrect ag'
 
 alias cel="./manage.py celeryd -l INFO --settings=bitbucket.settings.dev"
 alias gun="./manage.py gunserver -b 0.0.0.0:8000"
-alias gunn="./manage.py gunserver -b 0.0.0.0:7639 -w 0"
+alias gunn="./manage.py gunserver -b 0.0.0.0:7639 -w 1 -k sync"
 alias run="./manage.py runserver 0.0.0.0:8000"
 alias mon="python -c 'import conf.monitor; conf.monitor.start()
 while True: pass'"
