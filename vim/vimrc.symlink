@@ -118,6 +118,7 @@ map <leader>v '[V']
 set grepprg=ack
 nnoremap <leader>a :Ack<space>
 nnoremap <leader>n :cn<cr>
+noremap <leader>A :Ack<space><C-r><C-w><CR>
 
 " Move windows
 nnoremap <C-h> <C-w>h
@@ -144,7 +145,11 @@ function! MaximizeToggle()
   endif
 endfunction
 
+" substitute word under cursor
 nnoremap <Leader>r :%s/\<<C-r><C-w>\>/
+
+nnoremap <Leader>; q:
+nnoremap <Leader>/ q/
 
 " EasyMotion
 " search forwards
