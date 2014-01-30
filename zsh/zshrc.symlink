@@ -34,6 +34,8 @@ alias bbgun="bb && gun"
 alias bbgunhg="bb && gunhg"
 alias bbgungit="bb && gungit"
 
+alias redshift="psql -h atl-analytics.comrzxo8y7f8.us-east-1.redshift.amazonaws.com -p 5439 dev"
+
 alias mvnaid="mvn clean install -Dmaven.test.skip"
 
 alias pin='pip install --upgrade --no-deps'
