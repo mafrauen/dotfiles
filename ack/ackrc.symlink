@@ -1,6 +1,8 @@
 --ignore-dir=local
 --ignore-dir=locale
 --ignore-dir=extra/static/migration
+--ignore-dir=.ropeproject
 --ignore-file=is:tags
+--ignore-file=is:zxcvbn.js
 --type-add=html=.mustache
 --type-add=css=.less
