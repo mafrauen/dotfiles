@@ -161,6 +161,8 @@ nmap <C-space> <leader><leader>F
 vmap <S-space> <leader><leader>F
 vmap <C-space> <leader><leader>F
 
+nnoremap <leader>B :read !echo `git symbolic-ref HEAD` \| awk 'match($0, /BB-[0-9]+/) { print "[" substr($0, RSTART, RLENGTH) "]" }'<CR>
+
 " fugitive
 nnoremap <leader>s :Gstatus<cr>
 
