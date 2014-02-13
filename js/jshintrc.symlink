@@ -6,6 +6,7 @@
   "jquery": true,
   "expr": true,
   "globals": {
-    "define": false
+    "define": false,
+    "gettext": false
   }
 }
