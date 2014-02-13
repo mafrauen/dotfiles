@@ -161,7 +161,11 @@ nmap <C-space> <leader><leader>F
 vmap <S-space> <leader><leader>F
 vmap <C-space> <leader><leader>F
 
-nnoremap <leader>B :read !echo `git symbolic-ref HEAD` \| awk 'match($0, /BB-[0-9]+/) { print "[" substr($0, RSTART, RLENGTH) "]" }'<CR>
+nnoremap <Leader>j :call IssueKey()<CR>
+function! IssueKey()
+  let key = system("git symbolic-ref HEAD | awk 'match($0, /BB-[0-9]+/) { printf \"%s\",substr($0, RSTART, RLENGTH) }'")
+  call setline(line('.'), getline('.').'['.key.'] ')
+endfunction
 
 " fugitive
 nnoremap <leader>s :Gstatus<cr>
