@@ -87,3 +87,8 @@ encode() {
 }
 
 alias -g outv="| mvim -R -"
+
+jira() {
+  local key=`git symbolic-ref HEAD | awk 'match($0, /BB-[0-9]+/) { printf "%s",substr($0, RSTART, RLENGTH) }'`
+  open https://bitbucket.atlassian.net/browse/$key
+}
