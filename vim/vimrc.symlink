@@ -26,7 +26,6 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'tomtom/tcomment_vim'
 Bundle 'Raimondi/delimitMate'
 Bundle 'scrooloose/syntastic'
-" Bundle 'davidhalter/jedi-vim'
 
 " Snippets
 Bundle "SirVer/ultisnips"
@@ -105,6 +104,8 @@ imap jj <ESC>
 
 " Used with matchit to go to next paren, etc.
 map <tab> %
+vmap <tab> %
+vnoremap <tab> %
 
 " Just testing this behavior
 noremap H ^
@@ -147,9 +148,6 @@ endfunction
 
 " substitute word under cursor
 nnoremap <Leader>r :%s/\<<C-r><C-w>\>/
-
-nnoremap <Leader>; q:
-nnoremap <Leader>/ q/
 
 " EasyMotion
 " search forwards
@@ -195,25 +193,23 @@ let delimitMate_expand_space = 1
 nnoremap <leader>c :ccl<CR>
 
 " python
-let g:pymode_virtualenv = 1
-let g:pymode_rope = 1
 let g:pymode_folding = 0
-let g:pymode_lint_write = 0
 " for fast machines
 let g:pymode_syntax_slow_sync=0
 " don't let rope recursively search dirs for .ropeproject
 let g:pymode_rope_guess_project=1
 " add projects dir to python path
 let g:pymode_paths=['~/']
-nnoremap <leader>g :RopeGotoDefinition<CR>
+let g:pymode_virtualenv = 1
+let g:pymode_lint_checkers=['pyflakes']
+let g:pymode_lint_write = 0
+let g:pymode_lint_cwindow=0
+let g:pymode_rope = 1
+let g:pymode_rope_goto_definition_bind = '<leader>g'
+let g:pymode_rope_goto_definition_cmd = 'e'
 
 " django
 autocmd BufRead,BufNewFile *.mustache,*.html set ft=htmldjango
-
-" " jedi
-" let g:jedi#use_tabs_not_buffers = 0
-" let g:jedi#popup_select_first = 0
-" let g:jedi#popup_on_dot = 0
 
 " Syntastic
 let g:syntastic_python_checkers=['pyflakes', 'python']
