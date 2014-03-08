@@ -3,6 +3,7 @@ var
   glob = require('glob'),
   path = require('path'),
   fs = require('fs'),
+  colors = require('cli-color'),
   RSVP = require('rsvp');
 
 function getGlob(pattern) {
@@ -14,22 +15,32 @@ function getGlob(pattern) {
   });
 }
 
+function handleFs(p, resolve, reject) {
+  return function(err) {
+    if (err && err.errno !== -17) {
+      return reject(err);
+    }
+
+    if (err) {
+      console.log(colors.blue(p));
+    } else {
+      console.log(colors.green.bold(p));
+    }
+
+    resolve();
+  };
+}
+
 function mkdir(dir) {
   return new RSVP.Promise(function (resolve, reject) {
-    fs.mkdir(dir, function (err) {
-      if (err) return reject(err);
-      resolve();
-    });
+    fs.mkdir(dir, handleFs(dir, resolve, reject));
   });
 }
 
 function makeLink(src, dest) {
-  src = path.join(process.cwd, src);
+  src = path.join(process.cwd(), src);
   return new RSVP.Promise(function (resolve, reject) {
-    fs.symlink(src, dest, function (err) {
-      if (err) return reject(err);
-      resolve();
-    });
+    fs.symlink(src, dest, handleFs(dest, resolve, reject));
   });
 }
 
@@ -69,7 +80,7 @@ function prompts() {
   function link(file) {
     var
       name = 'prompt_' + path.basename(file, '.zsh') + '_setup',
-      dest = path.join(home, '.prezto', 'modules', 'prompt', 'functions', name);
+      dest = path.join(home, '.zprezto', 'modules', 'prompt', 'functions', name);
     return makeLink(file, dest);
   }
 

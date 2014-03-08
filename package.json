@@ -6,6 +6,7 @@
     "glob": "~3.2.9"
   },
   "dependencies": {
-    "rsvp": "~3.0.6"
+    "rsvp": "~3.0.6",
+    "cli-color": "~0.2.3"
   }
 }
