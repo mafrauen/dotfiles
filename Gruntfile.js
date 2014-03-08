@@ -6,6 +6,8 @@ var
   colors = require('cli-color'),
   RSVP = require('rsvp');
 
+// File actions
+
 function getGlob(pattern) {
   return new RSVP.Promise(function (resolve, reject) {
     glob(pattern, function (err, files) {
@@ -37,57 +39,55 @@ function mkdir(dir) {
   });
 }
 
-function makeLink(src, dest) {
-  src = path.join(process.cwd(), src);
-  return new RSVP.Promise(function (resolve, reject) {
-    fs.symlink(src, dest, handleFs(dest, resolve, reject));
-  });
+function symlink(src, dest) {
+    src = path.join(process.cwd(), src);
+    return new RSVP.Promise(function (resolve, reject) {
+      fs.symlink(src, dest, handleFs(dest, resolve, reject));
+    });
 }
 
+function makeLink(getDest) {
+  return function (file) {
+    return symlink(file, getDest(file));
+  };
+}
+
+// Tasks
 
 var home = process.env.HOME;
 
 function symlinks() {
   var done = this.async();
-  function link(file) {
-    var
-      name = '.' + path.basename(file, '.symlink'),
-      dest = path.join(home, name);
-    return makeLink(file, dest);
-  }
-
   getGlob('**/*.symlink').then(function (files) {
-    return RSVP.all(files.map(link));
+    return RSVP.all(files.map(makeLink(function (file) {
+      var name = '.' + path.basename(file, '.symlink');
+      return path.join(home, name);
+    })));
   }).then(done);
 }
 
 function snippets() {
   var done = this.async();
-  function link(file) {
-    var dest = path.join(home, '.vim', file);
-    return makeLink(file, dest);
-  }
-
   mkdir(path.join(home, '.vim', 'snippets')).then(function () {
     return getGlob('snippets/*');
   }).then(function (files) {
-    return RSVP.all(files.map(link));
+    return RSVP.all(files.map(makeLink(function (file) {
+      return path.join(home, '.vim', file);
+    })));
   }).then(done);
 }
 
 function prompts() {
   var done = this.async();
-  function link(file) {
-    var
-      name = 'prompt_' + path.basename(file, '.zsh') + '_setup',
-      dest = path.join(home, '.zprezto', 'modules', 'prompt', 'functions', name);
-    return makeLink(file, dest);
-  }
-
   getGlob('prompt/*').then(function (files) {
-    return RSVP.all(files.map(link));
+    return RSVP.all(files.map(makeLink(function (file) {
+      var name = 'prompt_' + path.basename(file, '.zsh') + '_setup';
+      return path.join(home, '.zprezto', 'modules', 'prompt', 'functions', name);
+    })));
   }).then(done);
 }
+
+// Config
 
 module.exports = function (grunt) {
   grunt.registerTask('symlinks', symlinks);
