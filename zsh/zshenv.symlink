@@ -83,7 +83,7 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 export DJANGO_SETTINGS_MODULE="bitbucket.settings.dev"
 export WORKON_HOME="$HOME/Code/Envs"
 export VIRTUALENV_USE_DISTRIBUTE=1
-export PYTHONSTARTUP=~/.pystartup
+# export PYTHONSTARTUP=~/.pystartup
 [[ -n "$(command -v virtualenvwrapper.sh)" ]] && source virtualenvwrapper.sh
 
 export HUBOT_HIPCHAT_JID='10804_36277@chat.hipchat.com'

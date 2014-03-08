@@ -26,7 +26,6 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'tomtom/tcomment_vim'
 Bundle 'Raimondi/delimitMate'
 Bundle 'scrooloose/syntastic'
-Bundle 'davidhalter/jedi-vim'
 
 " Snippets
 Bundle "SirVer/ultisnips"
@@ -84,7 +83,7 @@ if has("gui_running")
   set guioptions-=T
   set guioptions-=r
   set guioptions-=L
-  set guifont=Inconsolata:h14
+  set guifont=Source\ Code\ Pro:h12
 endif
 
 set background=dark
@@ -105,6 +104,8 @@ imap jj <ESC>
 
 " Used with matchit to go to next paren, etc.
 map <tab> %
+vmap <tab> %
+vnoremap <tab> %
 
 " Just testing this behavior
 noremap H ^
@@ -118,6 +119,7 @@ map <leader>v '[V']
 set grepprg=ack
 nnoremap <leader>a :Ack<space>
 nnoremap <leader>n :cn<cr>
+noremap <leader>A :Ack<space><C-r><C-w><CR>
 
 " Move windows
 nnoremap <C-h> <C-w>h
@@ -144,12 +146,24 @@ function! MaximizeToggle()
   endif
 endfunction
 
+" substitute word under cursor
+nnoremap <Leader>r :%s/\<<C-r><C-w>\>/
+
 " EasyMotion
 " search forwards
 nmap <space> <leader><leader>f
+vmap <space> <leader><leader>f
 " search backwards
 nmap <S-space> <leader><leader>F
 nmap <C-space> <leader><leader>F
+vmap <S-space> <leader><leader>F
+vmap <C-space> <leader><leader>F
+
+nnoremap <Leader>j :call IssueKey()<CR>
+function! IssueKey()
+  let key = system("git symbolic-ref HEAD | awk 'match($0, /BB-[0-9]+/) { printf \"%s\",substr($0, RSTART, RLENGTH) }'")
+  call setline(line('.'), getline('.').'['.key.'] ')
+endfunction
 
 " fugitive
 nnoremap <leader>s :Gstatus<cr>
@@ -179,23 +193,23 @@ let delimitMate_expand_space = 1
 nnoremap <leader>c :ccl<CR>
 
 " python
-let g:pymode_virtualenv = 1
 let g:pymode_folding = 0
-let g:pymode_lint_write = 0
 " for fast machines
 let g:pymode_syntax_slow_sync=0
 " don't let rope recursively search dirs for .ropeproject
-let g:pymode_rope_guess_project=0
+let g:pymode_rope_guess_project=1
 " add projects dir to python path
-let g:pymode_paths=['~/bitbucket']
+let g:pymode_paths=['~/']
+let g:pymode_virtualenv = 1
+let g:pymode_lint_checkers=['pyflakes']
+let g:pymode_lint_write = 0
+let g:pymode_lint_cwindow=0
+let g:pymode_rope = 1
+let g:pymode_rope_goto_definition_bind = '<leader>g'
+let g:pymode_rope_goto_definition_cmd = 'e'
 
 " django
 autocmd BufRead,BufNewFile *.mustache,*.html set ft=htmldjango
-
-" jedi
-let g:jedi#use_tabs_not_buffers = 0
-let g:jedi#popup_select_first = 0
-let g:jedi#popup_on_dot = 0
 
 " Syntastic
 let g:syntastic_python_checkers=['pyflakes', 'python']

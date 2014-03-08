@@ -2,3 +2,16 @@
 snippet mod
 data-modules="${1}"
 endsnippet
+
+snippet curl
+{% curl "${1}" ${2}%}
+endsnippet
+
+snippet ife
+{% if ${1} %}
+  ${2}
+{% else %}
+  ${3}
+{% endif %}
+endsnippet
+
