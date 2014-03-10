@@ -161,7 +161,7 @@ vmap <C-space> <leader><leader>F
 
 nnoremap <Leader>j :call IssueKey()<CR>
 function! IssueKey()
-  let key = system("git symbolic-ref HEAD | awk 'match($0, /BB-[0-9]+/) { printf \"%s\",substr($0, RSTART, RLENGTH) }'")
+  let key = system("git symbolic-ref HEAD | awk 'match($0, /[A-Z]+-[0-9]+/) { printf \"%s\",substr($0, RSTART, RLENGTH) }'")
   call setline(line('.'), getline('.').'['.key.'] ')
 endfunction
 
