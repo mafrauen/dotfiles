@@ -209,7 +209,7 @@ let g:pymode_rope_goto_definition_bind = '<leader>g'
 let g:pymode_rope_goto_definition_cmd = 'e'
 
 " django
-autocmd BufRead,BufNewFile *.mustache,*.html set ft=htmldjango
+autocmd BufRead,BufNewFile *.mustache,*.html,*.jinja set ft=htmldjango
 
 " Syntastic
 let g:syntastic_python_checkers=['pyflakes', 'python']
