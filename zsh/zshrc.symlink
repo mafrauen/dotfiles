@@ -88,8 +88,14 @@ encode() {
 }
 
 alias -g outv="| mvim -R -"
+alias json="underscore print --color"
 
 jira() {
   local key=`git symbolic-ref HEAD | awk 'match($0, /BB-[0-9]+/) { printf "%s",substr($0, RSTART, RLENGTH) }'`
   open https://bitbucket.atlassian.net/browse/$key
+}
+
+upload() {
+  local lf="`ls -t ~/Desktop | head -1`"
+  up ~/Desktop/$lf -t "$*"
 }
