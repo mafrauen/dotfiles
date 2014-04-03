@@ -4,36 +4,37 @@ filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/vundle'
 
 " Languages
-Bundle 'pangloss/vim-javascript'
-Bundle 'klen/python-mode'
-Bundle 'tpope/vim-git'
-Bundle 'tpope/vim-markdown'
-Bundle 'groenewege/vim-less'
-Bundle 'hail2u/vim-css3-syntax'
-Bundle 'juvenn/mustache.vim'
-Bundle 'kchmck/vim-coffee-script'
+Plugin 'pangloss/vim-javascript'
+Plugin 'klen/python-mode'
+Plugin 'tpope/vim-git'
+Plugin 'tpope/vim-markdown'
+Plugin 'groenewege/vim-less'
+Plugin 'hail2u/vim-css3-syntax'
+Plugin 'juvenn/mustache.vim'
+Plugin 'kchmck/vim-coffee-script'
 
-Bundle 'mileszs/ack.vim'
-Bundle 'tpope/vim-surround'
-Bundle 'kien/ctrlp.vim'
-Bundle 'mattn/emmet-vim'
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'majutsushi/tagbar'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tomtom/tcomment_vim'
-Bundle 'Raimondi/delimitMate'
-Bundle 'scrooloose/syntastic'
+Plugin 'mileszs/ack.vim'
+Plugin 'tpope/vim-surround'
+Plugin 'kien/ctrlp.vim'
+Plugin 'mattn/emmet-vim'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'majutsushi/tagbar'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tomtom/tcomment_vim'
+Plugin 'Raimondi/delimitMate'
+Plugin 'scrooloose/syntastic'
 
 " Snippets
-Bundle "SirVer/ultisnips"
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 
 " Colors
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'chriskempson/vim-tomorrow-theme'
-Bundle 'skammer/vim-css-color'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'chriskempson/vim-tomorrow-theme'
+Plugin 'skammer/vim-css-color'
 
 " After new, run :BundleInstall
 
@@ -215,4 +216,4 @@ autocmd BufRead,BufNewFile *.mustache,*.html,*.jinja set ft=htmldjango
 let g:syntastic_python_checkers=['pyflakes', 'python']
 
 " Snippets
- let g:UltiSnipsSnippetDirectories=["UltiSnips","snippets"]
+ let g:UltiSnipsSnippetDirectories=["UltiSnips", "snips"]
