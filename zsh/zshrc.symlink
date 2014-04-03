@@ -88,6 +88,7 @@ encode() {
 }
 
 alias -g outv="| mvim -R -"
+# requires `npm install -g underscore-cli`
 alias json="underscore print --color"
 
 jira() {
