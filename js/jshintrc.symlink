@@ -9,6 +9,7 @@
   "expr": true,
   "globals": {
     "define": false,
-    "gettext": false
+    "gettext": false,
+    "interpolate": false
   }
 }
