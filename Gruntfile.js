@@ -68,7 +68,7 @@ function symlinks() {
 
 function snippets() {
   var done = this.async();
-  mkdir(path.join(home, '.vim', 'snippets')).then(function () {
+  mkdir(path.join(home, '.vim', 'snips')).then(function () {
     return getGlob('snippets/*');
   }).then(function (files) {
     return RSVP.all(files.map(makeLink(function (file) {
