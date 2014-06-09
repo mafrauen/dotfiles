@@ -45,7 +45,7 @@ set encoding=utf-8
 set showcmd                     " display incomplete commands
 "set shellcmdflag=-ic            " use RVM version of ruby
 set shell=/bin/sh            " use RVM version (Using vim with rvm)
-set number
+set relativenumber
 set colorcolumn=80
 set synmaxcol=400
 
