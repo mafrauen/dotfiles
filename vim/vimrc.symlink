@@ -15,6 +15,7 @@ Plugin 'groenewege/vim-less'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'juvenn/mustache.vim'
 Plugin 'kchmck/vim-coffee-script'
+" Plugin 'mxw/vim-jsx'
 
 Plugin 'mileszs/ack.vim'
 Plugin 'tpope/vim-surround'

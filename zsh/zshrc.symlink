@@ -55,6 +55,8 @@ sed -i "" -e "s/\(COMPRESS_OFFLINE = \)False/\1True/" settings/dev.py &&
 sed -i "" -e "s/\(STATIC_DEBUG = \)False/\1True/" settings/dev.py'
 alias vmac='ssh -R 8001:0.0.0.0:8000 VmacUser1235_asd@54.193.10.151'
 
+alias ngen='node --harmony_generators'
+
 wiki() {
   dig +short txt $1.wp.dg.cx
 }
