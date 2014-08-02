@@ -13,35 +13,34 @@ fi
 # Customize to your needs...
 prompt pure
 
-alias spot_stop='sudo chmod 600 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search && killall SystemUIServer'
-alias spot_start='sudo chmod 755 /System/Library/CoreServices/Search.bundle/Contents/MacOS/Search && killall SystemUIServer'
 
+# General
 alias mvim='nocorrect mvim'
 alias vvim='mvim -v'
-alias ag='nocorrect ag'
+alias lock='/System/Library/CoreServices/"Menu Extras"/User.menu/Contents/Resources/CGSession -suspend'
+alias -g outv="| mvim -R -"
+# requires `npm install -g underscore-cli`
+alias json="underscore print --color"
 
+
+# Running bb
 alias cel="./manage.py celeryd -l INFO --settings=bitbucket.settings.dev"
-alias gun="./manage.py gunserver -b 0.0.0.0:8000"
+alias gun="./manage.py gunserver -b 0.0.0.0:8000 -k sync"
 alias gunn="./manage.py gunserver -b 0.0.0.0:7639 -w 1 -k sync"
 alias run="./manage.py runserver 0.0.0.0:8000"
-alias mon="python -c 'import conf.monitor; conf.monitor.start()
-while True: pass'"
 alias gunhg="gunicorn --bind 0.0.0.0:8002 --config conf/debug.conf.py --timeout 120 bridgehgweb:application"
 alias gungit='gunicorn -c conf/gunicorn-gitweb.conf.py -b 0:8004 gitweb:application'
 alias bb="cd ~/bitbucket && workon bb"
-alias bbcel="bb && cel"
-alias bbgun="bb && gun"
-alias bbgunhg="bb && gunhg"
-alias bbgungit="bb && gungit"
 
+
+# BB things
+alias pin='pip install --upgrade --no-deps'
+alias add_flag='python manage.py datamigration bb'
+alias vmac='ssh -R 8001:0.0.0.0:8000'
+alias bbtag='ctags -R -L ../.bbtaglist >> /dev/null 2>&1'
 alias redshift="psql -h atl-analytics.comrzxo8y7f8.us-east-1.redshift.amazonaws.com -p 5439 dev"
-
 alias mvnaid="mvn clean install -Dmaven.test.skip"
 
-alias pin='pip install --upgrade --no-deps'
-alias pmp='python manage.py'
-
-alias add_flag='python manage.py datamigration bb'
 
 alias ie9_css='./manage.py collectstatic --settings=settings.dev --noinput && 
 ./manage.py compress --settings=settings.dev --force && 
@@ -53,7 +52,7 @@ alias dev_css='sed -i "" -e "s/\(TEMPLATE_DEBUG = \)False/\1True/" settings/dev.
 sed -i "" -e "s/\(COMPRESS_ENABLED = \)True/\1False/" settings/dev.py && 
 sed -i "" -e "s/\(COMPRESS_OFFLINE = \)False/\1True/" settings/dev.py && 
 sed -i "" -e "s/\(STATIC_DEBUG = \)False/\1True/" settings/dev.py'
-alias vmac='ssh -R 8001:0.0.0.0:8000 VmacUser1235_asd@54.193.10.151'
+
 
 alias ngen='node --harmony_generators'
 
@@ -69,6 +68,9 @@ saybb() {
   curl http://hubot.ash-private.bitbucket.org:3333/hubot/say -G --data-urlencode "bb=$*"
 }
 
+# Commands
+
+## Make a gif out of a .mov
 giffy() {
   if [[ -n "$1"  ]]; then
     if [[ $2 == '--good'  ]]; then
@@ -83,21 +85,20 @@ giffy() {
   fi
 }
 
+# Base 64 encode a file
 encode() {
   local mime=`file --mime-type $1 | cut -d\: -f2- | cut -d\  -f2`
   local b64=`openssl base64 < $1 | tr -d '\n'`
   echo 'data:'$mime';base64,'$b64 | tr -d '\n' | pbcopy
 }
 
-alias -g outv="| mvim -R -"
-# requires `npm install -g underscore-cli`
-alias json="underscore print --color"
-
+# Opens the jira ticket related to the current branch
 jira() {
   local key=`git symbolic-ref HEAD | awk 'match($0, /BB-[0-9]+/) { printf "%s",substr($0, RSTART, RLENGTH) }'`
   open https://bitbucket.atlassian.net/browse/$key
 }
 
+# Uploads the newest file on the desktop to Cloudup
 upload() {
   local lf="`ls -t ~/Desktop | head -1`"
   up ~/Desktop/$lf -t "$*"

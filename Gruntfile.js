@@ -19,7 +19,8 @@ function getGlob(pattern) {
 
 function handleFs(p, resolve, reject) {
   return function(err) {
-    if (err && err.errno !== -17) {
+    if (err && err.code !== 'EEXIST') {
+      console.log(colors.red(err));
       return reject(err);
     }
 
@@ -68,8 +69,8 @@ function symlinks() {
 
 function snippets() {
   var done = this.async();
-  mkdir(path.join(home, '.vim', 'snippets')).then(function () {
-    return getGlob('snippets/*');
+  mkdir(path.join(home, '.vim', 'snips')).then(function () {
+    return getGlob('snips/*');
   }).then(function (files) {
     return RSVP.all(files.map(makeLink(function (file) {
       return path.join(home, '.vim', file);
@@ -87,12 +88,25 @@ function prompts() {
   }).then(done);
 }
 
+function services() {
+  var done = this.async();
+  mkdir(path.join(home, '.services')).then(function () {
+    return getGlob('services/*');
+  }).then(function (files) {
+    return RSVP.all(files.map(makeLink(function (file) {
+      var name = path.basename(file, '.sh');
+      return path.join(home, '.services', name);
+    })));
+  }).then(done);
+}
+
 // Config
 
 module.exports = function (grunt) {
   grunt.registerTask('symlinks', symlinks);
   grunt.registerTask('snippets', snippets);
   grunt.registerTask('prompts', prompts);
+  grunt.registerTask('services', services);
 
-  grunt.registerTask('default', ['symlinks', 'snippets' ,'prompts']);
+  grunt.registerTask('default', ['symlinks', 'snippets', 'prompts', 'services']);
 };

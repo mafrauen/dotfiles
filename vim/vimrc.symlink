@@ -46,6 +46,7 @@ set encoding=utf-8
 set showcmd                     " display incomplete commands
 "set shellcmdflag=-ic            " use RVM version of ruby
 set shell=/bin/sh            " use RVM version (Using vim with rvm)
+set relativenumber
 set number
 set colorcolumn=80
 set synmaxcol=400
@@ -202,6 +203,7 @@ let g:pymode_syntax_slow_sync=0
 let g:pymode_rope_guess_project=1
 " add projects dir to python path
 let g:pymode_paths=['~/']
+let g:pymode_doc = 0
 let g:pymode_virtualenv = 1
 let g:pymode_lint_checkers=['pyflakes']
 let g:pymode_lint_write = 0
