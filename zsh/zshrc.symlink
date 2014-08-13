@@ -55,6 +55,8 @@ sed -i "" -e "s/\(COMPRESS_OFFLINE = \)False/\1True/" settings/dev.py &&
 sed -i "" -e "s/\(STATIC_DEBUG = \)False/\1True/" settings/dev.py'
 
 
+alias ngen='node --harmony_generators'
+
 wiki() {
   dig +short txt $1.wp.dg.cx
 }
