@@ -40,6 +40,7 @@ alias vmac='ssh -R 8001:0.0.0.0:8000'
 alias bbtag='ctags -R -L ../.bbtaglist >> /dev/null 2>&1'
 alias redshift="psql -h atl-analytics.comrzxo8y7f8.us-east-1.redshift.amazonaws.com -p 5439 dev"
 alias mvnaid="mvn clean install -Dmaven.test.skip"
+alias bfind="find . -not -path *local/*"
 
 
 alias ie9_css='./manage.py collectstatic --settings=settings.dev --noinput && 
