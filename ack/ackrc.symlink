@@ -1,6 +1,7 @@
 --ignore-dir=local
 --ignore-dir=locale
 --ignore-dir=extra/static/migration
+--ignore-dir=media/bower_components
 --ignore-dir=.ropeproject
 --ignore-file=is:tags
 --ignore-file=is:zxcvbn.js
