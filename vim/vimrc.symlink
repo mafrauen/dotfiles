@@ -38,6 +38,8 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'chriskempson/vim-tomorrow-theme'
 Plugin 'skammer/vim-css-color'
 
+Plugin 'bling/vim-airline'
+
 " After new, run :BundleInstall
 
 filetype plugin indent on       " load file type plugins + indentation
@@ -58,6 +60,7 @@ set tabstop=2 shiftwidth=2      " a tab is two spaces (or set this to 4)
 set expandtab                   " use spaces, not tabs (optional)
 set backspace=indent,eol,start  " backspace through everything in insert mode
 " set foldmethod=indent
+set diffopt=filler,vertical
 
 "" Searching
 set hlsearch                    " highlight matches
@@ -187,7 +190,8 @@ nnoremap <leader>s :Gstatus<cr>
 
 " ctrlp
 let g:ctrlp_map = '<leader>f'
-let g:ctrlp_cmd = 'CtrlPMRU'
+let g:ctrlp_cmd = 'CtrlPLastMode'
+nmap <leader>b :CtrlPBuffer<CR>
 nmap <leader>F :CtrlPClearCache<CR>
 nnoremap <leader>l :CtrlP /Users/mfrauenholtz/Code/Envs/bb/lib/python2.7/site-packages/<CR>
 set wildignore+=*.pyc " ignore compiled python
@@ -226,6 +230,7 @@ let g:pymode_lint_cwindow=0
 let g:pymode_rope = 1
 let g:pymode_rope_goto_definition_bind = '<leader>g'
 let g:pymode_rope_goto_definition_cmd = 'e'
+let g:pymode_breakpoint_bind = '<leader>d'
 
 " django
 autocmd BufRead,BufNewFile *.mustache,*.html,*.jinja set ft=htmldjango
