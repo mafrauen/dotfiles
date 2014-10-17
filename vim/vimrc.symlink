@@ -10,12 +10,15 @@ Plugin 'gmarik/vundle'
 Plugin 'pangloss/vim-javascript'
 Plugin 'klen/python-mode'
 Plugin 'tpope/vim-git'
-Plugin 'tpope/vim-markdown'
+" Plugin 'tpope/vim-markdown'
 Plugin 'groenewege/vim-less'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'juvenn/mustache.vim'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'mxw/vim-jsx'
+
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
 
 Plugin 'mileszs/ack.vim'
 Plugin 'tpope/vim-surround'
@@ -190,14 +193,14 @@ nnoremap <leader>s :Gstatus<cr>
 
 " ctrlp
 let g:ctrlp_map = '<leader>f'
-let g:ctrlp_cmd = 'CtrlPLastMode'
+" let g:ctrlp_cmd = 'CtrlP'
 nmap <leader>b :CtrlPBuffer<CR>
 nmap <leader>F :CtrlPClearCache<CR>
+nnoremap <leader>T :CtrlPTag<CR>
 nnoremap <leader>l :CtrlP /Users/mfrauenholtz/Code/Envs/bb/lib/python2.7/site-packages/<CR>
 set wildignore+=*.pyc " ignore compiled python
 set wildignore+=*/node_modules/*
 set wildignore+=*/local/static/* " ignore static files
-nnoremap <leader>T :CtrlPTag<CR>
 
 " zencoding
 let g:user_emmet_expandabbr_key='<C-l>'
@@ -237,7 +240,7 @@ autocmd BufRead,BufNewFile *.mustache,*.html,*.jinja set ft=htmldjango
 
 " Syntastic
 let g:syntastic_python_checkers=['pyflakes', 'python']
-let g:syntastic_javascript_checkers=['jsxhint']
+" let g:syntastic_javascript_checkers=['jsxhint']
 
 " Snippets
  let g:UltiSnipsSnippetDirectories=["UltiSnips", "snips"]
