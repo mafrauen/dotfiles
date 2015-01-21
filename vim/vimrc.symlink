@@ -1,10 +1,10 @@
 set nocompatible                " choose no compatibility with legacy vi
 filetype off
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
-Plugin 'gmarik/vundle'
+Plugin 'gmarik/Vundle.vim'
 
 " Languages
 Plugin 'pangloss/vim-javascript'
@@ -15,7 +15,7 @@ Plugin 'groenewege/vim-less'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'juvenn/mustache.vim'
 Plugin 'kchmck/vim-coffee-script'
-Plugin 'mxw/vim-jsx'
+" Plugin 'mxw/vim-jsx'
 
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
@@ -42,6 +42,8 @@ Plugin 'chriskempson/vim-tomorrow-theme'
 Plugin 'skammer/vim-css-color'
 
 Plugin 'bling/vim-airline'
+
+call vundle#end()            " required
 
 " After new, run :BundleInstall
 
@@ -88,6 +90,7 @@ set laststatus=2
 
 set list
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
+set conceallevel=1
 
 if has("gui_running")
   set guioptions-=T
@@ -188,6 +191,16 @@ function! IssueKey()
   call setline(line('.'), getline('.').'['.key.'] ')
 endfunction
 
+" javascript
+let g:javascript_conceal = 1
+let g:javascript_conceal_function = "ƒ"
+let g:javascript_conceal_prototype = "¶"
+" let g:javascript_conceal_null       = "ø"
+" let g:javascript_conceal_this       = "@"
+" let g:javascript_conceal_return     = "⇚"
+" let g:javascript_conceal_undefined  = "¿"
+" let g:javascript_conceal_NaN        = "ℕ"
+
 " fugitive
 nnoremap <leader>s :Gstatus<cr>
 
@@ -202,8 +215,11 @@ set wildignore+=*.pyc " ignore compiled python
 set wildignore+=*/node_modules/*
 set wildignore+=*/local/static/* " ignore static files
 
-" zencoding
-let g:user_emmet_expandabbr_key='<C-l>'
+" emmet
+autocmd FileType htmldjango,css,less imap <C-L> <plug>(emmet-expand-abbr)
+" let g:user_emmet_expandabbr_key=''
+" let g:user_emmet_install_global = 0
+" autocmd FileType html,css EmmetInstall
 
 " tagbar
 let g:tagbar_foldlevel = 0
@@ -218,6 +234,7 @@ let delimitMate_expand_space = 1
 nnoremap <leader>c :ccl<CR>
 
 " python
+let g:pymode = 1
 let g:pymode_folding = 0
 " for fast machines
 let g:pymode_syntax_slow_sync=0
@@ -225,12 +242,13 @@ let g:pymode_syntax_slow_sync=0
 let g:pymode_rope_guess_project=1
 " add projects dir to python path
 let g:pymode_paths=['~/']
+let g:pymode_lint = 0
 let g:pymode_doc = 0
 let g:pymode_virtualenv = 1
-let g:pymode_lint_checkers=['pyflakes']
-let g:pymode_lint_write = 0
+" let g:pymode_lint_checkers=['pyflakes']
 let g:pymode_lint_cwindow=0
 let g:pymode_rope = 1
+let g:pymode_rope_lookup_project = 0
 let g:pymode_rope_goto_definition_bind = '<leader>g'
 let g:pymode_rope_goto_definition_cmd = 'e'
 let g:pymode_breakpoint_bind = '<leader>d'
@@ -239,8 +257,24 @@ let g:pymode_breakpoint_bind = '<leader>d'
 autocmd BufRead,BufNewFile *.mustache,*.html,*.jinja set ft=htmldjango
 
 " Syntastic
-let g:syntastic_python_checkers=['pyflakes', 'python']
+let g:syntastic_python_checkers=['pyflakes']
 " let g:syntastic_javascript_checkers=['jsxhint']
 
 " Snippets
  let g:UltiSnipsSnippetDirectories=["UltiSnips", "snips"]
+
+ " Airline
+" let g:airline_section_x=""
+" let g:airline#extensions#branch#enabled = 0
+" let g:airline_inactive_collapse=1
+
+function! AirlineInit()
+  let g:airline_section_a = airline#section#create(['paste', 'iminsert'])
+  let g:airline_section_b = airline#section#create([])
+  let g:airline_section_x = airline#section#create(['tagbar'])
+  " let g:airline_section_b = airline#section#create_left(['ffenc','file'])
+  " let g:airline_section_c = airline#section#create(['%{getcwd()}'])
+  let g:airline#extensions#branch#enabled = 0
+  let g:airline_inactive_collapse=1
+endfunction
+autocmd VimEnter * call AirlineInit()

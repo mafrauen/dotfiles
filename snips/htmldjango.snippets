@@ -27,6 +27,10 @@ snippet trans "c i18n" w
 {% trans "${1}" %}
 endsnippet
 
+snippet jtrans "jinja translation block" w
+{% trans %}${1}{% endtrans %}
+endsnippet
+
 snippet blocktrans "block translate i18n" w
 {% blocktrans %}
 	${1}

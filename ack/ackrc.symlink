@@ -2,8 +2,12 @@
 --ignore-dir=locale
 --ignore-dir=extra/static/migration
 --ignore-dir=media/bower_components
+--ignore-dir=media/amd/experiment
 --ignore-dir=.ropeproject
 --ignore-file=is:tags
 --ignore-file=is:zxcvbn.js
+--ignore-file=is:homepage-built.js
+--ignore-file=is:homepage-built.css
 --type-add=html=.mustache
+--type-add=html=.jinja
 --type-add=css=.less

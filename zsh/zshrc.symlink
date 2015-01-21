@@ -9,6 +9,9 @@
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
+if [[ `brew --prefix`/etc/profile.d/z.sh ]]; then
+  source `brew --prefix`/etc/profile.d/z.sh
+fi
 
 # Customize to your needs...
 prompt pure
@@ -24,8 +27,12 @@ alias json="underscore print --color"
 
 
 # Running bb
+gun() {
+  local log_format="%(s)s %(D)07d > %(b)s   |||  %(r)s"
+  ./manage.py gunserver -b 0.0.0.0:8000 -k sync --access-logfile ~/.bblog --access-logformat "$log_format"
+}
 alias cel="./manage.py celeryd -l INFO --settings=bitbucket.settings.dev"
-alias gun="./manage.py gunserver -b 0.0.0.0:8000 -k sync"
+# alias gun="./manage.py gunserver -b 0.0.0.0:8000 -k sync --access-logfile ~/.bblog"
 alias gunn="./manage.py gunserver -b 0.0.0.0:7639 -w 1 -k sync"
 alias run="./manage.py runserver 0.0.0.0:8000"
 alias gunhg="gunicorn --bind 0.0.0.0:8002 --config conf/debug.conf.py --timeout 120 bridgehgweb:application"
@@ -39,8 +46,10 @@ alias add_flag='python manage.py datamigration bb'
 alias vmac='ssh -R 8001:0.0.0.0:8000'
 alias bbtag='ctags -R -L ../.bbtaglist >> /dev/null 2>&1'
 alias redshift="psql -h atl-analytics.comrzxo8y7f8.us-east-1.redshift.amazonaws.com -p 5439 dev"
+alias bitperf="psql -h bitperf.ccnjyd5wfyfy.us-east-1.redshift.amazonaws.com -p 5439 bitperf --user bitperf"
 alias mvnaid="mvn clean install -Dmaven.test.skip"
 alias bfind="find . -not -path *local/*"
+alias bbstat="./manage.py collectstatic --noinput && ./manage.py flushcache"
 
 
 alias ie9_css='./manage.py collectstatic --settings=settings.dev --noinput && 
@@ -59,6 +68,10 @@ alias ngen='node --harmony_generators'
 
 wiki() {
   dig +short txt $1.wp.dg.cx
+}
+
+ng() {
+  ngrok -authtoken aFLEIkY0LVeEhGWp6aSJ -subdomain midgar ${1:-80}
 }
 
 saytest() {
