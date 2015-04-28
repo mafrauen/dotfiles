@@ -22,17 +22,12 @@ alias mvim='nocorrect mvim'
 alias vvim='mvim -v'
 alias lock='/System/Library/CoreServices/"Menu Extras"/User.menu/Contents/Resources/CGSession -suspend'
 alias -g outv="| mvim -R -"
-# requires `npm install -g underscore-cli`
-alias json="underscore print --color"
+alias goto='tmux a -t'
 
 
 # Running bb
-gun() {
-  local log_format="%(s)s %(D)07d > %(b)s   |||  %(r)s"
-  ./manage.py gunserver -b 0.0.0.0:8000 -k sync --access-logfile ~/.bblog --access-logformat "$log_format"
-}
+alias gun="./manage.py gunserver -b 0:8000 --access-logfile ~/.bblog --log-file -"
 alias cel="./manage.py celeryd -l INFO --settings=bitbucket.settings.dev"
-# alias gun="./manage.py gunserver -b 0.0.0.0:8000 -k sync --access-logfile ~/.bblog"
 alias gunn="./manage.py gunserver -b 0.0.0.0:7639 -w 1 -k sync"
 alias run="./manage.py runserver 0.0.0.0:8000"
 alias gunhg="gunicorn --bind 0.0.0.0:8002 --config conf/debug.conf.py --timeout 120 bridgehgweb:application"
@@ -41,37 +36,23 @@ alias bb="cd ~/bitbucket && workon bb"
 
 
 # BB things
-alias pin='pip install --upgrade --no-deps'
-alias add_flag='python manage.py datamigration bb'
+alias pin='noglob pip install --upgrade --no-deps'
 alias vmac='ssh -R 8001:0.0.0.0:8000'
 alias bbtag='ctags -R -L ../.bbtaglist >> /dev/null 2>&1'
 alias redshift="psql -h atl-analytics.comrzxo8y7f8.us-east-1.redshift.amazonaws.com -p 5439 dev"
 alias bitperf="psql -h bitperf.ccnjyd5wfyfy.us-east-1.redshift.amazonaws.com -p 5439 bitperf --user bitperf"
-alias mvnaid="mvn clean install -Dmaven.test.skip"
 alias bfind="find . -not -path *local/*"
 alias bbstat="./manage.py collectstatic --noinput && ./manage.py flushcache"
 
-
-alias ie9_css='./manage.py collectstatic --settings=settings.dev --noinput && 
-./manage.py compress --settings=settings.dev --force && 
-sed -i "" -e "s/\(TEMPLATE_DEBUG = \)True/\1False/" settings/dev.py && 
-sed -i "" -e "s/\(COMPRESS_ENABLED = \)False/\1True/" settings/dev.py && 
-sed -i "" -e "s/\(COMPRESS_OFFLINE = \)True/\1False/" settings/dev.py && 
-sed -i "" -e "s/\(STATIC_DEBUG = \)True/\1False/" settings/dev.py'
-alias dev_css='sed -i "" -e "s/\(TEMPLATE_DEBUG = \)False/\1True/" settings/dev.py && 
-sed -i "" -e "s/\(COMPRESS_ENABLED = \)True/\1False/" settings/dev.py && 
-sed -i "" -e "s/\(COMPRESS_OFFLINE = \)False/\1True/" settings/dev.py && 
-sed -i "" -e "s/\(STATIC_DEBUG = \)False/\1True/" settings/dev.py'
-
-
-alias ngen='node --harmony_generators'
+# Docker
+alias dup="boot2docker up && \$(boot2docker shellinit)"
 
 wiki() {
   dig +short txt $1.wp.dg.cx
 }
 
 ng() {
-  ngrok -authtoken aFLEIkY0LVeEhGWp6aSJ -subdomain midgar ${1:-80}
+  ngrok -authtoken aFLEIkY0LVeEhGWp6aSJ -subdomain hyrule ${1:-80}
 }
 
 saytest() {

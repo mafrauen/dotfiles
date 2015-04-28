@@ -133,6 +133,7 @@ bindKey(mShift, 'L', size(1, 0))
 
 -- Application specific positions
 bindKey(mNone, 'Z', coords({0, .4, .7, .6}))
+bindKey(mShift, 'Z', coords({0, .66, 1, .34}))
 bindKey(mNone, 'X', coords({.3, .05, .65, .9}))
 
 bindKey(mNone, 'G', function ()

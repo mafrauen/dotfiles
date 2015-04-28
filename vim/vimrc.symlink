@@ -1,49 +1,51 @@
 set nocompatible                " choose no compatibility with legacy vi
 filetype off
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" set rtp+=~/.vim/bundle/Vundle.vim
+call plug#begin('~/.vim/plugged')
 
-Plugin 'gmarik/Vundle.vim'
+" Plugin 'gmarik/Vundle.vim'
 
 " Languages
-Plugin 'pangloss/vim-javascript'
-Plugin 'klen/python-mode'
-Plugin 'tpope/vim-git'
-" Plugin 'tpope/vim-markdown'
-Plugin 'groenewege/vim-less'
-Plugin 'hail2u/vim-css3-syntax'
-Plugin 'juvenn/mustache.vim'
-Plugin 'kchmck/vim-coffee-script'
-" Plugin 'mxw/vim-jsx'
+Plug 'pangloss/vim-javascript'
+Plug 'klen/python-mode'
+Plug 'tpope/vim-git'
+" Plug 'tpope/vim-markdown'
+Plug 'groenewege/vim-less'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'juvenn/mustache.vim'
+" Plug 'kchmck/vim-coffee-script'
+Plug 'mxw/vim-jsx'
 
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
 
-Plugin 'mileszs/ack.vim'
-Plugin 'tpope/vim-surround'
-Plugin 'kien/ctrlp.vim'
-Plugin 'mattn/emmet-vim'
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'majutsushi/tagbar'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tomtom/tcomment_vim'
-Plugin 'Raimondi/delimitMate'
-Plugin 'scrooloose/syntastic'
-Plugin 'terryma/vim-multiple-cursors'
+Plug 'mileszs/ack.vim'
+Plug 'tpope/vim-surround'
+Plug 'kien/ctrlp.vim'
+Plug 'mattn/emmet-vim'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'majutsushi/tagbar'
+Plug 'tpope/vim-fugitive'
+Plug 'tomtom/tcomment_vim'
+Plug 'Raimondi/delimitMate'
+Plug 'scrooloose/syntastic'
+Plug 'terryma/vim-multiple-cursors'
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
 
 " Snippets
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 " Colors
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'chriskempson/vim-tomorrow-theme'
-Plugin 'skammer/vim-css-color'
+Plug 'altercation/vim-colors-solarized'
+Plug 'chriskempson/vim-tomorrow-theme'
+Plug 'skammer/vim-css-color'
 
-Plugin 'bling/vim-airline'
+" Plug 'bling/vim-airline'
+" Plug 'edkolev/tmuxline.vim'
 
-call vundle#end()            " required
+call plug#end()
 
 " After new, run :BundleInstall
 
@@ -96,7 +98,7 @@ if has("gui_running")
   set guioptions-=T
   set guioptions-=r
   set guioptions-=L
-  set guifont=Source\ Code\ Pro:h14
+  set guifont=Source\ Code\ Pro:h16
 endif
 
 set background=dark
@@ -208,7 +210,7 @@ nnoremap <leader>s :Gstatus<cr>
 let g:ctrlp_map = '<leader>f'
 " let g:ctrlp_cmd = 'CtrlP'
 nmap <leader>b :CtrlPBuffer<CR>
-nmap <leader>F :CtrlPClearCache<CR>
+nmap <leader>F :CtrlP .<CR>
 nnoremap <leader>T :CtrlPTag<CR>
 nnoremap <leader>l :CtrlP /Users/mfrauenholtz/Code/Envs/bb/lib/python2.7/site-packages/<CR>
 set wildignore+=*.pyc " ignore compiled python
@@ -216,7 +218,7 @@ set wildignore+=*/node_modules/*
 set wildignore+=*/local/static/* " ignore static files
 
 " emmet
-autocmd FileType htmldjango,css,less imap <C-L> <plug>(emmet-expand-abbr)
+autocmd FileType htmldjango,javascript.jsx,css,less imap <C-L> <plug>(emmet-expand-abbr)
 " let g:user_emmet_expandabbr_key=''
 " let g:user_emmet_install_global = 0
 " autocmd FileType html,css EmmetInstall
@@ -257,24 +259,33 @@ let g:pymode_breakpoint_bind = '<leader>d'
 autocmd BufRead,BufNewFile *.mustache,*.html,*.jinja set ft=htmldjango
 
 " Syntastic
-let g:syntastic_python_checkers=['pyflakes']
+let g:syntastic_python_checkers=['pyflakes', 'flake8']
+let g:syntastic_javascript_checkers=['eslint']
 " let g:syntastic_javascript_checkers=['jsxhint']
 
 " Snippets
  let g:UltiSnipsSnippetDirectories=["UltiSnips", "snips"]
 
- " Airline
+" Airline
 " let g:airline_section_x=""
 " let g:airline#extensions#branch#enabled = 0
 " let g:airline_inactive_collapse=1
 
-function! AirlineInit()
-  let g:airline_section_a = airline#section#create(['paste', 'iminsert'])
-  let g:airline_section_b = airline#section#create([])
-  let g:airline_section_x = airline#section#create(['tagbar'])
-  " let g:airline_section_b = airline#section#create_left(['ffenc','file'])
-  " let g:airline_section_c = airline#section#create(['%{getcwd()}'])
-  let g:airline#extensions#branch#enabled = 0
-  let g:airline_inactive_collapse=1
-endfunction
-autocmd VimEnter * call AirlineInit()
+let g:tmuxline_powerline_separators = 0
+" let g:tmuxline_separators = {
+"     \ 'left' : '',
+"     \ 'left_alt': '>',
+"     \ 'right' : '',
+"     \ 'right_alt' : '<',
+"     \ 'space' : ' '}
+
+" function! AirlineInit()
+"   let g:airline_section_a = airline#section#create(['paste', 'iminsert'])
+"   let g:airline_section_b = airline#section#create([])
+"   let g:airline_section_x = airline#section#create(['tagbar'])
+"   " let g:airline_section_b = airline#section#create_left(['ffenc','file'])
+"   " let g:airline_section_c = airline#section#create(['%{getcwd()}'])
+"   let g:airline#extensions#branch#enabled = 0
+"   let g:airline_inactive_collapse=1
+" endfunction
+" autocmd VimEnter * call AirlineInit()

@@ -91,3 +91,4 @@ export HUBOT_HIPCHAT_PASSWORD='ZOfgF4wwBO'
 export HUBOT_HIPCHAT_NAME='Herbert B.'
 export HUBOT_HIPCHAT_ROOMS='10804_zz_bot_test@conf.hipchat.com'
 
+export CHROME_BIN="/opt/homebrew-cask/Caskroom/google-chrome/latest/Google Chrome.app/Contents/MacOS/Google Chrome"
