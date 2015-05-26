@@ -1,6 +1,6 @@
 DOTFILES := $(shell pwd)
 
-all: symlinks vim snippets mjolnir prompt services tmux
+all: symlinks vim snippets hammerspoon prompt services tmux
 
 symlinks:
 	ln -fs $(DOTFILES)/ack/ackrc.symlink ${HOME}/.ackrc
@@ -12,6 +12,10 @@ symlinks:
 mjolnir:
 	mkdir ${HOME}/.mjolnir
 	ln -fs $(DOTFILES)/mjolnir/init.lua ${HOME}/.mjolnir/init.lua
+
+hammerspoon:
+	mkdir ${HOME}/.hammerspoon
+	ln -fs $(DOTFILES)/hammerspoon/init.lua ${HOME}/.hammerspoon/init.lua
 
 vim:
 	ln -fs $(DOTFILES)/vim/vimrc.symlink ${HOME}/.vimrc
