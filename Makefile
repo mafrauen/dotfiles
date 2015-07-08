@@ -1,6 +1,6 @@
 DOTFILES := $(shell pwd)
 
-all: symlinks vim snippets hammerspoon prompt services tmux
+all: symlinks vim snippets hammerspoon services tmux
 
 symlinks:
 	ln -fs $(DOTFILES)/ack/ackrc.symlink ${HOME}/.ackrc
