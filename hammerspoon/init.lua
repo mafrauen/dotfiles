@@ -1,9 +1,4 @@
--- local application = require "mjolnir.application"
--- local hs.hotkey = require "mjolnir.hotkey"
--- local window = require "mjolnir.window"
--- local fnutils = require "mjolnir.fnutils"
--- local alert = require "mjolnir.alert"
--- local spotify = require "mjolnir.lb.spotify"
+hs.window.animationDuration = 0
 
 local mNone = {}
 local mShift = {"shift"}
