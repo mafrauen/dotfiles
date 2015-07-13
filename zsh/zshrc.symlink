@@ -14,7 +14,7 @@ if [[ `brew --prefix`/etc/profile.d/z.sh ]]; then
 fi
 
 # Customize to your needs...
-prompt pure
+# prompt pure
 
 
 # General
