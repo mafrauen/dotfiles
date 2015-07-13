@@ -75,9 +75,9 @@ set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
 
-set complete=.,b,u,]
-set wildmode=longest,list:longest
-set completeopt=menu,preview
+" set complete=.,b,u,]
+" set wildmode=longest,list:longest
+" set completeopt=menu,preview
 
 set ruler
 set clipboard=unnamed
@@ -210,6 +210,7 @@ nnoremap <leader>s :Gstatus<cr>
 let g:ctrlp_map = '<leader>f'
 " let g:ctrlp_cmd = 'CtrlP'
 nmap <leader>b :CtrlPBuffer<CR>
+nmap <leader>B :CtrlPMRU<CR>
 nmap <leader>F :CtrlP .<CR>
 nnoremap <leader>T :CtrlPTag<CR>
 nnoremap <leader>l :CtrlP /Users/mfrauenholtz/Code/Envs/bb/lib/python2.7/site-packages/<CR>
@@ -265,27 +266,3 @@ let g:syntastic_javascript_checkers=['eslint']
 
 " Snippets
  let g:UltiSnipsSnippetDirectories=["UltiSnips", "snips"]
-
-" Airline
-" let g:airline_section_x=""
-" let g:airline#extensions#branch#enabled = 0
-" let g:airline_inactive_collapse=1
-
-let g:tmuxline_powerline_separators = 0
-" let g:tmuxline_separators = {
-"     \ 'left' : '',
-"     \ 'left_alt': '>',
-"     \ 'right' : '',
-"     \ 'right_alt' : '<',
-"     \ 'space' : ' '}
-
-" function! AirlineInit()
-"   let g:airline_section_a = airline#section#create(['paste', 'iminsert'])
-"   let g:airline_section_b = airline#section#create([])
-"   let g:airline_section_x = airline#section#create(['tagbar'])
-"   " let g:airline_section_b = airline#section#create_left(['ffenc','file'])
-"   " let g:airline_section_c = airline#section#create(['%{getcwd()}'])
-"   let g:airline#extensions#branch#enabled = 0
-"   let g:airline_inactive_collapse=1
-" endfunction
-" autocmd VimEnter * call AirlineInit()
