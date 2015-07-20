@@ -1,17 +1,14 @@
 DOTFILES := $(shell pwd)
 
-all: symlinks vim snippets hammerspoon services tmux
+all: dev vim snippets hammerspoon tmux zsh
 
-symlinks:
-	ln -fs $(DOTFILES)/ack/ackrc.symlink ${HOME}/.ackrc
-	ln -fs $(DOTFILES)/js/jshint.symlink ${HOME}/.jshintrc
+zsh:
 	ln -fs $(DOTFILES)/zsh/zpreztorc.symlink ${HOME}/.zpreztorc
 	ln -fs $(DOTFILES)/zsh/zshenv.symlink ${HOME}/.zshenv
 	ln -fs $(DOTFILES)/zsh/zshrc.symlink ${HOME}/.zshrc
 
-mjolnir:
-	mkdir ${HOME}/.mjolnir
-	ln -fs $(DOTFILES)/mjolnir/init.lua ${HOME}/.mjolnir/init.lua
+dev:
+	ln -fs $(DOTFILES)/ack/ackrc.symlink ${HOME}/.ackrc
 
 hammerspoon:
 	mkdir ${HOME}/.hammerspoon
