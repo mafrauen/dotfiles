@@ -1,0 +1,15 @@
+#!/bin/zsh
+
+unset DJANGO_SETTINGS_MODULE
+unset PYTHONDONTWRITEBYTECODE
+
+unalias gun
+unalias cel
+unalias gunhg
+unalias gungit
+
+unalias pin
+unalias bbtag
+
+unfunction jira
+unfunction bbtest

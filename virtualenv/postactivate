@@ -1,0 +1,75 @@
+#!/bin/zsh
+# This hook is sourced after this virtualenv is activated.
+export DJANGO_SETTINGS_MODULE=bitbucket.settings.dev
+export PYTHONDONTWRITEBYTECODE=true
+cd ~/bitbucket
+
+# Servers
+alias gun="./manage.py gunserver -b 0:8000 --log-file -"
+alias cel="./manage.py celeryd -l INFO --settings=bitbucket.settings.dev"
+alias gunhg="gunicorn --bind 0.0.0.0:8002 --config conf/debug.conf.py --timeout 120 bridgehgweb:application"
+alias gungit='gunicorn -c conf/gunicorn-gitweb.conf.py -b 0:8004 gitweb:application'
+
+# Things
+alias pin='noglob pip install --upgrade --no-deps'
+alias bbtag='ctags -R -L ../.bbtaglist >> /dev/null 2>&1'
+
+
+
+# Functions
+
+jira() {
+  local key=`git symbolic-ref HEAD | awk 'match($0, /BB-[0-9]+/) { printf "%s",substr($0, RSTART, RLENGTH) }'`
+  open https://bitbucket.atlassian.net/browse/$key
+}
+
+bbtest() {
+  tests="apps"
+  kind="unit"
+  command="./manage.py test --settings=settings.test"
+  TEST_FIREFOX_BINARY="/opt/homebrew-cask/Caskroom/firefox/latest/Firefox.app/Contents/MacOS/firefox-bin"
+
+  while [ "$1" != "" ]; do
+    case $1 in
+      -s | --staging )
+        TEST_BASE_URL="https://staging.bitbucket.org"
+        TEST_GIT_URL="https://staging.bitbucket.org"
+        TEST_HG_URL="https://staging.bitbucket.org"
+        TEST_SSH_URL="ssh://hg@staging.bitbucket.org"
+        kind="selenium"
+        tests="tests/selenium"
+        ;;
+      -p | --production | --prod)
+        TEST_BASE_URL="https://bitbucket.org"
+        TEST_GIT_URL="https://bitbucket.org"
+        TEST_HG_URL="https://bitbucket.org"
+        TEST_SSH_URL="ssh://hg@bitbucket.org"
+        tests="tests/selenium"
+        kind="selenium"
+        ;;
+      -d | --dev | --selenium)
+        TEST_BASE_URL="http://dev.bitbucket.org:8000"
+        TEST_GIT_URL="http://localhost:8002"
+        TEST_HG_URL="http://localhost:8004"
+        TEST_SSH_URL="localhost"
+        tests="tests/selenium"
+        kind="selenium"
+        ;;
+      *)
+        tests=${1:-"apps"}
+        ;;
+    esac
+    shift
+  done
+
+  if [[ ${kind} == "unit" ]]; then
+    ./manage.py test --settings=settings.test ${tests}
+  else
+    TEST_FIREFOX_BINARY=${TEST_FIREFOX_BINARY} \
+      TEST_BASE_URL=${TEST_BASE_URL} \
+      TEST_GIT_URL=${TEST_GIT_URL} \
+      TEST_HG_URL=${TEST_HG_URL} \
+      TEST_SSH_URL=${TEST_SSH_URL} \
+      nosetests --nocapture -v ${tests}
+  fi
+}
