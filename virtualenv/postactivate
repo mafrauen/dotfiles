@@ -49,11 +49,27 @@ bbtest() {
         ;;
       -d | --dev | --selenium)
         TEST_BASE_URL="http://dev.bitbucket.org:8000"
-        TEST_GIT_URL="http://localhost:8002"
-        TEST_HG_URL="http://localhost:8004"
+        TEST_GIT_URL="http://localhost:8004"
+        TEST_HG_URL="http://localhost:8002"
         TEST_SSH_URL="localhost"
         tests="tests/selenium"
         kind="selenium"
+        ;;
+      -h | --help)
+        echo 'Usage: bbtest [options] [TESTS]'
+        echo ''
+        echo 'With no arguments given, this will run all the python unit tests.'
+        echo 'Pass an option to run selenium tests against a given envoronment.'
+        echo 'By default all tests are run, but you may pass a file/directory.'
+        echo ''
+        echo 'Options:'
+        echo '  -d, --dev'
+        echo '\tRuns selenium tests locally'
+        echo '  -s, --staging'
+        echo '\tRuns selenium tests against staging'
+        echo '  -p, --production'
+        echo '\tRuns selenium tests against production'
+        return;
         ;;
       *)
         tests=${1:-"apps"}
