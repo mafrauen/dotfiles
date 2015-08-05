@@ -13,88 +13,20 @@ if [[ `brew --prefix`/etc/profile.d/z.sh ]]; then
   source `brew --prefix`/etc/profile.d/z.sh
 fi
 
-# Customize to your needs...
-# prompt pure
 
-
-# General
-alias mvim='nocorrect mvim'
-alias vvim='mvim -v'
 alias lock='/System/Library/CoreServices/"Menu Extras"/User.menu/Contents/Resources/CGSession -suspend'
 alias -g outv="| mvim -R -"
-alias goto='tmux a -t'
-
-
-# Running bb
-alias gun="./manage.py gunserver -b 0:8000 --access-logfile ~/.bblog --log-file -"
-alias cel="./manage.py celeryd -l INFO --settings=bitbucket.settings.dev"
-alias gunn="./manage.py gunserver -b 0.0.0.0:7639 -w 1 -k sync"
-alias run="./manage.py runserver 0.0.0.0:8000"
-alias gunhg="gunicorn --bind 0.0.0.0:8002 --config conf/debug.conf.py --timeout 120 bridgehgweb:application"
-alias gungit='gunicorn -c conf/gunicorn-gitweb.conf.py -b 0:8004 gitweb:application'
-alias bb="cd ~/bitbucket && workon bb"
-
-
-# BB things
-alias pin='noglob pip install --upgrade --no-deps'
 alias vmac='ssh -R 8001:0.0.0.0:8000'
-alias bbtag='ctags -R -L ../.bbtaglist >> /dev/null 2>&1'
-alias redshift="psql -h atl-analytics.comrzxo8y7f8.us-east-1.redshift.amazonaws.com -p 5439 dev"
-alias bitperf="psql -h bitperf.ccnjyd5wfyfy.us-east-1.redshift.amazonaws.com -p 5439 bitperf --user bitperf"
-alias bfind="find . -not -path *local/*"
-alias bbstat="./manage.py collectstatic --noinput && ./manage.py flushcache"
 
 # Docker
 alias dup="boot2docker up && \$(boot2docker shellinit)"
 
-wiki() {
-  dig +short txt $1.wp.dg.cx
-}
-
-ng() {
-  ngrok -authtoken aFLEIkY0LVeEhGWp6aSJ -subdomain hyrule ${1:-80}
-}
-
-saytest() {
-  curl http://hubot.ash-private.bitbucket.org:3333/hubot/say -G --data-urlencode "test=$*"
-}
-
-saybb() {
-  curl http://hubot.ash-private.bitbucket.org:3333/hubot/say -G --data-urlencode "bb=$*"
-}
 
 # Commands
-
-## Make a gif out of a .mov
-giffy() {
-  if [[ -n "$1"  ]]; then
-    if [[ $2 == '--good'  ]]; then
-      ffmpeg -i $1 -r 10 -vcodec png out-static-%05d.png
-      time convert -verbose +dither -layers Optimize -resize 600x600\> out-static*.png  GIF:- | gifsicle --colors 128 --delay=5 --loop --optimize=3 --multifile - > $1.gif
-      rm out-static*.png
-    else
-      ffmpeg -i $1 -s 600x400 -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=3 > $1.gif
-    fi
-  else
-    echo "proper usage: gifify <input_movie.mov>. You DO need to include extension."
-  fi
-}
 
 # Base 64 encode a file
 encode() {
   local mime=`file --mime-type $1 | cut -d\: -f2- | cut -d\  -f2`
   local b64=`openssl base64 < $1 | tr -d '\n'`
   echo 'data:'$mime';base64,'$b64 | tr -d '\n' | pbcopy
-}
-
-# Opens the jira ticket related to the current branch
-jira() {
-  local key=`git symbolic-ref HEAD | awk 'match($0, /BB-[0-9]+/) { printf "%s",substr($0, RSTART, RLENGTH) }'`
-  open https://bitbucket.atlassian.net/browse/$key
-}
-
-# Uploads the newest file on the desktop to Cloudup
-upload() {
-  local lf="`ls -t ~/Desktop | head -1`"
-  up ~/Desktop/$lf -t "$*"
 }
