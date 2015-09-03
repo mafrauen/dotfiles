@@ -26,6 +26,7 @@ jira() {
 bbtest() {
   tests="apps"
   kind="unit"
+  test_opts="--keepdb"
   command="./manage.py test --settings=settings.test"
   TEST_FIREFOX_BINARY="/opt/homebrew-cask/Caskroom/firefox/latest/Firefox.app/Contents/MacOS/firefox-bin"
 
@@ -55,12 +56,16 @@ bbtest() {
         tests="tests/selenium"
         kind="selenium"
         ;;
+      -k | --nokeep)
+        test_opts=""
+        ;;
       -h | --help)
         echo 'Usage: bbtest [options] [TESTS]'
         echo ''
         echo 'With no arguments given, this will run all the python unit tests.'
         echo 'Pass an option to run selenium tests against a given envoronment.'
         echo 'By default all tests are run, but you may pass a file/directory.'
+        echo 'Because #reasons, unit tests must be given a dotted path.'
         echo ''
         echo 'Options:'
         echo '  -d, --dev'
@@ -69,6 +74,8 @@ bbtest() {
         echo '\tRuns selenium tests against staging'
         echo '  -p, --production'
         echo '\tRuns selenium tests against production'
+        echo '  -k, --nokeep'
+        echo '\tRuns unit tests WITHOUT --keepdb'
         return;
         ;;
       *)
@@ -79,7 +86,7 @@ bbtest() {
   done
 
   if [[ ${kind} == "unit" ]]; then
-    ./manage.py test --settings=settings.test ${tests}
+    ./manage.py test --settings=settings.test ${tests} ${test_opts}
   else
     TEST_FIREFOX_BINARY=${TEST_FIREFOX_BINARY} \
       TEST_BASE_URL=${TEST_BASE_URL} \
