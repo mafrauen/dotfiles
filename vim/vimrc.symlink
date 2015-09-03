@@ -216,6 +216,7 @@ nnoremap <leader>l :CtrlP /Users/mfrauenholtz/Code/Envs/bb/lib/python2.7/site-pa
 set wildignore+=*.pyc " ignore compiled python
 set wildignore+=*/node_modules/*
 set wildignore+=*/local/static/* " ignore static files
+set wildignore+=*/local/build/* " ignore static files
 
 " emmet
 autocmd FileType htmldjango,javascript.jsx,css,less imap <C-L> <plug>(emmet-expand-abbr)
