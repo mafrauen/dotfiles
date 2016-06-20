@@ -1,3 +1,5 @@
+scriptencoding utf-8
+set encoding=utf-8
 set nocompatible                " choose no compatibility with legacy vi
 filetype off
 
@@ -6,19 +8,23 @@ call plug#begin('~/.vim/plugged')
 
 " Plugin 'gmarik/Vundle.vim'
 
+Plug 'editorconfig/editorconfig-vim'
+
 " Languages
 Plug 'pangloss/vim-javascript'
+" Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 Plug 'klen/python-mode'
 Plug 'tpope/vim-git'
-" Plug 'tpope/vim-markdown'
+Plug 'plasticboy/vim-markdown'
 Plug 'groenewege/vim-less'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'juvenn/mustache.vim'
-" Plug 'kchmck/vim-coffee-script'
 Plug 'mxw/vim-jsx'
+" Plug 'duganchen/vim-soy'
+
+" Plug 'pmsorhaindo/syntastic-local-eslint.vim'
 
 Plug 'godlygeek/tabular'
-Plug 'plasticboy/vim-markdown'
 
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-surround'
@@ -32,13 +38,15 @@ Plug 'Raimondi/delimitMate'
 Plug 'scrooloose/syntastic'
 Plug 'terryma/vim-multiple-cursors'
 " Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
+Plug 'pelodelfuego/vim-swoop'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 " Snippets
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " Colors
-Plug 'altercation/vim-colors-solarized'
+" Plug 'altercation/vim-colors-solarized'
 Plug 'chriskempson/vim-tomorrow-theme'
 " Plug 'skammer/vim-css-color'
 
@@ -52,7 +60,6 @@ call plug#end()
 filetype plugin indent on       " load file type plugins + indentation
 
 syntax enable
-set encoding=utf-8
 set showcmd                     " display incomplete commands
 "set shellcmdflag=-ic            " use RVM version of ruby
 set shell=/bin/sh            " use RVM version (Using vim with rvm)
@@ -97,7 +104,7 @@ if has("gui_running")
   set guioptions-=T
   set guioptions-=r
   set guioptions-=L
-  set guifont=Source\ Code\ Pro:h16
+  set guifont=Source\ Code\ Pro:h17
 endif
 
 set background=dark
@@ -196,6 +203,8 @@ endfunction
 let g:javascript_conceal = 1
 let g:javascript_conceal_function = "ƒ"
 let g:javascript_conceal_prototype = "¶"
+autocmd BufRead,BufNewFile *.js set ft=javascript.jsx
+autocmd FileType javascript,javascript.jsx syn match jsArrowFunction "=>" contained conceal cchar=⍄
 " let g:javascript_conceal_null       = "ø"
 " let g:javascript_conceal_this       = "@"
 " let g:javascript_conceal_return     = "⇚"
@@ -210,16 +219,17 @@ let g:ctrlp_map = '<leader>f'
 " let g:ctrlp_cmd = 'CtrlP'
 nmap <leader>b :CtrlPBuffer<CR>
 nmap <leader>B :CtrlPMRU<CR>
-nmap <leader>F :CtrlP .<CR>
+nmap <leader>L :CtrlPLine<CR>
 nnoremap <leader>T :CtrlPTag<CR>
-nnoremap <leader>l :CtrlP /Users/mfrauenholtz/Code/Envs/bb/lib/python2.7/site-packages/<CR>
+nnoremap <leader>F :CtrlP /Users/mafrauen/Code/Envs/bb/lib/python2.7/site-packages/<CR>
 set wildignore+=*.pyc " ignore compiled python
 set wildignore+=*/node_modules/*
 set wildignore+=*/local/static/* " ignore static files
 set wildignore+=*/local/build/* " ignore static files
+set wildignore+=*/target/classes/* " ignore static files
 
 " emmet
-autocmd FileType htmldjango,javascript.jsx,css,less imap <C-L> <plug>(emmet-expand-abbr)
+autocmd FileType htmldjango,javascript,javascript.jsx,css,less imap <C-L> <plug>(emmet-expand-abbr)
 " let g:user_emmet_expandabbr_key=''
 " let g:user_emmet_install_global = 0
 " autocmd FileType html,css EmmetInstall
@@ -265,3 +275,15 @@ let g:syntastic_javascript_checkers=['eslint']
 
 " Snippets
  let g:UltiSnipsSnippetDirectories=["UltiSnips", "snips"]
+
+ function! Multiple_cursors_before()
+   if exists('*SwoopFreezeContext') != 0
+     call SwoopFreezeContext()
+   endif
+ endfunction
+
+ function! Multiple_cursors_after()
+   if exists('*SwoopUnFreezeContext') != 0
+     call SwoopUnFreezeContext()
+   endif
+ endfunction

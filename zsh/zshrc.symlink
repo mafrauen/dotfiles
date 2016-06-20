@@ -9,20 +9,14 @@
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
-if [[ `brew --prefix`/etc/profile.d/z.sh ]]; then
-  source `brew --prefix`/etc/profile.d/z.sh
-fi
+# if [[ -s `brew --prefix`/etc/profile.d/z.sh ]]; then
+#   source `brew --prefix`/etc/profile.d/z.sh
+# fi
 
 
 alias lock='/System/Library/CoreServices/"Menu Extras"/User.menu/Contents/Resources/CGSession -suspend'
 alias -g outv="| mvim -R -"
 alias vmac='ssh -R 8001:0.0.0.0:8000'
-
-# Docker
-alias dup="boot2docker up && \$(boot2docker shellinit)"
-
-
-# Commands
 
 # Base 64 encode a file
 encode() {
@@ -30,3 +24,5 @@ encode() {
   local b64=`openssl base64 < $1 | tr -d '\n'`
   echo 'data:'$mime';base64,'$b64 | tr -d '\n' | pbcopy
 }
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

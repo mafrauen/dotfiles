@@ -5,6 +5,7 @@ all: dev vim snippets hammerspoon tmux zsh
 zsh:
 	ln -fs $(DOTFILES)/zsh/zpreztorc.symlink ${HOME}/.zpreztorc
 	ln -fs $(DOTFILES)/zsh/zshenv.symlink ${HOME}/.zshenv
+	ln -fs $(DOTFILES)/zsh/zprofile.symlink ${HOME}/.zprofile
 	ln -fs $(DOTFILES)/zsh/zshrc.symlink ${HOME}/.zshrc
 
 dev:
