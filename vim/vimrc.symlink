@@ -3,29 +3,22 @@ set encoding=utf-8
 set nocompatible                " choose no compatibility with legacy vi
 filetype off
 
-" set rtp+=~/.vim/bundle/Vundle.vim
 call plug#begin('~/.vim/plugged')
 
-" Plugin 'gmarik/Vundle.vim'
-
-Plug 'editorconfig/editorconfig-vim'
+" Plug 'editorconfig/editorconfig-vim'
 
 " Languages
 Plug 'pangloss/vim-javascript'
-" Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+Plug 'mxw/vim-jsx'
 Plug 'klen/python-mode'
 Plug 'tpope/vim-git'
 Plug 'plasticboy/vim-markdown'
 Plug 'groenewege/vim-less'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'juvenn/mustache.vim'
-Plug 'mxw/vim-jsx'
-" Plug 'duganchen/vim-soy'
-
-" Plug 'pmsorhaindo/syntastic-local-eslint.vim'
+Plug 'rdolgushin/groovy.vim'
 
 Plug 'godlygeek/tabular'
-
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-surround'
 Plug 'kien/ctrlp.vim'
@@ -37,7 +30,6 @@ Plug 'tomtom/tcomment_vim'
 Plug 'Raimondi/delimitMate'
 Plug 'scrooloose/syntastic'
 Plug 'terryma/vim-multiple-cursors'
-" Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
 Plug 'pelodelfuego/vim-swoop'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
@@ -50,9 +42,6 @@ Plug 'honza/vim-snippets'
 Plug 'chriskempson/vim-tomorrow-theme'
 " Plug 'skammer/vim-css-color'
 
-" Plug 'bling/vim-airline'
-" Plug 'edkolev/tmuxline.vim'
-
 call plug#end()
 
 " After new, run :BundleInstall
@@ -61,8 +50,6 @@ filetype plugin indent on       " load file type plugins + indentation
 
 syntax enable
 set showcmd                     " display incomplete commands
-"set shellcmdflag=-ic            " use RVM version of ruby
-set shell=/bin/sh            " use RVM version (Using vim with rvm)
 set relativenumber
 set number
 set colorcolumn=80
@@ -80,10 +67,6 @@ set hlsearch                    " highlight matches
 set incsearch                   " incremental searching
 set ignorecase                  " searches are case insensitive...
 set smartcase                   " ... unless they contain at least one capital letter
-
-" set complete=.,b,u,]
-" set wildmode=longest,list:longest
-" set completeopt=menu,preview
 
 set ruler
 set clipboard=unnamed
@@ -200,11 +183,13 @@ function! IssueKey()
 endfunction
 
 " javascript
+" autocmd FileType javascript syn match jsArrowFunction "=>" contained conceal cchar=⍄
 let g:javascript_conceal = 1
 let g:javascript_conceal_function = "ƒ"
 let g:javascript_conceal_prototype = "¶"
-autocmd BufRead,BufNewFile *.js set ft=javascript.jsx
-autocmd FileType javascript,javascript.jsx syn match jsArrowFunction "=>" contained conceal cchar=⍄
+let g:javascript_conceal_arrow_function = "⍄"
+let g:jsx_ext_required = 0
+" autocmd BufRead,BufNewFile *.js set ft=javascript.jsx
 " let g:javascript_conceal_null       = "ø"
 " let g:javascript_conceal_this       = "@"
 " let g:javascript_conceal_return     = "⇚"
@@ -244,7 +229,7 @@ let delimitMate_expand_cr = 1
 let delimitMate_expand_space = 1
 
 " quick way to get rid of quickfix
-nnoremap <leader>c :ccl<CR>
+nnoremap <leader>c :ccl \| pc<CR>
 
 " python
 let g:pymode = 1
@@ -274,16 +259,16 @@ let g:syntastic_python_checkers=['pyflakes', 'flake8']
 let g:syntastic_javascript_checkers=['eslint']
 
 " Snippets
- let g:UltiSnipsSnippetDirectories=["UltiSnips", "snips"]
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "snips"]
 
- function! Multiple_cursors_before()
-   if exists('*SwoopFreezeContext') != 0
-     call SwoopFreezeContext()
-   endif
- endfunction
+function! Multiple_cursors_before()
+  if exists('*SwoopFreezeContext') != 0
+    call SwoopFreezeContext()
+  endif
+endfunction
 
- function! Multiple_cursors_after()
-   if exists('*SwoopUnFreezeContext') != 0
-     call SwoopUnFreezeContext()
-   endif
- endfunction
+function! Multiple_cursors_after()
+  if exists('*SwoopUnFreezeContext') != 0
+    call SwoopUnFreezeContext()
+  endif
+endfunction

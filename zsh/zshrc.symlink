@@ -17,6 +17,7 @@ fi
 alias lock='/System/Library/CoreServices/"Menu Extras"/User.menu/Contents/Resources/CGSession -suspend'
 alias -g outv="| mvim -R -"
 alias vmac='ssh -R 8001:0.0.0.0:8000'
+alias eslint='nocorrect eslint'
 
 # Base 64 encode a file
 encode() {
@@ -26,3 +27,6 @@ encode() {
 }
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export NVM_DIR="/Users/mafrauen/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm

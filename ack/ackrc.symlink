@@ -8,6 +8,7 @@
 --ignore-file=is:zxcvbn.js
 --ignore-file=is:homepage-built.js
 --ignore-file=is:homepage-built.css
---type-add=html=.mustache
---type-add=html=.jinja
 --type-add=css=.less
+--type-set=tmpl:ext:html,jinja,mustache
+--type-set=jinja:ext:jinja
+--type-set=mustache:ext:mustache
