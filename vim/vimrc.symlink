@@ -17,6 +17,7 @@ Plug 'groenewege/vim-less'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'juvenn/mustache.vim'
 Plug 'rdolgushin/groovy.vim'
+Plug 'Glench/Vim-Jinja2-Syntax'
 
 Plug 'godlygeek/tabular'
 Plug 'mileszs/ack.vim'
@@ -214,7 +215,7 @@ set wildignore+=*/local/build/* " ignore static files
 set wildignore+=*/target/classes/* " ignore static files
 
 " emmet
-autocmd FileType htmldjango,javascript,javascript.jsx,css,less imap <C-L> <plug>(emmet-expand-abbr)
+autocmd FileType htmldjango,javascript,javascript.jsx,css,less,jinja imap <C-L> <plug>(emmet-expand-abbr)
 " let g:user_emmet_expandabbr_key=''
 " let g:user_emmet_install_global = 0
 " autocmd FileType html,css EmmetInstall
@@ -252,7 +253,7 @@ let g:pymode_rope_goto_definition_cmd = 'e'
 let g:pymode_breakpoint_bind = '<leader>d'
 
 " django
-autocmd BufRead,BufNewFile *.mustache,*.html,*.jinja set ft=htmldjango
+autocmd BufRead,BufNewFile *.mustache,*.html set ft=htmldjango
 
 " Syntastic
 let g:syntastic_python_checkers=['pyflakes', 'flake8']

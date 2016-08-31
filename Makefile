@@ -22,6 +22,7 @@ snippets:
 	mkdir -p ${HOME}/.vim/snips
 	ln -fs $(DOTFILES)/snips/gitcommit.snippets ${HOME}/.vim/snips/gitcommit.snippets
 	ln -fs $(DOTFILES)/snips/htmldjango.snippets ${HOME}/.vim/snips/htmldjango.snippets
+	ln -fs $(DOTFILES)/snips/jinja.snippets ${HOME}/.vim/snips/jinja.snippets
 	ln -fs $(DOTFILES)/snips/javascript.snippets ${HOME}/.vim/snips/javascript.snippets
 	ln -fs $(DOTFILES)/snips/python.snippets ${HOME}/.vim/snips/python.snippets
 

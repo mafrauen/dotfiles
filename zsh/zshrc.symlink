@@ -26,6 +26,12 @@ encode() {
   echo 'data:'$mime';base64,'$b64 | tr -d '\n' | pbcopy
 }
 
+# Get the gzip size of a file
+gzipped() {
+  local bytes=`cat $1 | gzip -9 | wc -c | tr -d " "`
+  node -e 'console.log(('$bytes'/1024).toFixed(1) + "KB")'
+}
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export NVM_DIR="/Users/mafrauen/.nvm"
