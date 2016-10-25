@@ -1,6 +1,6 @@
 DOTFILES := $(shell pwd)
 
-all: dev vim snippets hammerspoon tmux zsh
+all: dev vim snippets hammerspoon zsh
 
 zsh:
 	ln -fs $(DOTFILES)/zsh/zpreztorc.symlink ${HOME}/.zpreztorc
