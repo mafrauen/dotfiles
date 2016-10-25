@@ -12,87 +12,87 @@ alias gungit='gunicorn -c conf/gunicorn-gitweb.conf.py -b 0:8004 gitweb:applicat
 
 # Things
 alias pin='noglob pip install --upgrade --no-deps'
-alias bbtag='ctags -R -L ../.bbtaglist >> /dev/null 2>&1'
+# alias bbtag='ctags -R -L ../.bbtaglist >> /dev/null 2>&1'
 
 
 
 # Functions
 
-jira() {
-  local key=`git symbolic-ref HEAD | awk 'match($0, /BB-[0-9]+/) { printf "%s",substr($0, RSTART, RLENGTH) }'`
-  open https://bitbucket.atlassian.net/browse/$key
-}
-
-bbtest() {
-  tests="apps"
-  kind="unit"
-  test_opts="--keepdb"
-  command="./manage.py test --settings=settings.test"
-  TEST_FIREFOX_BINARY="/opt/homebrew-cask/Caskroom/firefox/latest/Firefox.app/Contents/MacOS/firefox-bin"
-
-  while [ "$1" != "" ]; do
-    case $1 in
-      -s | --staging )
-        TEST_BASE_URL="https://staging.bitbucket.org"
-        TEST_GIT_URL="https://staging.bitbucket.org"
-        TEST_HG_URL="https://staging.bitbucket.org"
-        TEST_SSH_URL="ssh://hg@staging.bitbucket.org"
-        kind="selenium"
-        tests="tests/selenium"
-        ;;
-      -p | --production | --prod)
-        TEST_BASE_URL="https://bitbucket.org"
-        TEST_GIT_URL="https://bitbucket.org"
-        TEST_HG_URL="https://bitbucket.org"
-        TEST_SSH_URL="ssh://hg@bitbucket.org"
-        tests="tests/selenium"
-        kind="selenium"
-        ;;
-      -d | --dev | --selenium)
-        TEST_BASE_URL="http://dev.bitbucket.org:8000"
-        TEST_GIT_URL="http://localhost:8004"
-        TEST_HG_URL="http://localhost:8002"
-        TEST_SSH_URL="localhost"
-        tests="tests/selenium"
-        kind="selenium"
-        ;;
-      -k | --nokeep)
-        test_opts=""
-        ;;
-      -h | --help)
-        echo 'Usage: bbtest [options] [TESTS]'
-        echo ''
-        echo 'With no arguments given, this will run all the python unit tests.'
-        echo 'Pass an option to run selenium tests against a given envoronment.'
-        echo 'By default all tests are run, but you may pass a file/directory.'
-        echo 'Because #reasons, unit tests must be given a dotted path.'
-        echo ''
-        echo 'Options:'
-        echo '  -d, --dev'
-        echo '\tRuns selenium tests locally'
-        echo '  -s, --staging'
-        echo '\tRuns selenium tests against staging'
-        echo '  -p, --production'
-        echo '\tRuns selenium tests against production'
-        echo '  -k, --nokeep'
-        echo '\tRuns unit tests WITHOUT --keepdb'
-        return;
-        ;;
-      *)
-        tests=${1:-"apps"}
-        ;;
-    esac
-    shift
-  done
-
-  if [[ ${kind} == "unit" ]]; then
-    ./manage.py test --settings=settings.test ${tests} ${test_opts}
-  else
-    TEST_FIREFOX_BINARY=${TEST_FIREFOX_BINARY} \
-      TEST_BASE_URL=${TEST_BASE_URL} \
-      TEST_GIT_URL=${TEST_GIT_URL} \
-      TEST_HG_URL=${TEST_HG_URL} \
-      TEST_SSH_URL=${TEST_SSH_URL} \
-      nosetests --nocapture -v ${tests}
-  fi
-}
+# jira() {
+#   local key=`git symbolic-ref HEAD | awk 'match($0, /BB-[0-9]+/) { printf "%s",substr($0, RSTART, RLENGTH) }'`
+#   open https://bitbucket.atlassian.net/browse/$key
+# }
+#
+# bbtest() {
+#   tests="apps"
+#   kind="unit"
+#   test_opts="--keepdb"
+#   command="./manage.py test --settings=settings.test"
+#   TEST_FIREFOX_BINARY="/opt/homebrew-cask/Caskroom/firefox/latest/Firefox.app/Contents/MacOS/firefox-bin"
+#
+#   while [ "$1" != "" ]; do
+#     case $1 in
+#       -s | --staging )
+#         TEST_BASE_URL="https://staging.bitbucket.org"
+#         TEST_GIT_URL="https://staging.bitbucket.org"
+#         TEST_HG_URL="https://staging.bitbucket.org"
+#         TEST_SSH_URL="ssh://hg@staging.bitbucket.org"
+#         kind="selenium"
+#         tests="tests/selenium"
+#         ;;
+#       -p | --production | --prod)
+#         TEST_BASE_URL="https://bitbucket.org"
+#         TEST_GIT_URL="https://bitbucket.org"
+#         TEST_HG_URL="https://bitbucket.org"
+#         TEST_SSH_URL="ssh://hg@bitbucket.org"
+#         tests="tests/selenium"
+#         kind="selenium"
+#         ;;
+#       -d | --dev | --selenium)
+#         TEST_BASE_URL="http://dev.bitbucket.org:8000"
+#         TEST_GIT_URL="http://localhost:8004"
+#         TEST_HG_URL="http://localhost:8002"
+#         TEST_SSH_URL="localhost"
+#         tests="tests/selenium"
+#         kind="selenium"
+#         ;;
+#       -k | --nokeep)
+#         test_opts=""
+#         ;;
+#       -h | --help)
+#         echo 'Usage: bbtest [options] [TESTS]'
+#         echo ''
+#         echo 'With no arguments given, this will run all the python unit tests.'
+#         echo 'Pass an option to run selenium tests against a given envoronment.'
+#         echo 'By default all tests are run, but you may pass a file/directory.'
+#         echo 'Because #reasons, unit tests must be given a dotted path.'
+#         echo ''
+#         echo 'Options:'
+#         echo '  -d, --dev'
+#         echo '\tRuns selenium tests locally'
+#         echo '  -s, --staging'
+#         echo '\tRuns selenium tests against staging'
+#         echo '  -p, --production'
+#         echo '\tRuns selenium tests against production'
+#         echo '  -k, --nokeep'
+#         echo '\tRuns unit tests WITHOUT --keepdb'
+#         return;
+#         ;;
+#       *)
+#         tests=${1:-"apps"}
+#         ;;
+#     esac
+#     shift
+#   done
+#
+#   if [[ ${kind} == "unit" ]]; then
+#     ./manage.py test --settings=settings.test ${tests} ${test_opts}
+#   else
+#     TEST_FIREFOX_BINARY=${TEST_FIREFOX_BINARY} \
+#       TEST_BASE_URL=${TEST_BASE_URL} \
+#       TEST_GIT_URL=${TEST_GIT_URL} \
+#       TEST_HG_URL=${TEST_HG_URL} \
+#       TEST_SSH_URL=${TEST_SSH_URL} \
+#       nosetests --nocapture -v ${tests}
+#   fi
+# }
