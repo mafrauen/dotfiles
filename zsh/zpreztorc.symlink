@@ -33,8 +33,9 @@ zstyle ':prezto:load' pmodule \
   'utility' \
   'completion' \
   'prompt' \
-  'syntax-highlighting' \
-  'git'
+  'python' \
+  'git' \
+  'syntax-highlighting'
 
 #
 # Editor
@@ -143,3 +144,9 @@ zstyle ':prezto:module:terminal' auto-title 'yes'
 # Auto start a session when Zsh is launched.
 # zstyle ':prezto:module:tmux' auto-start 'yes'
 
+#
+# Python
+#
+
+# Auto set the tab and window titles.
+zstyle ':prezto:module:python:info:virtualenv' format '%F{247}%v '

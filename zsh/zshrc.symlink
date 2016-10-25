@@ -9,9 +9,6 @@
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
-# if [[ -s `brew --prefix`/etc/profile.d/z.sh ]]; then
-#   source `brew --prefix`/etc/profile.d/z.sh
-# fi
 
 
 alias lock='/System/Library/CoreServices/"Menu Extras"/User.menu/Contents/Resources/CGSession -suspend'
@@ -36,3 +33,5 @@ gzipped() {
 
 export NVM_DIR="/Users/mafrauen/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+export WORKON_HOME="$HOME/Code/Envs"

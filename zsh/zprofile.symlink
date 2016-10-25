@@ -72,19 +72,9 @@ if [[ ! -d "$TMPPREFIX" ]]; then
   mkdir -p "$TMPPREFIX"
 fi
 
-export VIRTUAL_ENV_DISABLE_PROMPT=1
-export DJANGO_SETTINGS_MODULE="bitbucket.settings.dev"
-export WORKON_HOME="$HOME/Code/Envs"
-export VIRTUALENV_USE_DISTRIBUTE=1
-[[ -n "$(command -v virtualenvwrapper.sh)" ]] && source virtualenvwrapper.sh
-
-# https://github.com/sindresorhus/guides/blob/master/npm-global-without-sudo.md
-# export NPM_PACKAGES="$HOME/.npm-packages"
-# export NODE_PATH="$NPM_PACKAGES/lib/node_modules:$NODE_PATH"
-# unset MANPATH
-# MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
-
-# export JAVA_HOME="/Library/Java/JavaVirtualMachines/jdk1.8.0_65.jdk/Contents/Home"
-# export MAVEN_OPTS="-Xmx2048m"
-
-# export CHROME_BIN="/opt/homebrew-cask/Caskroom/google-chrome/latest/Google Chrome.app/Contents/MacOS/Google Chrome"
+# export VIRTUAL_ENV_DISABLE_PROMPT=1
+# export DJANGO_SETTINGS_MODULE="bitbucket.settings.dev"
+# export WORKON_HOME="$HOME/Code/Envs"
+# export PROJECT_HOME="$HOME/Code/Envs"
+# export VIRTUALENV_USE_DISTRIBUTE=1
+# [[ -n "$(command -v virtualenvwrapper.sh)" ]] && source virtualenvwrapper.sh
