@@ -39,8 +39,9 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " Colors
-" Plug 'altercation/vim-colors-solarized'
+Plug 'altercation/vim-colors-solarized'
 Plug 'chriskempson/vim-tomorrow-theme'
+Plug 'w0ng/vim-hybrid'
 " Plug 'skammer/vim-css-color'
 
 call plug#end()
