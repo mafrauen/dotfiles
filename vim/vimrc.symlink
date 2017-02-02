@@ -10,14 +10,17 @@ call plug#begin('~/.vim/plugged')
 " Languages
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
+Plug 'davidhalter/jedi-vim'
 Plug 'klen/python-mode'
-Plug 'tpope/vim-git'
+" Plug 'tpope/vim-git'
 Plug 'plasticboy/vim-markdown'
 Plug 'groenewege/vim-less'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'juvenn/mustache.vim'
-Plug 'rdolgushin/groovy.vim'
+" Plug 'rdolgushin/groovy.vim'
 Plug 'Glench/Vim-Jinja2-Syntax'
+" Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
+Plug 'fatih/vim-go'
 
 Plug 'godlygeek/tabular'
 Plug 'mileszs/ack.vim'
@@ -27,21 +30,24 @@ Plug 'mattn/emmet-vim'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'majutsushi/tagbar'
 Plug 'tpope/vim-fugitive'
+" Plug 'lambdalisue/vim-gita'
 Plug 'tomtom/tcomment_vim'
 Plug 'Raimondi/delimitMate'
 Plug 'scrooloose/syntastic'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'pelodelfuego/vim-swoop'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
+" Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 
 " Snippets
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " Colors
-Plug 'altercation/vim-colors-solarized'
+" Plug 'altercation/vim-colors-solarized'
 Plug 'chriskempson/vim-tomorrow-theme'
-Plug 'w0ng/vim-hybrid'
+" Plug 'w0ng/vim-hybrid'
 " Plug 'skammer/vim-css-color'
 
 call plug#end()
@@ -190,6 +196,7 @@ let g:javascript_conceal = 1
 let g:javascript_conceal_function = "ƒ"
 let g:javascript_conceal_prototype = "¶"
 let g:javascript_conceal_arrow_function = "⍄"
+let g:javascript_plugin_flow = 1
 let g:jsx_ext_required = 0
 " autocmd BufRead,BufNewFile *.js set ft=javascript.jsx
 " let g:javascript_conceal_null       = "ø"
@@ -214,12 +221,19 @@ set wildignore+=*/node_modules/*
 set wildignore+=*/local/static/* " ignore static files
 set wildignore+=*/local/build/* " ignore static files
 set wildignore+=*/target/classes/* " ignore static files
+set wildignore+=*/build/*
 
 " emmet
 autocmd FileType htmldjango,javascript,javascript.jsx,css,less,jinja imap <C-L> <plug>(emmet-expand-abbr)
 " let g:user_emmet_expandabbr_key=''
 " let g:user_emmet_install_global = 0
 " autocmd FileType html,css EmmetInstall
+
+
+" Tern
+autocmd FileType javascript,javascript.jsx nnoremap <leader>g :TernDef<cr>
+autocmd FileType javascript,javascript.jsx nnoremap <leader>p :TernDefPreview<cr>
+autocmd FileType javascript,javascript.jsx setlocal omnifunc=tern#Complete
 
 " tagbar
 let g:tagbar_foldlevel = 0
@@ -235,23 +249,29 @@ nnoremap <leader>c :ccl \| pc<CR>
 
 " python
 let g:pymode = 1
-let g:pymode_folding = 0
-" for fast machines
-let g:pymode_syntax_slow_sync=0
-" don't let rope recursively search dirs for .ropeproject
-let g:pymode_rope_guess_project=1
-" add projects dir to python path
-let g:pymode_paths=['~/']
-let g:pymode_lint = 0
+let g:pymode_syntax = 1
+let g:pymode_rope = 0
 let g:pymode_doc = 0
-let g:pymode_virtualenv = 1
-" let g:pymode_lint_checkers=['pyflakes']
-let g:pymode_lint_cwindow=0
-let g:pymode_rope = 1
-let g:pymode_rope_lookup_project = 0
-let g:pymode_rope_goto_definition_bind = '<leader>g'
-let g:pymode_rope_goto_definition_cmd = 'e'
-let g:pymode_breakpoint_bind = '<leader>d'
+let g:pymode_lint = 0
+let g:pymode_folding = 0
+" let g:pymode_folding = 0
+" " for fast machines
+" let g:pymode_syntax_slow_sync=0
+" " don't let rope recursively search dirs for .ropeproject
+" let g:pymode_rope_guess_project=1
+" " add projects dir to python path
+" let g:pymode_paths=['~/']
+" let g:pymode_lint = 0
+" let g:pymode_doc = 0
+" let g:pymode_virtualenv = 1
+" " let g:pymode_lint_checkers=['pyflakes']
+" let g:pymode_lint_cwindow=0
+" let g:pymode_rope = 1
+" let g:pymode_rope_lookup_project = 1
+" let g:pymode_rope_goto_definition_bind = '<leader>g'
+" let g:pymode_rope_goto_definition_cmd = 'e'
+" let g:pymode_breakpoint_bind = '<leader>d'
+
 
 " django
 autocmd BufRead,BufNewFile *.mustache,*.html set ft=htmldjango
@@ -260,8 +280,20 @@ autocmd BufRead,BufNewFile *.mustache,*.html set ft=htmldjango
 let g:syntastic_python_checkers=['pyflakes', 'flake8']
 let g:syntastic_javascript_checkers=['eslint']
 
+" YouCompleteMe
+" let g:ycm_autoclose_preview_window_after_insertion = 1
+" let g:ycm_auto_trigger=1
+" " let g:ycm_min_num_of_chars_for_completion=2
+" let g:ycm_filetype_specific_completion_to_disable = {
+"       \ 'gitcommit': 1,
+"       \ 'python': 1
+"       \}
+
 " Snippets
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "snips"]
+" let g:UltiSnipsExpandTrigger='<c-j>'
+" let g:UltiSnipsJumpForwardTrigger='<c-j>'
+" let g:UltiSnipsJumpBackwardTrigger='<c-k>'
 
 function! Multiple_cursors_before()
   if exists('*SwoopFreezeContext') != 0
