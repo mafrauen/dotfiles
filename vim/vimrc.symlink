@@ -18,7 +18,8 @@ Plug 'groenewege/vim-less'
 Plug 'hail2u/vim-css3-syntax'
 Plug 'juvenn/mustache.vim'
 " Plug 'rdolgushin/groovy.vim'
-Plug 'Glench/Vim-Jinja2-Syntax'
+" Plug 'Glench/Vim-Jinja2-Syntax'
+Plug 'mitsuhiko/vim-jinja'
 " Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
 Plug 'fatih/vim-go'
 
@@ -37,6 +38,7 @@ Plug 'scrooloose/syntastic'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'pelodelfuego/vim-swoop'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
 " Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 
@@ -215,7 +217,7 @@ nmap <leader>b :CtrlPBuffer<CR>
 nmap <leader>B :CtrlPMRU<CR>
 nmap <leader>L :CtrlPLine<CR>
 nnoremap <leader>T :CtrlPTag<CR>
-nnoremap <leader>F :CtrlP /Users/mafrauen/Code/Envs/bb/lib/python2.7/site-packages/<CR>
+nnoremap <leader>F :CtrlP /Users/mfrauenholtz/Code/Envs/bb/lib/python2.7/site-packages/<CR>
 set wildignore+=*.pyc " ignore compiled python
 set wildignore+=*/node_modules/*
 set wildignore+=*/local/static/* " ignore static files
@@ -223,12 +225,15 @@ set wildignore+=*/local/build/* " ignore static files
 set wildignore+=*/target/classes/* " ignore static files
 set wildignore+=*/build/*
 
+" Jinja
+au BufNewFile,BufRead *.jinja set ft=htmljinja
+let g:htmljinja_disable_detection = 1
+
 " emmet
-autocmd FileType htmldjango,javascript,javascript.jsx,css,less,jinja imap <C-L> <plug>(emmet-expand-abbr)
+autocmd FileType htmldjango,javascript,javascript.jsx,css,less,htmljinja imap <C-L> <plug>(emmet-expand-abbr)
 " let g:user_emmet_expandabbr_key=''
 " let g:user_emmet_install_global = 0
 " autocmd FileType html,css EmmetInstall
-
 
 " Tern
 autocmd FileType javascript,javascript.jsx nnoremap <leader>g :TernDef<cr>
@@ -270,7 +275,7 @@ let g:pymode_folding = 0
 " let g:pymode_rope_lookup_project = 1
 " let g:pymode_rope_goto_definition_bind = '<leader>g'
 " let g:pymode_rope_goto_definition_cmd = 'e'
-" let g:pymode_breakpoint_bind = '<leader>d'
+let g:pymode_breakpoint_bind = '<leader>p'
 
 
 " django
