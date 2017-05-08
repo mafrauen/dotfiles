@@ -40,7 +40,8 @@ path=(
   /usr/{bin,sbin}
   /{bin,sbin}
   /usr/local/share/npm/bin
-  ./node_modules/.bin/
+  $(go env GOPATH)/bin
+  ./node_modules/.bin
   $path
 )
 

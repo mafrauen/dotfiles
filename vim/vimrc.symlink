@@ -15,7 +15,7 @@ Plug 'klen/python-mode'
 " Plug 'tpope/vim-git'
 Plug 'plasticboy/vim-markdown'
 Plug 'groenewege/vim-less'
-Plug 'hail2u/vim-css3-syntax'
+" Plug 'hail2u/vim-css3-syntax'
 Plug 'juvenn/mustache.vim'
 " Plug 'rdolgushin/groovy.vim'
 " Plug 'Glench/Vim-Jinja2-Syntax'
@@ -51,6 +51,9 @@ Plug 'honza/vim-snippets'
 Plug 'chriskempson/vim-tomorrow-theme'
 " Plug 'w0ng/vim-hybrid'
 " Plug 'skammer/vim-css-color'
+
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
 
@@ -111,6 +114,9 @@ let g:mapleader = ","
 
 " turn off highlighting
 nnoremap <leader><space> :noh<cr>
+
+" copy the path
+command Cpath :let @+ = expand("%")
 
 " map esc
 imap jj <ESC>
@@ -199,6 +205,7 @@ let g:javascript_conceal_function = "ƒ"
 let g:javascript_conceal_prototype = "¶"
 let g:javascript_conceal_arrow_function = "⍄"
 let g:javascript_plugin_flow = 1
+let g:javascript_conceal_noarg_arrow_function = "🞅"
 let g:jsx_ext_required = 0
 " autocmd BufRead,BufNewFile *.js set ft=javascript.jsx
 " let g:javascript_conceal_null       = "ø"
@@ -218,12 +225,21 @@ nmap <leader>B :CtrlPMRU<CR>
 nmap <leader>L :CtrlPLine<CR>
 nnoremap <leader>T :CtrlPTag<CR>
 nnoremap <leader>F :CtrlP /Users/mfrauenholtz/Code/Envs/bb/lib/python2.7/site-packages/<CR>
+let g:ctrlp_custom_ignore = 'node_modules\|local\|target'
 set wildignore+=*.pyc " ignore compiled python
-set wildignore+=*/node_modules/*
-set wildignore+=*/local/static/* " ignore static files
-set wildignore+=*/local/build/* " ignore static files
-set wildignore+=*/target/classes/* " ignore static files
-set wildignore+=*/build/*
+" set wildignore+=*/node_modules/*
+" set wildignore+=*/local/static/* " ignore static files
+" set wildignore+=*/local/build/* " ignore static files
+" set wildignore+=*/target/classes/* " ignore static files
+" set wildignore+=*/build/*
+let g:ctrlp_user_command = {
+  \ 'types': {
+    \ 1: ['.git', 'cd %s && git ls-files --cached --exclude-standard --others'],
+    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+    \ },
+  \ 'fallback': 'find %s -type f'
+  \ }
+
 
 " Jinja
 au BufNewFile,BufRead *.jinja set ft=htmljinja
@@ -311,3 +327,13 @@ function! Multiple_cursors_after()
     call SwoopUnFreezeContext()
   endif
 endfunction
+
+
+" let g:airline#extensions#branch#displayed_head_limit=11
+let g:airline#extensions#branch#format=1
+let g:airline#extensions#virtualenv#enabled=0
+" let g:airline_section_x=''
+let g:airline_section_y=' '
+let g:airline_section_x = airline#section#create_right(['tagbar'])
+" let g:airline_section_z = airline#section#create(['%3p%%'.spc, 'linenr',  ':%3v'])
+let g:airline_section_z = airline#section#create(['linenr'])
