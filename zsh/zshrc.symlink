@@ -5,9 +5,15 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
+ssh-add -K > /dev/null 2>&1
+
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+# Source Z
+if [[ -s "/usr/local/etc/profile.d/z.sh" ]]; then
+  source "/usr/local/etc/profile.d/z.sh"
 fi
 
 
@@ -16,6 +22,11 @@ alias -g outv="| mvim -R -"
 alias -g ie="--ignore-engines"
 alias vmac='ssh -R 8001:0.0.0.0:8000'
 alias eslint='nocorrect eslint'
+alias flow='nocorrect flow'
+
+yg() {
+  `yarn global bin`/yarn $* --ignore-engines
+}
 
 # Base 64 encode a file
 encode() {
@@ -33,6 +44,9 @@ gzipped() {
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 
-export NVM_DIR="/Users/mfrauenholtz/.nvm"
+# export NVM_DIR="/Users/mfrauenholtz/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-export WORKON_HOME="$HOME/Code/Envs"
+# export WORKON_HOME="$HOME/Code/Envs"
+export NPMRC="$(cat ~/.npmrc)"
+export SSH_KEY="$(openssl rsa -in ~/.ssh/id_rsa 2> /dev/null)"
+export DJANGO_SETTINGS_MODULE=bitbucket.settings.dev

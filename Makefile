@@ -12,7 +12,7 @@ dev:
 	ln -fs $(DOTFILES)/ack/ackrc.symlink ${HOME}/.ackrc
 
 hammerspoon:
-	mkdir ${HOME}/.hammerspoon
+	mkdir -p ${HOME}/.hammerspoon
 	ln -fs $(DOTFILES)/hammerspoon/init.lua ${HOME}/.hammerspoon/init.lua
 
 vim:

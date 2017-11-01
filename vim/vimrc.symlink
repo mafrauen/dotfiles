@@ -15,13 +15,15 @@ Plug 'klen/python-mode'
 " Plug 'tpope/vim-git'
 Plug 'plasticboy/vim-markdown'
 Plug 'groenewege/vim-less'
-" Plug 'hail2u/vim-css3-syntax'
+Plug 'hail2u/vim-css3-syntax'
 Plug 'juvenn/mustache.vim'
 " Plug 'rdolgushin/groovy.vim'
 " Plug 'Glench/Vim-Jinja2-Syntax'
 Plug 'mitsuhiko/vim-jinja'
 " Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
 Plug 'fatih/vim-go'
+" Plug 'flowtype/vim-flow'
+Plug 'styled-components/vim-styled-components'
 
 Plug 'godlygeek/tabular'
 Plug 'mileszs/ack.vim'
@@ -34,13 +36,14 @@ Plug 'tpope/vim-fugitive'
 " Plug 'lambdalisue/vim-gita'
 Plug 'tomtom/tcomment_vim'
 Plug 'Raimondi/delimitMate'
-Plug 'scrooloose/syntastic'
+" Plug 'scrooloose/syntastic'
+Plug 'w0rp/ale'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'pelodelfuego/vim-swoop'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" Plug 'junegunn/fzf.vim'
 Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
-" Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+" Plug 'Valloric/YouCompleteMe'
 
 " Snippets
 Plug 'SirVer/ultisnips'
@@ -52,8 +55,8 @@ Plug 'chriskempson/vim-tomorrow-theme'
 " Plug 'w0ng/vim-hybrid'
 " Plug 'skammer/vim-css-color'
 
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
 
@@ -134,11 +137,17 @@ vnoremap L g_
 " Select last paste
 map <leader>v '[V']
 
-" ACK
-set grepprg=ack
-nnoremap <leader>a :Ack<space>
+" grep
+set grepprg=rg\ --vimgrep
+set grepformat^=%f:%l:%c:%m
+let g:ackprg="rg --vimgrep"
+nnoremap \ :Ack<space>
 nnoremap <leader>n :cn<cr>
 noremap <leader>A :Ack<space><C-r><C-w><CR>
+nnoremap <leader>a :Ack<space>
+" grep opens cwindow by default
+" command -nargs=+ -bar Srch silent! grep! <args>|cwindow|redraw!
+
 
 " Move windows
 nnoremap <C-h> <C-w>h
@@ -148,6 +157,8 @@ nnoremap <C-l> <C-w>l
 
 nnoremap <C-D-cr> <C-W>_<C-W>\|
 nnoremap <D-cr> :call MaximizeToggle ()<CR>
+
+nnoremap <leader>p :lcd ~/Code/
 
 function! MaximizeToggle()
   if exists("s:maximize_session")
@@ -205,7 +216,7 @@ let g:javascript_conceal_function = "ƒ"
 let g:javascript_conceal_prototype = "¶"
 let g:javascript_conceal_arrow_function = "⍄"
 let g:javascript_plugin_flow = 1
-let g:javascript_conceal_noarg_arrow_function = "🞅"
+" let g:javascript_conceal_noarg_arrow_function = "🞅"
 let g:jsx_ext_required = 0
 " autocmd BufRead,BufNewFile *.js set ft=javascript.jsx
 " let g:javascript_conceal_null       = "ø"
@@ -224,7 +235,7 @@ nmap <leader>b :CtrlPBuffer<CR>
 nmap <leader>B :CtrlPMRU<CR>
 nmap <leader>L :CtrlPLine<CR>
 nnoremap <leader>T :CtrlPTag<CR>
-nnoremap <leader>F :CtrlP /Users/mfrauenholtz/Code/Envs/bb/lib/python2.7/site-packages/<CR>
+nnoremap <leader>F :CtrlP /Users/mfrauenholtz/.virtualenvs/bb/lib/python2.7/site-packages/<CR>
 let g:ctrlp_custom_ignore = 'node_modules\|local\|target'
 set wildignore+=*.pyc " ignore compiled python
 " set wildignore+=*/node_modules/*
@@ -232,12 +243,16 @@ set wildignore+=*.pyc " ignore compiled python
 " set wildignore+=*/local/build/* " ignore static files
 " set wildignore+=*/target/classes/* " ignore static files
 " set wildignore+=*/build/*
+
+" let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
+" let g:ctrlp_use_caching = 0
+"  \ 'fallback': 'find %s -type f'
 let g:ctrlp_user_command = {
   \ 'types': {
     \ 1: ['.git', 'cd %s && git ls-files --cached --exclude-standard --others'],
     \ 2: ['.hg', 'hg --cwd %s locate -I .'],
     \ },
-  \ 'fallback': 'find %s -type f'
+  \ 'fallback': 'rg %s --files --color=never --glob ""'
   \ }
 
 
@@ -281,7 +296,7 @@ let g:pymode_folding = 0
 " " don't let rope recursively search dirs for .ropeproject
 " let g:pymode_rope_guess_project=1
 " " add projects dir to python path
-" let g:pymode_paths=['~/']
+let g:pymode_paths=['~/Code/bb-docker', '/Users/mfrauenholtz/.virtualenvs/bb/lib/python2.7/site-packages/']
 " let g:pymode_lint = 0
 " let g:pymode_doc = 0
 " let g:pymode_virtualenv = 1
@@ -298,8 +313,27 @@ let g:pymode_breakpoint_bind = '<leader>p'
 autocmd BufRead,BufNewFile *.mustache,*.html set ft=htmldjango
 
 " Syntastic
-let g:syntastic_python_checkers=['pyflakes', 'flake8']
-let g:syntastic_javascript_checkers=['eslint']
+" let g:syntastic_python_checkers=['pyflakes', 'flake8']
+" let g:syntastic_javascript_checkers=['eslint', 'flow']
+
+" ALE
+let g:ale_javascript_prettier_options = "--single-quote --trailing-comma es5"
+let g:ale_linters = {
+\   'javascript': ['eslint', 'flow'],
+\   'python': ['pyflakes', 'flake8'],
+\}
+" let g:ale_linters = {
+" \   'javascript': ['eslint', 'flow'],
+" \   'python': ['pyflakes', 'flake8'],
+" \}
+let g:ale_fixers = {
+\   'javascript': ['prettier'],
+\}
+let g:ale_lint_on_save = 1
+let g:ale_fix_on_save = 1
+let g:ale_lint_on_text_changed = 'never'
+let g:airline#extensions#ale#enabled = 1
+let g:ale_javascript_prettier_use_local_config = 1
 
 " YouCompleteMe
 " let g:ycm_autoclose_preview_window_after_insertion = 1
@@ -329,11 +363,11 @@ function! Multiple_cursors_after()
 endfunction
 
 
-" let g:airline#extensions#branch#displayed_head_limit=11
-let g:airline#extensions#branch#format=1
-let g:airline#extensions#virtualenv#enabled=0
-" let g:airline_section_x=''
-let g:airline_section_y=' '
-let g:airline_section_x = airline#section#create_right(['tagbar'])
-" let g:airline_section_z = airline#section#create(['%3p%%'.spc, 'linenr',  ':%3v'])
-let g:airline_section_z = airline#section#create(['linenr'])
+" " let g:airline#extensions#branch#displayed_head_limit=11
+" let g:airline#extensions#branch#format=1
+" let g:airline#extensions#virtualenv#enabled=0
+" " let g:airline_section_x=''
+" let g:airline_section_y=' '
+" let g:airline_section_x = airline#section#create_right(['tagbar'])
+" " let g:airline_section_z = airline#section#create(['%3p%%'.spc, 'linenr',  ':%3v'])
+" let g:airline_section_z = airline#section#create(['linenr'])

@@ -36,6 +36,7 @@ typeset -gU cdpath fpath mailpath path
 
 # Set the list of directories that Zsh searches for programs.
 path=(
+  /usr/local/opt/openssl/bin
   /usr/local/{bin,sbin}
   /usr/{bin,sbin}
   /{bin,sbin}
@@ -78,4 +79,6 @@ fi
 # export WORKON_HOME="$HOME/Code/Envs"
 # export PROJECT_HOME="$HOME/Code/Envs"
 # export VIRTUALENV_USE_DISTRIBUTE=1
-# [[ -n "$(command -v virtualenvwrapper.sh)" ]] && source virtualenvwrapper.sh
+export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2
+[[ -n "$(command -v virtualenvwrapper.sh)" ]] && source virtualenvwrapper.sh
+
