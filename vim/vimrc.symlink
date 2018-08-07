@@ -5,71 +5,61 @@ filetype off
 
 call plug#begin('~/.vim/plugged')
 
-" Plug 'editorconfig/editorconfig-vim'
-
 " Languages
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-Plug 'davidhalter/jedi-vim'
-Plug 'klen/python-mode'
-" Plug 'tpope/vim-git'
-Plug 'plasticboy/vim-markdown'
-Plug 'groenewege/vim-less'
 Plug 'hail2u/vim-css3-syntax'
-Plug 'juvenn/mustache.vim'
-" Plug 'rdolgushin/groovy.vim'
-" Plug 'Glench/Vim-Jinja2-Syntax'
-Plug 'mitsuhiko/vim-jinja'
-" Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh' }
-Plug 'fatih/vim-go'
-" Plug 'flowtype/vim-flow'
 Plug 'styled-components/vim-styled-components'
 
-Plug 'godlygeek/tabular'
-Plug 'mileszs/ack.vim'
-Plug 'tpope/vim-surround'
-Plug 'kien/ctrlp.vim'
-Plug 'mattn/emmet-vim'
-Plug 'Lokaltog/vim-easymotion'
-Plug 'majutsushi/tagbar'
-Plug 'tpope/vim-fugitive'
-" Plug 'lambdalisue/vim-gita'
-Plug 'tomtom/tcomment_vim'
-Plug 'Raimondi/delimitMate'
-" Plug 'scrooloose/syntastic'
-Plug 'w0rp/ale'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'pelodelfuego/vim-swoop'
-" Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-" Plug 'junegunn/fzf.vim'
-Plug 'marijnh/tern_for_vim', { 'do': 'npm install' }
-" Plug 'Valloric/YouCompleteMe'
+Plug 'vim-python/python-syntax'
+Plug 'vim-scripts/indentpython.vim'
+Plug 'tweekmonster/django-plus.vim'
+Plug 'mitsuhiko/vim-jinja'
 
-" Snippets
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+Plug 'groenewege/vim-less'
+Plug 'juvenn/mustache.vim'
+
+Plug 'w0rp/ale'
+Plug 'jremmen/vim-ripgrep'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-surround'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'tpope/vim-fugitive'
+Plug 'tomtom/tcomment_vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'alvan/vim-closetag'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'ludovicchabant/vim-gutentags'
+
+Plug 'ajh17/VimCompletesMe'
+
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 
 " Colors
-" Plug 'altercation/vim-colors-solarized'
 Plug 'chriskempson/vim-tomorrow-theme'
-" Plug 'w0ng/vim-hybrid'
-" Plug 'skammer/vim-css-color'
 
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
 
 call plug#end()
 
-" After new, run :BundleInstall
+" After new, run :PlugInstall
 
 filetype plugin indent on       " load file type plugins + indentation
 
+
+
 syntax enable
-set showcmd                     " display incomplete commands
-set relativenumber
+" set showcmd                     " display incomplete commands
+" set relativenumber
 set number
 set colorcolumn=80
-set synmaxcol=400
+" set synmaxcol=400
+set autoindent
+set smartindent
+set smarttab
 
 "" Whitespace
 set nowrap                      " don't wrap lines
@@ -77,6 +67,7 @@ set tabstop=2 shiftwidth=2      " a tab is two spaces (or set this to 4)
 set expandtab                   " use spaces, not tabs (optional)
 set backspace=indent,eol,start  " backspace through everything in insert mode
 set diffopt=filler,vertical
+set completeopt-=preview
 
 "" Searching
 set hlsearch                    " highlight matches
@@ -86,18 +77,13 @@ set smartcase                   " ... unless they contain at least one capital l
 
 set ruler
 set clipboard=unnamed
-" :help fugitive#statusline
-" set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
-" Original statusline
-" set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
-if has("statusline")
- set statusline=%<%f\ %h%m%r%=%{\"[\".(&fenc==\"\"?&enc:&fenc).((exists(\"+bomb\")\ &&\ &bomb)?\",B\":\"\").\"]\ \"}%k\ %-14.(%l,%c%V%)\ %P
-endif
 set laststatus=2
 
 set list
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
 set conceallevel=1
+
+set formatoptions+=j " Delete comment character when joining commented lines
 
 if has("gui_running")
   set guioptions-=T
@@ -111,6 +97,7 @@ colorscheme Tomorrow-Night
 
 set backupdir=/var/tmp
 set directory=/var/tmp
+set wildignore+=*.pyc " ignore compiled python
 
 let mapleader = ","
 let g:mapleader = ","
@@ -118,36 +105,19 @@ let g:mapleader = ","
 " turn off highlighting
 nnoremap <leader><space> :noh<cr>
 
-" copy the path
-command Cpath :let @+ = expand("%")
-
-" map esc
-imap jj <ESC>
-
 " Used with matchit to go to next paren, etc.
 map <tab> %
 vmap <tab> %
 vnoremap <tab> %
 
-" Just testing this behavior
+" quick way to get rid of quickfix
+nnoremap <leader>c :ccl \| pc<CR>
+
 noremap H ^
 noremap L $
 vnoremap L g_
 
-" Select last paste
-map <leader>v '[V']
-
-" grep
-set grepprg=rg\ --vimgrep
-set grepformat^=%f:%l:%c:%m
-let g:ackprg="rg --vimgrep"
-nnoremap \ :Ack<space>
-nnoremap <leader>n :cn<cr>
-noremap <leader>A :Ack<space><C-r><C-w><CR>
-nnoremap <leader>a :Ack<space>
-" grep opens cwindow by default
-" command -nargs=+ -bar Srch silent! grep! <args>|cwindow|redraw!
-
+nnoremap gv `[V`]
 
 " Move windows
 nnoremap <C-h> <C-w>h
@@ -155,53 +125,11 @@ nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
 
-nnoremap <C-D-cr> <C-W>_<C-W>\|
-nnoremap <D-cr> :call MaximizeToggle ()<CR>
-
-nnoremap <leader>p :lcd ~/Code/
-
-function! MaximizeToggle()
-  if exists("s:maximize_session")
-    exec "source " . s:maximize_session
-    call delete(s:maximize_session)
-    unlet s:maximize_session
-    let &hidden=s:maximize_hidden_save
-    unlet s:maximize_hidden_save
-  else
-    let s:maximize_hidden_save = &hidden
-    let s:maximize_session = tempname()
-    set hidden
-    exec "mksession! " . s:maximize_session
-    only
-  endif
-endfunction
-
-" substitute word under cursor
-nnoremap <Leader>r :%s/\<<C-r><C-w>\>/
-
 " EasyMotion
 let g:EasyMotion_smartcase = 1
+map \ <Plug>(easymotion-sn)
+map <space> <Plug>(easymotion-sn)
 
-map <space> <Plug>(easymotion-s)
-omap <space> <Plug>(easymotion-s)
-
-map <leader>/ <Plug>(easymotion-sn)
-omap <leader>/ <Plug>(easymotion-tn)
-
-" map L <Plug>(easymotion-lineforward)
-" map <Leader>j <Plug>(easymotion-j)
-" map <Leader>k <Plug>(easymotion-k)
-" map H <Plug>(easymotion-linebackward)
-
-
-" " search forwards
-" nmap <space> <leader><leader>f
-" vmap <space> <leader><leader>f
-" " search backwards
-" nmap <S-space> <leader><leader>F
-" nmap <C-space> <leader><leader>F
-" vmap <S-space> <leader><leader>F
-" vmap <C-space> <leader><leader>F
 
 nnoremap <Leader>j :call IssueKey()<CR>
 function! IssueKey()
@@ -210,164 +138,109 @@ function! IssueKey()
 endfunction
 
 " javascript
-" autocmd FileType javascript syn match jsArrowFunction "=>" contained conceal cchar=⍄
+" let g:jsx_ext_required = 0
 let g:javascript_conceal = 1
 let g:javascript_conceal_function = "ƒ"
 let g:javascript_conceal_prototype = "¶"
 let g:javascript_conceal_arrow_function = "⍄"
 let g:javascript_plugin_flow = 1
 " let g:javascript_conceal_noarg_arrow_function = "🞅"
-let g:jsx_ext_required = 0
 " autocmd BufRead,BufNewFile *.js set ft=javascript.jsx
 " let g:javascript_conceal_null       = "ø"
 " let g:javascript_conceal_this       = "@"
 " let g:javascript_conceal_return     = "⇚"
 " let g:javascript_conceal_undefined  = "¿"
 " let g:javascript_conceal_NaN        = "ℕ"
+autocmd BufRead,BufNewFile *.js :iab log console.log()<Left>
+
+" django
+autocmd BufRead,BufNewFile *.html,.jinja :iab tt {{}}<Left><Left>
+autocmd BufRead,BufNewFile *.html,.jinja :iab vv {%%}<Left><Left>
+
+" python
+nnoremap <leader>F :e /Users/mfrauenholtz/.virtualenvs/bb/lib/python2.7/site-packages/<CR>
+let g:python_highlight_all = 1
+" autocmd BufRead,BufNewFile *.mustache,*.html set ft=htmldjango
+au BufNewFile,BufRead *.jinja set ft=htmljinja
+let g:htmljinja_disable_detection = 1
 
 " fugitive
 nnoremap <leader>s :Gstatus<cr>
 
-" ctrlp
-let g:ctrlp_map = '<leader>f'
-" let g:ctrlp_cmd = 'CtrlP'
-nmap <leader>b :CtrlPBuffer<CR>
-nmap <leader>B :CtrlPMRU<CR>
-nmap <leader>L :CtrlPLine<CR>
-nnoremap <leader>T :CtrlPTag<CR>
-nnoremap <leader>F :CtrlP /Users/mfrauenholtz/.virtualenvs/bb/lib/python2.7/site-packages/<CR>
-let g:ctrlp_custom_ignore = 'node_modules\|local\|target'
-set wildignore+=*.pyc " ignore compiled python
-" set wildignore+=*/node_modules/*
-" set wildignore+=*/local/static/* " ignore static files
-" set wildignore+=*/local/build/* " ignore static files
-" set wildignore+=*/target/classes/* " ignore static files
-" set wildignore+=*/build/*
+" FZF
+nmap <leader>f :GFiles<CR>
+nmap <leader>b :Buffers<CR>
+nmap <leader>t :Tags<CR>
+nmap ; :Buffers<CR>
+nmap <leader>l :Lines<CR>
+command! -bang -nargs=* Find
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --fixed-strings --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('up:60%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
 
-" let g:ctrlp_user_command = 'rg %s --files --color=never --glob ""'
-" let g:ctrlp_use_caching = 0
-"  \ 'fallback': 'find %s -type f'
-let g:ctrlp_user_command = {
-  \ 'types': {
-    \ 1: ['.git', 'cd %s && git ls-files --cached --exclude-standard --others'],
-    \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-    \ },
-  \ 'fallback': 'rg %s --files --color=never --glob ""'
-  \ }
+" Close tags
+let g:closetag_xhtml_filenames = '*.js'
+let g:closetag_emptyTags_caseSensitive = 1
+let g:closetag_filenames = '*.js'
 
 
-" Jinja
-au BufNewFile,BufRead *.jinja set ft=htmljinja
-let g:htmljinja_disable_detection = 1
+" Tags
+let g:gutentags_file_list_command = 'rg --files'
 
-" emmet
-autocmd FileType htmldjango,javascript,javascript.jsx,css,less,htmljinja imap <C-L> <plug>(emmet-expand-abbr)
-" let g:user_emmet_expandabbr_key=''
-" let g:user_emmet_install_global = 0
-" autocmd FileType html,css EmmetInstall
-
-" Tern
-autocmd FileType javascript,javascript.jsx nnoremap <leader>g :TernDef<cr>
-autocmd FileType javascript,javascript.jsx nnoremap <leader>p :TernDefPreview<cr>
-autocmd FileType javascript,javascript.jsx setlocal omnifunc=tern#Complete
-
-" tagbar
-let g:tagbar_foldlevel = 0
-let g:tagbar_autoshowtag = 1
-nnoremap <leader>t :TagbarOpenAutoClose<CR>
-
-" delimitMate
-let delimitMate_expand_cr = 1
-let delimitMate_expand_space = 1
-
-" quick way to get rid of quickfix
-nnoremap <leader>c :ccl \| pc<CR>
-
-" python
-let g:pymode = 1
-let g:pymode_syntax = 1
-let g:pymode_rope = 0
-let g:pymode_doc = 0
-let g:pymode_lint = 0
-let g:pymode_folding = 0
-" let g:pymode_folding = 0
-" " for fast machines
-" let g:pymode_syntax_slow_sync=0
-" " don't let rope recursively search dirs for .ropeproject
-" let g:pymode_rope_guess_project=1
-" " add projects dir to python path
-let g:pymode_paths=['~/Code/bb-docker', '/Users/mfrauenholtz/.virtualenvs/bb/lib/python2.7/site-packages/']
-" let g:pymode_lint = 0
-" let g:pymode_doc = 0
-" let g:pymode_virtualenv = 1
-" " let g:pymode_lint_checkers=['pyflakes']
-" let g:pymode_lint_cwindow=0
-" let g:pymode_rope = 1
-" let g:pymode_rope_lookup_project = 1
-" let g:pymode_rope_goto_definition_bind = '<leader>g'
-" let g:pymode_rope_goto_definition_cmd = 'e'
-let g:pymode_breakpoint_bind = '<leader>p'
-
-
-" django
-autocmd BufRead,BufNewFile *.mustache,*.html set ft=htmldjango
-
-" Syntastic
-" let g:syntastic_python_checkers=['pyflakes', 'flake8']
-" let g:syntastic_javascript_checkers=['eslint', 'flow']
 
 " ALE
-let g:ale_javascript_prettier_options = "--single-quote --trailing-comma es5"
-let g:ale_linters = {
-\   'javascript': ['eslint', 'flow'],
-\   'python': ['pyflakes', 'flake8'],
-\}
-" let g:ale_linters = {
-" \   'javascript': ['eslint', 'flow'],
-" \   'python': ['pyflakes', 'flake8'],
-" \}
-let g:ale_fixers = {
-\   'javascript': ['prettier'],
-\}
-let g:ale_lint_on_save = 1
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
-let g:airline#extensions#ale#enabled = 1
 let g:ale_javascript_prettier_use_local_config = 1
+let g:ale_linters = {}
+let g:ale_fixers = {}
 
-" YouCompleteMe
-" let g:ycm_autoclose_preview_window_after_insertion = 1
-" let g:ycm_auto_trigger=1
-" " let g:ycm_min_num_of_chars_for_completion=2
-" let g:ycm_filetype_specific_completion_to_disable = {
-"       \ 'gitcommit': 1,
-"       \ 'python': 1
-"       \}
+let g:ale_linters.javascript = ['eslint']
+let g:ale_linters.python = ['pyflakes', 'flake8']
+" let g:ale_linters.javascript = ['eslint', 'flow', 'flow-language-server']
+" let g:ale_linters.python = ['pyflakes', 'flake8', 'pyls']
 
-" Snippets
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "snips"]
-" let g:UltiSnipsExpandTrigger='<c-j>'
-" let g:UltiSnipsJumpForwardTrigger='<c-j>'
-" let g:UltiSnipsJumpBackwardTrigger='<c-k>'
+let g:ale_fixers.javascript = ['prettier']
+" let g:ale_fixers.python = ['yapf']
 
-function! Multiple_cursors_before()
-  if exists('*SwoopFreezeContext') != 0
-    call SwoopFreezeContext()
-  endif
-endfunction
+" nmap <leader>g <Plug>(ale_go_to_definition)
+" nmap K <Plug>(ale_hover)
+" let g:ale_completion_enabled = 1
+" set completeopt=menu,menuone,preview,noselect,noinsert
 
-function! Multiple_cursors_after()
-  if exists('*SwoopUnFreezeContext') != 0
-    call SwoopUnFreezeContext()
-  endif
-endfunction
+" let g:ale_linters = {
+" \   'javascript': ['eslint', 'flow'],
+" \   'python': [],
+" \}
+" let g:ale_linters = {
+" \   'javascript': ['eslint', 'flow', 'flow-language-server'],
+" \   'python': ['pyflakes', 'flake8', 'pyls'],
+" \}
+" let g:ale_fixers = {
+" \   'javascript': ['prettier'],
+" \}
+" let g:ale_fixers = {
+" \   'javascript': ['prettier'],
+" \   'python': ['yapf'],
+" \}
 
+let g:LanguageClient_serverCommands = {}
+let g:LanguageClient_serverCommands['javascript']= ['flow', 'lsp']
+let g:LanguageClient_serverCommands['javascript.jsx'] = ['flow', 'lsp']
+let g:LanguageClient_serverCommands.python = ['pyls']
+nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> <leader>g :call LanguageClient_textDocument_definition()<CR>
+set completefunc=LanguageClient#complete
 
-" " let g:airline#extensions#branch#displayed_head_limit=11
-" let g:airline#extensions#branch#format=1
-" let g:airline#extensions#virtualenv#enabled=0
-" " let g:airline_section_x=''
-" let g:airline_section_y=' '
-" let g:airline_section_x = airline#section#create_right(['tagbar'])
-" " let g:airline_section_z = airline#section#create(['%3p%%'.spc, 'linenr',  ':%3v'])
-" let g:airline_section_z = airline#section#create(['linenr'])
+" let g:LanguageClient_serverCommands = {
+"     \ 'javascript': ['flow-language-server', '--stdio'],
+"     \ 'javascript.jsx': ['flow-language-server', '--stdio'],
+"     \ 'python': ['pyls'],
+"     \ }
+" let g:LanguageClient_serverCommands = {
+"     \ 'javascript': ['flow', 'lsp'],
+"     \ 'javascript.jsx': ['flow', 'lsp'],
+"     \ 'python': ['pyls'],
+"     \ }

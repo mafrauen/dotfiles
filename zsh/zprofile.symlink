@@ -42,6 +42,7 @@ path=(
   /{bin,sbin}
   /usr/local/share/npm/bin
   $(go env GOPATH)/bin
+  /usr/local/opt/node@8/bin
   ./node_modules/.bin
   $path
 )
