@@ -1,6 +1,6 @@
 DOTFILES := $(shell pwd)
 
-all: dev vim snippets hammerspoon zsh
+all: dev vim hammerspoon zsh
 
 zsh:
 	ln -fs $(DOTFILES)/zsh/zpreztorc.symlink ${HOME}/.zpreztorc
@@ -17,21 +17,3 @@ hammerspoon:
 
 vim:
 	ln -fs $(DOTFILES)/vim/vimrc.symlink ${HOME}/.vimrc
-
-snippets:
-	mkdir -p ${HOME}/.vim/snips
-	ln -fs $(DOTFILES)/snips/gitcommit.snippets ${HOME}/.vim/snips/gitcommit.snippets
-	ln -fs $(DOTFILES)/snips/htmldjango.snippets ${HOME}/.vim/snips/htmldjango.snippets
-	ln -fs $(DOTFILES)/snips/htmljinja.snippets ${HOME}/.vim/snips/htmljinja.snippets
-	ln -fs $(DOTFILES)/snips/javascript.snippets ${HOME}/.vim/snips/javascript.snippets
-	ln -fs $(DOTFILES)/snips/python.snippets ${HOME}/.vim/snips/python.snippets
-
-prompt:
-	ln -fs $(DOTFILES)/prompt/pure.zsh ${HOME}/.zprezto/modules/prompt/functions/prompt_pure_setup
-
-services:
-	mkdir ${HOME}/.services
-	ln -fs $(DOTFILES)/services/screen-to-cloudup.sh ${HOME}/.services/screen-to-cloudup/screen-to-cloudup
-
-tmux:
-	ln -fs $(DOTFILES)/tmux/tmux.conf ${HOME}/.tmux.conf
