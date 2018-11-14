@@ -3,6 +3,8 @@ set encoding=utf-8
 set nocompatible                " choose no compatibility with legacy vi
 filetype off
 
+" let g:ale_completion_enabled = 1
+
 call plug#begin('~/.vim/plugged')
 
 " Languages
@@ -20,7 +22,8 @@ Plug 'groenewege/vim-less'
 Plug 'juvenn/mustache.vim'
 
 Plug 'w0rp/ale'
-Plug 'jremmen/vim-ripgrep'
+" Plug 'jremmen/vim-ripgrep'
+Plug 'mileszs/ack.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
@@ -128,7 +131,7 @@ nnoremap <C-l> <C-w>l
 " EasyMotion
 let g:EasyMotion_smartcase = 1
 map \ <Plug>(easymotion-sn)
-map <space> <Plug>(easymotion-sn)
+" map <space> <Plug>(easymotion-sn)
 
 
 nnoremap <Leader>j :call IssueKey()<CR>
@@ -164,21 +167,23 @@ let g:python_highlight_all = 1
 au BufNewFile,BufRead *.jinja set ft=htmljinja
 let g:htmljinja_disable_detection = 1
 
+" mdx.js
+autocmd BufRead,BufNewFile *.mdx set ft=markdown
+
 " fugitive
 nnoremap <leader>s :Gstatus<cr>
 
 " FZF
 nmap <leader>f :GFiles<CR>
-nmap <leader>b :Buffers<CR>
 nmap <leader>t :Tags<CR>
 nmap ; :Buffers<CR>
-nmap <leader>l :Lines<CR>
-command! -bang -nargs=* Find
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --fixed-strings --color=always '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview('up:60%')
-  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
-  \   <bang>0)
+nmap <leader>l :BLines<CR>
+nmap <space> :BLines<CR>
+nmap <leader>b :Lines<CR>
+set grepprg=rg\ --vimgrep\ --no-heading
+set grepformat=%f:%l:%c:%m,%f:%l:%m
+set grepprg=rg\ --vimgrep
+command! -nargs=+ -bar Find silent! grep! <args>|lwindow|redraw!
 
 " Close tags
 let g:closetag_xhtml_filenames = '*.js'
@@ -196,19 +201,23 @@ let g:ale_lint_on_text_changed = 'never'
 let g:ale_javascript_prettier_use_local_config = 1
 let g:ale_linters = {}
 let g:ale_fixers = {}
+" maybe unused
+" let g:ale_open_list = 0
+" let g:ale_set_quickfix = 0
+" let g:ale_set_loclist = 0
 
-let g:ale_linters.javascript = ['eslint']
-let g:ale_linters.python = ['pyflakes', 'flake8']
-" let g:ale_linters.javascript = ['eslint', 'flow', 'flow-language-server']
-" let g:ale_linters.python = ['pyflakes', 'flake8', 'pyls']
+" let g:ale_linters.javascript = ['eslint', 'flow']
+" let g:ale_linters.python = ['pyflakes', 'flake8']
+let g:ale_linters.javascript = ['eslint', 'flow', 'flow-language-server']
+let g:ale_linters.python = ['pyflakes', 'flake8', 'pyls']
 
 let g:ale_fixers.javascript = ['prettier']
 " let g:ale_fixers.python = ['yapf']
 
 " nmap <leader>g <Plug>(ale_go_to_definition)
 " nmap K <Plug>(ale_hover)
-" let g:ale_completion_enabled = 1
 " set completeopt=menu,menuone,preview,noselect,noinsert
+" let g:ale_completion_enabled = 1
 
 " let g:ale_linters = {
 " \   'javascript': ['eslint', 'flow'],
@@ -227,9 +236,12 @@ let g:ale_fixers.javascript = ['prettier']
 " \}
 
 let g:LanguageClient_serverCommands = {}
-let g:LanguageClient_serverCommands['javascript']= ['flow', 'lsp']
+let g:LanguageClient_serverCommands.javascript = ['flow', 'lsp']
 let g:LanguageClient_serverCommands['javascript.jsx'] = ['flow', 'lsp']
 let g:LanguageClient_serverCommands.python = ['pyls']
+
+" Turn off quickfix for LSP
+let g:LanguageClient_diagnosticsEnable = 0
 nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
 nnoremap <silent> <leader>g :call LanguageClient_textDocument_definition()<CR>
 set completefunc=LanguageClient#complete
