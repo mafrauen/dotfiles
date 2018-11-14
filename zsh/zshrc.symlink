@@ -37,6 +37,4 @@ gzipped() {
 
 export NPMRC="$(cat ~/.npmrc)"
 export SSH_KEY="$(openssl rsa -in ~/.ssh/id_rsa 2> /dev/null)"
-# don't build frontend with docker
-export SKIP_FRONTEND=1
 export DJANGO_SETTINGS_MODULE=bitbucket.settings.dev
