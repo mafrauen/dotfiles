@@ -20,6 +20,11 @@ fi
 alias -g outv="| mvim -R -"
 alias vmac='ssh -R 8000:0.0.0.0:8000'
 
+ng() {
+  echo "http://23.239.29.211:$1"
+  ssh -NT -R 5001:localhost:$1 frauenholtz
+}
+
 # Base 64 encode a file
 encode() {
   local mime=`file --mime-type $1 | cut -d\: -f2- | cut -d\  -f2`
