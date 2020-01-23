@@ -152,5 +152,8 @@ end)
 
 -- Show the time
 bindKey(mNone, 'T', function ()
-  hs.alert.show(os.date("%I:%M"), .5)
+  -- 12 hour time
+  -- hs.alert.show(os.date("%I:%M"), .5)
+  -- 24 hour time
+  hs.alert.show(os.date("%H:%M"), .5)
 end)

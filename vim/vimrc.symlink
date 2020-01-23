@@ -14,11 +14,14 @@ call plug#begin('~/.vim/plugged')
 " Languages
 Plug 'pangloss/vim-javascript'
 Plug 'HerringtonDarkholme/yats.vim'
-" Plug 'leafgarland/typescript-vim'
-Plug 'ianks/vim-tsx'
-Plug 'hail2u/vim-css3-syntax'
-Plug 'styled-components/vim-styled-components'
+" Plug 'ianks/vim-tsx'
 
+" Plug 'leafgarland/typescript-vim'
+" Plug 'peitalin/vim-jsx-typescript'
+
+" Plug 'styled-components/vim-styled-components'
+
+Plug 'hail2u/vim-css3-syntax'
 Plug 'vim-python/python-syntax'
 Plug 'vim-scripts/indentpython.vim'
 Plug 'tweekmonster/django-plus.vim'
@@ -27,7 +30,7 @@ Plug 'mitsuhiko/vim-jinja'
 Plug 'groenewege/vim-less'
 Plug 'juvenn/mustache.vim'
 
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'mileszs/ack.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -36,11 +39,10 @@ Plug 'Lokaltog/vim-easymotion'
 Plug 'tpope/vim-fugitive'
 Plug 'tomtom/tcomment_vim'
 Plug 'jiangmiao/auto-pairs'
-" Plug 'alvan/vim-closetag'
-Plug 'terryma/vim-multiple-cursors'
+" Plug 'terryma/vim-multiple-cursors'
 Plug 'ludovicchabant/vim-gutentags'
 
-Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
+" Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
 
 " Plug 'ajh17/VimCompletesMe'
 " Plug 'lifepillar/vim-mucomplete'
