@@ -109,7 +109,10 @@ bindKey(mNone, 'C', coords({.1, 0, .8, 1}))
 bindKey(mNone, 'M', coords({0, 0, 1, 1}))
 
 -- Mid center-right
-bindKey(mNone, 'X', coords({.3, .05, .65, .9}))
+bindKey(mNone, 'X', coords({.45, .1, .5, .8}))
+
+-- Mid center-left
+bindKey(mShift, 'X', coords({.05, .1, .35, .8}))
 
 -- Left/right/top/bottom
 bindKey(mCtrl, 'H', coords({0, 0, .5, 1}))
