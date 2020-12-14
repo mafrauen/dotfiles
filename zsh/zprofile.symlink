@@ -40,9 +40,9 @@ path=(
   /usr/local/{bin,sbin}
   /usr/{bin,sbin}
   /{bin,sbin}
-  /usr/local/share/npm/bin
-  $(go env GOPATH)/bin
-  /usr/local/opt/node@12/bin
+  # /usr/local/share/npm/bin
+  # $(go env GOPATH)/bin
+  # /usr/local/opt/node@12/bin
   $path
 )
 
