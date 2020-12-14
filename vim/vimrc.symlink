@@ -105,8 +105,8 @@ endif
 set background=dark
 colorscheme Tomorrow-Night
 
-set backupdir=/var/tmp/vimr
-set directory=/var/tmp/vimr
+set backupdir=/var/tmp/vim
+set directory=/var/tmp/vim
 set wildignore+=*.pyc " ignore compiled python
 let g:netrw_list_hide= '\.pyc$'
 
@@ -194,8 +194,8 @@ hi typescriptArrowFuncArg ctermfg=yellow
 
 " Easymotion
 let g:EasyMotion_smartcase = 1
-" map \ <Plug>(easymotion-sn)
-map <leader>\ <Plug>(easymotion-sn)
+map \ <Plug>(easymotion-sn)
+" map <leader>\ <Plug>(easymotion-sn)
 
 " javascript
 let g:javascript_conceal = 1
@@ -225,13 +225,79 @@ nmap <leader>T :BTags<CR>
 nmap ; :Buffers<CR>
 nmap <leader>l :Lines<CR>
 nnoremap <space> :BLines<CR>
-nmap \ :BLines<CR>
 nmap <leader>b :Lines<CR>
 nmap <leader>h :History<CR>
 set grepprg=rg\ --vimgrep\ --no-heading
 set grepformat=%f:%l:%c:%m,%f:%l:%m
 set grepprg=rg\ --vimgrep
 command! -nargs=+ -bar Find silent! grep! <args>|cwindow|redraw!
+
+" Testing folds
+" https://jdhao.github.io/2019/08/16/nvim_config_folding/
+" https://www.vimfromscratch.com/articles/vim-folding/
+set foldcolumn=2
+set foldmethod=indent
+" set foldlevel=1
+" nnoremap \ :BLines<CR>
+" nmap <space> za
+
+autocmd FileType python setlocal foldmethod=expr
+autocmd FileType python setlocal foldexpr=PythonFolds()
+
+autocmd FileType typescriptreact setlocal foldmethod=expr
+autocmd FileType typescriptreact setlocal foldexpr=JSFolds()
+autocmd FileType javascript setlocal foldmethod=expr
+autocmd FileType javascript setlocal foldexpr=JSFolds()
+autocmd FileType typescript setlocal foldmethod=expr
+autocmd FileType typescript setlocal foldexpr=JSFolds()
+
+function! PythonFolds()
+  " get the line
+  let thisline = getline(v:lnum)
+  " if the line is empty, use the last fold
+  if thisline =~? '\v^\s*$'
+    return '-1'
+  elseif thisline =~ '^import.*$'
+    " if this line is an import fold it
+    return 2
+  elseif thisline =~ '^from.*import.*$'
+    " if this line is an import fold it
+    return 2
+  else
+    " otherwise, return the indent
+    return indent(v:lnum) / &shiftwidth
+  endif
+endfunction
+
+function! JSFolds()
+  " get the line
+  let thisline = getline(v:lnum)
+  if thisline =~? '\v^\s*$'
+    " if the line is empty, use the last fold
+    return '-1'
+  elseif thisline =~ '^import.*$'
+    " if this line is an import fold it
+    return 2
+  elseif thisline =~ '}.from.*$'
+    " if this line is an import fold it
+    return 2
+  else
+    " otherwise, return the indent
+    return indent(v:lnum) / &shiftwidth
+  endif
+endfunction
+
+set foldtext=FoldText()
+function! FoldText()
+    let line = getline(v:foldstart)
+    let folded_line_num = v:foldend - v:foldstart
+    " let fillcharcount = &textwidth - len(line) - len(folded_line_num) - 1
+    " return '+'. repeat('-', 4) . line . repeat('.', fillcharcount) . ' (' . folded_line_num . ' L) '
+    return '-- ' . line . '   ----   (' . folded_line_num . ' L) '
+endfunction
+
+" Don't fill the fold with ------
+set fillchars=fold:\ 
 
 " ALE
 let g:ale_linters = {}
@@ -242,6 +308,7 @@ let g:ale_linters.javascriptreact = ['eslint']
 let g:ale_linters.typescript = ['eslint', 'tsserver']
 let g:ale_linters.typescriptreact = ['eslint', 'tsserver']
 let g:ale_linters.python = ['pyflakes', 'flake8', 'pyls']
+let g:ale_linters.java = []
 
 let g:ale_fixers.javascript = ['prettier']
 let g:ale_fixers.typescript = ['prettier']
@@ -303,6 +370,7 @@ set completeopt+=menuone
 " " let g:mucomplete#completion_delay = 1
 " let g:mucomplete#enable_auto_at_startup = 1
 
-let g:python_host_prog = '/Users/mfrauenholtz/.virtualenvs/bb/bin/python'
+" let g:python_host_prog = '/Users/mfrauenholtz/.virtualenvs/bb/bin/python'
+let g:python_host_prog = '/usr/bin/python'
 let g:python3_host_prog = '/usr/local/bin/python3'
 let g:python_highlight_all = 1
