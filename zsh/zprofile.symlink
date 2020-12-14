@@ -10,8 +10,8 @@ fi
 # Editors
 #
 
-export EDITOR='nvim -f'
-export VISUAL='nvim -f'
+export EDITOR='vim -f'
+export VISUAL='vim -f'
 export PAGER='less'
 # export GIT_PAGER='mvim -R -'
 
