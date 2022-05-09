@@ -40,9 +40,9 @@ gzipped() {
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-export NPMRC="$(cat ~/.npmrc)"
-export SSH_KEY="$(openssl rsa -in ~/.ssh/id_rsa 2> /dev/null)"
-export DJANGO_SETTINGS_MODULE=bitbucket.settings.dev
+# export NPMRC="$(cat ~/.npmrc)"
+# export SSH_KEY="$(openssl rsa -in ~/.ssh/id_rsa 2> /dev/null)"
+# export DJANGO_SETTINGS_MODULE=bitbucket.settings.dev
 
 export NVM_DIR="$HOME/.nvm"
 if [[  -s "/usr/local/opt/nvm/nvm.sh"  ]]; then

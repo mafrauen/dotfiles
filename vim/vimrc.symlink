@@ -125,6 +125,9 @@ noremap H ^
 noremap L $
 vnoremap L g_
 
+" last visual
+noremap <leader>v `[V`]
+
 " Move windows
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
@@ -175,6 +178,9 @@ endfunction
 " " hi typescriptAliasDeclaration guifg=#b294bb ctermfg=magenta
 " " hi typescriptObjectLabel guifg=#c5c8c6
 
+" Red
+hi jsThis ctermfg=167
+
 " Blue
 hi typescriptVariable ctermfg=110
 hi typescriptExport ctermfg=110
@@ -188,6 +194,9 @@ hi typescriptPredefinedType ctermfg=139
 
 " Yellow
 hi typescriptArrowFuncArg ctermfg=yellow
+
+" Background
+hi Conceal guibg=#303030 ctermbg=235
 
 " Hilight test
 " :so $VIMRUNTIME/syntax/hitest.vim
@@ -232,72 +241,72 @@ set grepformat=%f:%l:%c:%m,%f:%l:%m
 set grepprg=rg\ --vimgrep
 command! -nargs=+ -bar Find silent! grep! <args>|cwindow|redraw!
 
-" Testing folds
-" https://jdhao.github.io/2019/08/16/nvim_config_folding/
-" https://www.vimfromscratch.com/articles/vim-folding/
-set foldcolumn=2
-set foldmethod=indent
-" set foldlevel=1
-" nnoremap \ :BLines<CR>
-" nmap <space> za
-
-autocmd FileType python setlocal foldmethod=expr
-autocmd FileType python setlocal foldexpr=PythonFolds()
-
-autocmd FileType typescriptreact setlocal foldmethod=expr
-autocmd FileType typescriptreact setlocal foldexpr=JSFolds()
-autocmd FileType javascript setlocal foldmethod=expr
-autocmd FileType javascript setlocal foldexpr=JSFolds()
-autocmd FileType typescript setlocal foldmethod=expr
-autocmd FileType typescript setlocal foldexpr=JSFolds()
-
-function! PythonFolds()
-  " get the line
-  let thisline = getline(v:lnum)
-  " if the line is empty, use the last fold
-  if thisline =~? '\v^\s*$'
-    return '-1'
-  elseif thisline =~ '^import.*$'
-    " if this line is an import fold it
-    return 2
-  elseif thisline =~ '^from.*import.*$'
-    " if this line is an import fold it
-    return 2
-  else
-    " otherwise, return the indent
-    return indent(v:lnum) / &shiftwidth
-  endif
-endfunction
-
-function! JSFolds()
-  " get the line
-  let thisline = getline(v:lnum)
-  if thisline =~? '\v^\s*$'
-    " if the line is empty, use the last fold
-    return '-1'
-  elseif thisline =~ '^import.*$'
-    " if this line is an import fold it
-    return 2
-  elseif thisline =~ '}.from.*$'
-    " if this line is an import fold it
-    return 2
-  else
-    " otherwise, return the indent
-    return indent(v:lnum) / &shiftwidth
-  endif
-endfunction
-
-set foldtext=FoldText()
-function! FoldText()
-    let line = getline(v:foldstart)
-    let folded_line_num = v:foldend - v:foldstart
-    " let fillcharcount = &textwidth - len(line) - len(folded_line_num) - 1
-    " return '+'. repeat('-', 4) . line . repeat('.', fillcharcount) . ' (' . folded_line_num . ' L) '
-    return '-- ' . line . '   ----   (' . folded_line_num . ' L) '
-endfunction
-
-" Don't fill the fold with ------
-set fillchars=fold:\ 
+" " Testing folds
+" " https://jdhao.github.io/2019/08/16/nvim_config_folding/
+" " https://www.vimfromscratch.com/articles/vim-folding/
+" set foldcolumn=2
+" set foldmethod=indent
+" " set foldlevel=1
+" " nnoremap \ :BLines<CR>
+" " nmap <space> za
+"
+" autocmd FileType python setlocal foldmethod=expr
+" autocmd FileType python setlocal foldexpr=PythonFolds()
+"
+" autocmd FileType typescriptreact setlocal foldmethod=expr
+" autocmd FileType typescriptreact setlocal foldexpr=JSFolds()
+" autocmd FileType javascript setlocal foldmethod=expr
+" autocmd FileType javascript setlocal foldexpr=JSFolds()
+" autocmd FileType typescript setlocal foldmethod=expr
+" autocmd FileType typescript setlocal foldexpr=JSFolds()
+"
+" function! PythonFolds()
+"   " get the line
+"   let thisline = getline(v:lnum)
+"   " if the line is empty, use the last fold
+"   if thisline =~? '\v^\s*$'
+"     return '-1'
+"   elseif thisline =~ '^import.*$'
+"     " if this line is an import fold it
+"     return 2
+"   elseif thisline =~ '^from.*import.*$'
+"     " if this line is an import fold it
+"     return 2
+"   else
+"     " otherwise, return the indent
+"     return indent(v:lnum) / &shiftwidth
+"   endif
+" endfunction
+"
+" function! JSFolds()
+"   " get the line
+"   let thisline = getline(v:lnum)
+"   if thisline =~? '\v^\s*$'
+"     " if the line is empty, use the last fold
+"     return '-1'
+"   elseif thisline =~ '^import.*$'
+"     " if this line is an import fold it
+"     return 2
+"   elseif thisline =~ '}.from.*$'
+"     " if this line is an import fold it
+"     return 2
+"   else
+"     " otherwise, return the indent
+"     return indent(v:lnum) / &shiftwidth
+"   endif
+" endfunction
+"
+" set foldtext=FoldText()
+" function! FoldText()
+"     let line = getline(v:foldstart)
+"     let folded_line_num = v:foldend - v:foldstart
+"     " let fillcharcount = &textwidth - len(line) - len(folded_line_num) - 1
+"     " return '+'. repeat('-', 4) . line . repeat('.', fillcharcount) . ' (' . folded_line_num . ' L) '
+"     return '-- ' . line . '   ----   (' . folded_line_num . ' L) '
+" endfunction
+"
+" " Don't fill the fold with ------
+" set fillchars=fold:\ 
 
 " ALE
 let g:ale_linters = {}
@@ -307,11 +316,13 @@ let g:ale_linters.javascript = ['eslint']
 let g:ale_linters.javascriptreact = ['eslint']
 let g:ale_linters.typescript = ['eslint', 'tsserver']
 let g:ale_linters.typescriptreact = ['eslint', 'tsserver']
-let g:ale_linters.python = ['pyflakes', 'flake8', 'pyls']
+let g:ale_linters.python = ['pyflakes', 'flake8', 'pylsp', 'mypy']
 let g:ale_linters.java = []
+let g:ale_linters.json = []
 
 let g:ale_fixers.javascript = ['prettier']
 let g:ale_fixers.typescript = ['prettier']
+let g:ale_fixers.json = ['prettier']
 let g:ale_fixers.typescriptreact = ['prettier']
 let g:ale_fix_on_save = 1
 
@@ -322,10 +333,10 @@ nmap [f <Plug>(ale_previous_wrap)
 nmap ]f <Plug>(ale_next_wrap)
 
 " Use ALE's function for omnicompletion.
-set omnifunc=ale#completion#OmniFunc
+" set omnifunc=ale#completion#OmniFunc
 " Hide preview while completing
-set completeopt-=preview
-set completeopt+=menuone
+" set completeopt-=preview
+" set completeopt+=menuone
 " set completeopt+=longest,menuone,noselect
 
 " let g:ale_linters.typescript = ['tslint', 'tsserver']
@@ -374,3 +385,6 @@ set completeopt+=menuone
 let g:python_host_prog = '/usr/bin/python'
 let g:python3_host_prog = '/usr/local/bin/python3'
 let g:python_highlight_all = 1
+
+" format JSON
+" :%!jq .
