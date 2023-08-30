@@ -99,11 +99,13 @@ end)
 
 -- Center window
 -- bindKey(mNone, 'C', cycle(coords, {
---   {.22, .025, .56, .95},
+--   {.2, .08, .6, .84},
 --   {.1, 0, .8, 1}
 -- }))
 -- Maximize window
 bindKey(mNone, 'C', coords({.1, 0, .8, 1}))
+-- Center window
+bindKey(mShift, 'C', coords({.2, .08, .6, .84}))
 
 -- Maximize window
 bindKey(mNone, 'M', coords({0, 0, 1, 1}))
@@ -121,10 +123,10 @@ bindKey(mCtrl, 'J', coords({0, .5, 1, .5}))
 bindKey(mCtrl, 'K', coords({0, 0, 1, .5}))
 
 -- Screen corners
-bindKey(mNone, 'Q', coords({0, 0, .5, .5}))
-bindKey(mNone, 'W', coords({.5, 0, .5, .5}))
-bindKey(mNone, 'A', coords({0, .5, .5, .5}))
-bindKey(mNone, 'S', coords({.5, .5, .5, .5}))
+bindKey(mShift, 'Q', coords({0, 0, .5, .5}))
+bindKey(mShift, 'W', coords({.5, 0, .5, .5}))
+bindKey(mShift, 'A', coords({0, .5, .5, .5}))
+bindKey(mShift, 'S', coords({.5, .5, .5, .5}))
 
 -- Window movement
 bindKey(mNone, 'H', pos(-1, 0))
@@ -141,10 +143,10 @@ bindKey(mShift, 'L', size(1, 0))
 -- Application specific positions
 -- Left full (terminal)
 bindKey(mShift, 'T', coords({0, 0, .75, 1}))
--- Bottom left (mail)
-bindKey(mShift, 'Z', coords({0, .4, .7, .6}))
--- Top right(hipchat)
-bindKey(mNone, 'Z', coords({.2, 0, .8, .65}))
+-- mid center (zoom)
+bindKey(mNone, 'Z', coords({.15, 0, .7, .8}))
+-- Top right(slack)
+bindKey(mNone, 'S', coords({.2, 0, .8, .65}))
 
 bindKey(mNone, 'G', function ()
   doDisable()

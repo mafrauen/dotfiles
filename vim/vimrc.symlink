@@ -312,19 +312,24 @@ command! -nargs=+ -bar Find silent! grep! <args>|cwindow|redraw!
 let g:ale_linters = {}
 let g:ale_fixers = {}
 
-let g:ale_linters.javascript = ['eslint']
+let g:ale_linters.javascript = ['eslint', 'tsserver', 'standard']
 let g:ale_linters.javascriptreact = ['eslint']
 let g:ale_linters.typescript = ['eslint', 'tsserver']
 let g:ale_linters.typescriptreact = ['eslint', 'tsserver']
-let g:ale_linters.python = ['pyflakes', 'flake8', 'pylsp', 'mypy']
+" let g:ale_linters.python = ['pyflakes', 'flake8', 'pylsp', 'mypy']
+let g:ale_linters.python = ['pyflakes', 'flake8', 'pyright', 'mypy']
 let g:ale_linters.java = []
 let g:ale_linters.json = []
 
-let g:ale_fixers.javascript = ['prettier']
+let g:ale_fixers.javascript = ['prettier', 'standard']
 let g:ale_fixers.typescript = ['prettier']
 let g:ale_fixers.json = ['prettier']
 let g:ale_fixers.typescriptreact = ['prettier']
+let g:ale_fixers.python = ['black', 'isort']
 let g:ale_fix_on_save = 1
+
+let g:ale_javascript_eslint_executable = 'eslint_d'
+let g:ale_javascript_eslint_use_global = 1
 
 nmap <leader>g <Plug>(ale_go_to_definition)
 nmap K <Plug>(ale_hover)

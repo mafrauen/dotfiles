@@ -54,9 +54,8 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'chriskempson/vim-tomorrow-theme'
 Plug 'morhetz/gruvbox'
 Plug 'sainnhe/everforest'
-Plug 'w0ng/vim-hybrid'
-Plug 'joshdick/onedark.vim'
 Plug 'arcticicestudio/nord-vim'
+Plug 'altercation/vim-colors-solarized'
 
 call plug#end()
 
@@ -208,7 +207,10 @@ nnoremap <leader>s :Gstatus<cr>
 let g:gutentags_file_list_command = 'rg --files'
 
 " python
-nnoremap <leader>F :e /Users/mfrauenholtz/.virtualenvs/bb/lib/python2.7/site-packages/<CR>
+nnoremap <leader>F :e /Users/mfrauenholtz/Code/bitbucket/venv/lib/python3.9/site-packages/<CR>
+
+nnoremap <leader>b <cmd>lua vim.lsp.buf.format()<CR>
+
 
 " FZF
 " nmap <leader>f :GFiles<CR>
@@ -338,35 +340,85 @@ require'nvim-treesitter.configs'.setup {
     additional_vim_regex_highlighting = false,
   },
 }
-require"nvim-treesitter.highlight".set_custom_captures {
-  ["tag"] = "tsxTag",
-  ["constructor"] = "tsxConstructor",
-  ["tag.delimiter"] = "tsxTagDelimiter",
-  ["tag.attribute"] = "tsxTagAttribute",
-}
+
+vim.api.nvim_set_hl(0, "@tag", { link = "tsxTag" })
+vim.api.nvim_set_hl(0, "@tag.delimiter", { link = "tsxTagDelimiter" })
+vim.api.nvim_set_hl(0, "@tag.attribute", { link = "tsxTagAttribute" })
+vim.api.nvim_set_hl(0, "@constructor", { link = "tsxConstructor" })
+-- require"nvim-treesitter.highlight".set_custom_captures {
+--   ["tag"] = "tsxTag",
+--   ["constructor"] = "tsxConstructor",
+--   ["tag.delimiter"] = "tsxTagDelimiter",
+--   ["tag.attribute"] = "tsxTagAttribute",
+-- }
 
 -- ====================
 -- nvim-lspconfig
 -- ====================
 
 local null_ls = require("null-ls")
-local sources = {
-    null_ls.builtins.formatting.prettierd,
-    null_ls.builtins.diagnostics.eslint_d,
-}
+-- local sources = {
+--   null_ls.builtins.formatting.prettier,
+--   null_ls.builtins.diagnostics.eslint_d,
+--   null_ls.builtins.diagnostics.flake8,
+-- }
+  -- null_ls.builtins.diagnostics.black,
+  -- null_ls.builtins.formatting.black.with({
+  --   filetypes = { "python" }
+  -- }),
+  -- null_ls.builtins.diagnostics.flake8.with({
+  --   filetypes = { "python" }
+  -- }),
+  -- null_ls.builtins.formatting.prettier_d_slim.with({
+  --   filetypes = { "javascript", "typescriptreact", "typescript", "javascriptreact", "*.md", "md", "markdown" }
+  -- }),
+  -- null_ls.builtins.diagnostics.eslint_d.with({
+  --   filetypes = { "javascript", "typescriptreact", "typescript", "javascriptreact" }
+  -- }),
+-- }
+
 null_ls.setup({
-  sources = sources,
-  on_attach = function(client)
-    if client.resolved_capabilities.document_formatting then
-      vim.cmd([[
-        augroup LspFormatting
-          autocmd! * <buffer>
-          autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
-        augroup END
-      ]])
-    end
-  end,
+  debug = true,
+  sources = {
+    null_ls.builtins.formatting.prettier,
+    null_ls.builtins.diagnostics.eslint_d,
+    -- null_ls.builtins.diagnostics.eslint,
+    null_ls.builtins.diagnostics.flake8,
+  },
 })
+  -- on_attach = function(client)
+  --   if client.server_capabilities.documentFormatting then
+  --     vim.cmd([[
+  --       augroup LspFormatting
+  --         autocmd! * <buffer>
+  --         autocmd BufWritePre *.ts,*.tsx,*.js,*.jsx,*.py lua vim.lsp.buf.format()
+  --       augroup END
+  --     ]])
+  --   end
+  -- end,
+
+vim.cmd [[autocmd BufWritePre *.ts,*.tsx,*.js,*.jsx lua vim.lsp.buf.format()]]
+-- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>b', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
+
+-- local null_ls = require("null-ls")
+-- local sources = {
+--     null_ls.builtins.formatting.prettierd,
+--     null_ls.builtins.diagnostics.eslint_d,
+--     null_ls.builtins.diagnostics.flake8,
+-- }
+-- null_ls.setup({
+--   sources = sources,
+--   on_attach = function(client)
+--     if client.resolved_capabilities.document_formatting then
+--       vim.cmd([[
+--         augroup LspFormatting
+--           autocmd! * <buffer>
+--           autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+--         augroup END
+--       ]])
+--     end
+--   end,
+-- })
 
 -- ====================
 -- nvim-telescope
@@ -408,6 +460,7 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>b', '<cmd>lua vim.lsp.buf.format()<CR>', opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
   -- vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
@@ -465,11 +518,21 @@ cmp.setup({
 
 
 -- Setup lspconfig.
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+-- local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 require'lspconfig'.pyright.setup {
   capabilities = capabilities,
-  on_attach = on_attach,
+  on_attach = function(client, bufnr)
+    vim.api.nvim_buf_set_option(bufnr, 'formatexpr', '')
+    vim.api.nvim_buf_set_option(bufnr, 'formatprg', 'black -q --fast -')
+
+    -- autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()
+    -- autocmd BufRead,BufNewFile *.py set formatprg="black -q -"
+    -- vim.cmd [[ autocmd BufRead,BufNewFile *.py set formatprg="black -q -" ]]
+
+    on_attach(client, bufnr)
+  end,
   settings = {
     python = {
       analysis = {
@@ -481,8 +544,8 @@ require'lspconfig'.pyright.setup {
 require'lspconfig'.tsserver.setup {
   capabilities = capabilities,
   on_attach = function(client, bufnr)
-    client.resolved_capabilities.document_formatting = false
-    client.resolved_capabilities.document_range_formatting = false
+    client.server_capabilities.documentFormatting = false
+    client.server_capabilities.documentRangeFormatting = false
     on_attach(client, bufnr)
   end,
 }
