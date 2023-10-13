@@ -145,6 +145,8 @@ bindKey(mShift, 'L', size(1, 0))
 bindKey(mShift, 'T', coords({0, 0, .75, 1}))
 -- mid center (zoom)
 bindKey(mNone, 'Z', coords({.15, 0, .7, .8}))
+-- mid center small (zoom)
+bindKey(mShift, 'Z', coords({.2, 0, .6, .5}))
 -- Top right(slack)
 bindKey(mNone, 'S', coords({.2, 0, .8, .65}))
 

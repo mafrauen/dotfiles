@@ -313,6 +313,7 @@ let g:ale_linters = {}
 let g:ale_fixers = {}
 
 let g:ale_linters.javascript = ['eslint', 'tsserver', 'standard']
+" let g:ale_linters.javascript = ['eslint', 'standard']
 let g:ale_linters.javascriptreact = ['eslint']
 let g:ale_linters.typescript = ['eslint', 'tsserver']
 let g:ale_linters.typescriptreact = ['eslint', 'tsserver']
@@ -330,6 +331,7 @@ let g:ale_fix_on_save = 1
 
 let g:ale_javascript_eslint_executable = 'eslint_d'
 let g:ale_javascript_eslint_use_global = 1
+let g:ale_javascript_standard_executable = 'semistandard'
 
 nmap <leader>g <Plug>(ale_go_to_definition)
 nmap K <Plug>(ale_hover)
