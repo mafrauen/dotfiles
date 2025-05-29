@@ -36,14 +36,14 @@ typeset -gU cdpath fpath mailpath path
 
 # Set the list of directories that Zsh searches for programs.
 path=(
-  /usr/local/opt/python@3.9/libexec/bin
-  /usr/local/opt/openssl/bin
+  /opt/homebrew/opt/python@3.12/libexec/bin
+  /opt/homebrew/opt/node@22/bin
+  /opt/homebrew/bin
   /usr/local/{bin,sbin}
   /usr/{bin,sbin}
   /{bin,sbin}
   # /usr/local/share/npm/bin
   # $(go env GOPATH)/bin
-  # /usr/local/opt/node@12/bin
   $path
 )
 
@@ -83,3 +83,10 @@ fi
 export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python2
 [[ -n "$(command -v virtualenvwrapper.sh)" ]] && source virtualenvwrapper.sh
 
+
+# Created by `pipx` on 2024-03-18 19:27:38
+export PATH="$PATH:/Users/mfrauenholtz/.local/bin"
+
+# Added by OrbStack: command-line tools and integration
+# This won't be added again if you remove it.
+source ~/.orbstack/shell/init.zsh 2>/dev/null || :

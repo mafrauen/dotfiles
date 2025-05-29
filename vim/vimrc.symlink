@@ -39,10 +39,13 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-surround'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-ragtag'
 Plug 'tomtom/tcomment_vim'
 Plug 'jiangmiao/auto-pairs'
 " Plug 'terryma/vim-multiple-cursors'
 Plug 'ludovicchabant/vim-gutentags'
+
+Plug 'github/copilot.vim'
 
 " Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
 
@@ -56,7 +59,7 @@ Plug 'ludovicchabant/vim-gutentags'
 
 " Colors
 Plug 'chriskempson/vim-tomorrow-theme'
-
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 
 call plug#end()
 
@@ -101,6 +104,10 @@ if has("gui_running")
   set guioptions-=L
   set guifont=Source\ Code\ Pro:h20
 endif
+
+" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+" set termguicolors
 
 set background=dark
 colorscheme Tomorrow-Night
@@ -223,6 +230,8 @@ nnoremap <leader>s :Gstatus<cr>
 
 " Tags
 let g:gutentags_file_list_command = 'rg --files'
+" To not have to add `tags` file to git ignore in every new project
+let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
 
 " python
 nnoremap <leader>F :e /Users/mfrauenholtz/.virtualenvs/bb/lib/python2.7/site-packages/<CR>
@@ -240,6 +249,20 @@ set grepprg=rg\ --vimgrep\ --no-heading
 set grepformat=%f:%l:%c:%m,%f:%l:%m
 set grepprg=rg\ --vimgrep
 command! -nargs=+ -bar Find silent! grep! <args>|cwindow|redraw!
+let g:fzf_vim = {}
+" let g:fzf_vim.preview_window = ['right,70%,<80(up,40%)', 'ctrl-\']
+" let g:fzf_vim.preview_window = ['right,70%', 'ctrl-/']
+let g:fzf_vim.preview_window = ['up,50%']
+let g:fzf_vim.listproc = { list -> fzf#vim#listproc#quickfix(list) }
+" A customized version of fzf#vim#listproc#quickfix.
+" The last two lines are commented out not to move to the first entry.
+" function! g:fzf_vim.listproc(list)
+"   call setqflist(a:list)
+"   copen
+"   wincmd p
+"   " cfirst
+"   " normal! zvzz
+" endfunction
 
 " " Testing folds
 " " https://jdhao.github.io/2019/08/16/nvim_config_folding/
@@ -329,9 +352,13 @@ let g:ale_fixers.typescriptreact = ['prettier']
 let g:ale_fixers.python = ['black', 'isort']
 let g:ale_fix_on_save = 1
 
-let g:ale_javascript_eslint_executable = 'eslint_d'
-let g:ale_javascript_eslint_use_global = 1
-let g:ale_javascript_standard_executable = 'semistandard'
+autocmd BufRead,BufNewFile /Users/mfrauenholtz/src/frontbucket/* let g:ale_javascript_eslint_executable = 'eslint_d'
+autocmd BufRead,BufNewFile /Users/mfrauenholtz/src/frontbucket/* let g:ale_javascript_eslint_use_global = 1
+" let g:ale_javascript_eslint_executable = 'eslint_d'
+" let g:ale_javascript_eslint_use_global = 1
+" let g:ale_javascript_standard_executable = 'semistandard'
+let g:ale_javascript_standard_use_global = 1
+let g:ale_javascript_standard_executable = './node_modules/.bin/semistandard'
 
 nmap <leader>g <Plug>(ale_go_to_definition)
 nmap K <Plug>(ale_hover)
@@ -389,9 +416,9 @@ nmap ]f <Plug>(ale_next_wrap)
 " let g:mucomplete#enable_auto_at_startup = 1
 
 " let g:python_host_prog = '/Users/mfrauenholtz/.virtualenvs/bb/bin/python'
-let g:python_host_prog = '/usr/bin/python'
-let g:python3_host_prog = '/usr/local/bin/python3'
-let g:python_highlight_all = 1
+" let g:python_host_prog = '/usr/bin/python'
+" let g:python3_host_prog = '/usr/local/bin/python3'
+" let g:python_highlight_all = 1
 
 " format JSON
 " :%!jq .
