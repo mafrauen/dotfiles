@@ -352,11 +352,8 @@ let g:ale_fixers.typescriptreact = ['prettier']
 let g:ale_fixers.python = ['black', 'isort']
 let g:ale_fix_on_save = 1
 
-autocmd BufRead,BufNewFile /Users/mfrauenholtz/src/frontbucket/* let g:ale_javascript_eslint_executable = 'eslint_d'
-autocmd BufRead,BufNewFile /Users/mfrauenholtz/src/frontbucket/* let g:ale_javascript_eslint_use_global = 1
 " let g:ale_javascript_eslint_executable = 'eslint_d'
 " let g:ale_javascript_eslint_use_global = 1
-" let g:ale_javascript_standard_executable = 'semistandard'
 let g:ale_javascript_standard_use_global = 1
 let g:ale_javascript_standard_executable = './node_modules/.bin/semistandard'
 

@@ -16,11 +16,6 @@ if [[ -s "/opt/homebrew/etc/profile.d/z.sh" ]]; then
   source "/opt/homebrew/etc/profile.d/z.sh"
 fi
 
-
-alias -g outv="| mvim -R -"
-alias vmac='ssh -R 8000:0.0.0.0:8000'
-alias activate="source *venv*/bin/activate"
-
 ng() {
   echo "http://23.239.29.211:$1"
   ssh -NT -R 5001:localhost:$1 frauenholtz
@@ -41,43 +36,13 @@ gzipped() {
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# export NPMRC="$(cat ~/.npmrc)"
 # export SSH_KEY="$(openssl rsa -in ~/.ssh/id_rsa 2> /dev/null)"
-# export DJANGO_SETTINGS_MODULE=bitbucket.settings.dev
 
-export NVM_DIR="$HOME/.nvm"
-if [[  -s "/usr/local/opt/nvm/nvm.sh"  ]]; then
-  source "/usr/local/opt/nvm/nvm.sh"
-fi
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-# __conda_setup="$('/opt/homebrew/Caskroom/miniconda/base/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-# if [ $? -eq 0 ]; then
-#     eval "$__conda_setup"
-# else
-#     if [ -f "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh" ]; then
-#         . "/opt/homebrew/Caskroom/miniconda/base/etc/profile.d/conda.sh"
-#     else
-#         export PATH="/opt/homebrew/Caskroom/miniconda/base/bin:$PATH"
-#     fi
+# export NPMRC="$(cat ~/.npmrc)"
+# export NVM_DIR="$HOME/.nvm"
+# if [[  -s "/usr/local/opt/nvm/nvm.sh"  ]]; then
+#   source "/usr/local/opt/nvm/nvm.sh"
 # fi
-# unset __conda_setup
-# <<< conda initialize <<<
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 
-
-# bun completions
-[ -s "/Users/mfrauenholtz/.bun/_bun" ] && source "/Users/mfrauenholtz/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# Created by `pipx` on 2024-03-18 19:27:38
-export PATH="$PATH:/Users/mfrauenholtz/.local/bin"
-
-export GPG_TTY=$(tty)
-
-export PATH="/Users/mfrauenholtz/.orbit/bin:$PATH"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
