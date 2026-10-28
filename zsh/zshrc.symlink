@@ -5,7 +5,7 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
-ssh-add -K > /dev/null 2>&1
+ssh-add --apple-use-keychain > /dev/null 2>&1
 
 # Source Prezto.
 if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
@@ -35,14 +35,8 @@ gzipped() {
 }
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+eval "$(fnm env --use-on-cd --shell zsh)"
 
-# export SSH_KEY="$(openssl rsa -in ~/.ssh/id_rsa 2> /dev/null)"
 
-# export NPMRC="$(cat ~/.npmrc)"
-# export NVM_DIR="$HOME/.nvm"
-# if [[  -s "/usr/local/opt/nvm/nvm.sh"  ]]; then
-#   source "/usr/local/opt/nvm/nvm.sh"
-# fi
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Added by Antigravity CLI installer
+export PATH="/Users/mafrauen/.local/bin:$PATH"

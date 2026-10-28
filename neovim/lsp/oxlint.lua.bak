@@ -1,0 +1,10 @@
+return {
+  root_dir = function(bufnr, on_dir)
+    local root = vim.fs.root(bufnr, {
+      ".oxlintrc.json", ".oxlintrc.jsonc", "oxlint.config.ts", "package.json", ".git",
+    })
+    if root then
+      on_dir(root)
+    end
+  end,
+}

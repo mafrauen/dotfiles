@@ -16,21 +16,18 @@ call plug#begin('~/.vim/plugged')
 " Languages
 Plug 'pangloss/vim-javascript'
 Plug 'HerringtonDarkholme/yats.vim'
-" Plug 'ianks/vim-tsx'
-
 " Plug 'leafgarland/typescript-vim'
 " Plug 'peitalin/vim-jsx-typescript'
-
-" Plug 'styled-components/vim-styled-components'
+" Plug 'ianks/vim-tsx'
 
 Plug 'hail2u/vim-css3-syntax'
-Plug 'vim-python/python-syntax'
-Plug 'vim-scripts/indentpython.vim'
-Plug 'tweekmonster/django-plus.vim'
-Plug 'mitsuhiko/vim-jinja'
+" Plug 'vim-python/python-syntax'
+" Plug 'vim-scripts/indentpython.vim'
+" Plug 'tweekmonster/django-plus.vim'
+" Plug 'mitsuhiko/vim-jinja'
 
-Plug 'groenewege/vim-less'
-Plug 'juvenn/mustache.vim'
+" Plug 'groenewege/vim-less'
+" Plug 'juvenn/mustache.vim'
 
 Plug 'dense-analysis/ale'
 Plug 'mileszs/ack.vim'
@@ -43,7 +40,7 @@ Plug 'tpope/vim-ragtag'
 Plug 'tomtom/tcomment_vim'
 Plug 'jiangmiao/auto-pairs'
 " Plug 'terryma/vim-multiple-cursors'
-Plug 'ludovicchabant/vim-gutentags'
+" Plug 'ludovicchabant/vim-gutentags'
 
 Plug 'github/copilot.vim'
 
@@ -59,7 +56,7 @@ Plug 'github/copilot.vim'
 
 " Colors
 Plug 'chriskempson/vim-tomorrow-theme'
-Plug 'catppuccin/vim', { 'as': 'catppuccin' }
+" Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 
 call plug#end()
 
@@ -185,6 +182,11 @@ endfunction
 " " hi typescriptAliasDeclaration guifg=#b294bb ctermfg=magenta
 " " hi typescriptObjectLabel guifg=#c5c8c6
 
+" Press \z to see the syntax highlighting group under the cursor
+map <Leader>z :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
 " Red
 hi jsThis ctermfg=167
 
@@ -234,10 +236,14 @@ let g:gutentags_file_list_command = 'rg --files'
 let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
 
 " python
-nnoremap <leader>F :e /Users/mfrauenholtz/.virtualenvs/bb/lib/python2.7/site-packages/<CR>
+" nnoremap <leader>F :e /Users/mfrauenholtz/.virtualenvs/bb/lib/python2.7/site-packages/<CR>
+
+" HTML
+autocmd FileType html imap ,/ </<C-X><C-O>
 
 " FZF
 nmap <leader>f :GFiles<CR>
+nmap <leader>F :Files<CR>
 nmap <leader>t :Tags<CR>
 nmap <leader>T :BTags<CR>
 nmap ; :Buffers<CR>
@@ -332,24 +338,61 @@ let g:fzf_vim.listproc = { list -> fzf#vim#listproc#quickfix(list) }
 " set fillchars=fold:\ 
 
 " ALE
+function! ALEOxfmtFixer(buffer) abort
+    return {
+    \   'command': 'npx oxfmt --stdin-filepath %s',
+    \   'read_buffer': 1
+    \}
+endfunction
+function! ALEOxlintLinter(buffer) abort
+    return {
+    \   'command': 'npx oxlint --format unix %s',
+    \   'callback': 'ale#handlers#unix#Handle',
+    \   'output_stream': 'stdout',
+    \}
+endfunction
+
+call ale#linter#Define('typescriptreact', {
+\   'name': 'oxlint',
+\   'executable': 'npx',
+\   'command': function('ALEOxlintLinter'),
+\   'callback': 'ale#handlers#unix#Handle',
+\})
+call ale#linter#Define('typescript', {
+\   'name': 'oxlint',
+\   'executable': 'npx',
+\   'command': function('ALEOxlintLinter'),
+\   'callback': 'ale#handlers#unix#Handle',
+\})
+call ale#fix#registry#Add('oxfmt', 'ALEOxfmtFixer', ['javascript', 'typescript', 'json', 'typescriptreact'], 'oxfmt for JS ecosystem')
+
 let g:ale_linters = {}
 let g:ale_fixers = {}
 
-let g:ale_linters.javascript = ['eslint', 'tsserver', 'standard']
+" let g:ale_linters.javascript = ['eslint', 'tsserver', 'standard']
+let g:ale_linters.javascript = ['tsserver', 'standard']
 " let g:ale_linters.javascript = ['eslint', 'standard']
 let g:ale_linters.javascriptreact = ['eslint']
 let g:ale_linters.typescript = ['eslint', 'tsserver']
-let g:ale_linters.typescriptreact = ['eslint', 'tsserver']
+let g:ale_linters.typescriptreact = ['eslint', 'tsserver', 'oxlint']
 " let g:ale_linters.python = ['pyflakes', 'flake8', 'pylsp', 'mypy']
 let g:ale_linters.python = ['pyflakes', 'flake8', 'pyright', 'mypy']
 let g:ale_linters.java = []
 let g:ale_linters.json = []
+let g:ale_linters.html = []
 
+" let g:ale_fixers.javascript = ['prettier', 'standard']
 let g:ale_fixers.javascript = ['prettier', 'standard']
-let g:ale_fixers.typescript = ['prettier']
-let g:ale_fixers.json = ['prettier']
-let g:ale_fixers.typescriptreact = ['prettier']
+" let g:ale_fixers.json = ['prettier']
+" let g:ale_fixers.typescriptreact = ['prettier']
+let g:ale_fixers.typescript = ['prettier', 'oxfmt']
+" let g:ale_fixers.typescript = ['ts-standard']
+let g:ale_fixers.json = ['standard', 'prettier']
+let g:ale_fixers.typescriptreact = ['prettier', 'oxfmt']
+" let g:ale_fixers.typescriptreact = ['oxfmt']
 let g:ale_fixers.python = ['black', 'isort']
+let g:ale_fixers.html = ['prettier']
+let g:ale_fixers.markdown = ['prettier']
 let g:ale_fix_on_save = 1
 
 " let g:ale_javascript_eslint_executable = 'eslint_d'
@@ -359,9 +402,14 @@ let g:ale_javascript_standard_executable = './node_modules/.bin/semistandard'
 
 nmap <leader>g <Plug>(ale_go_to_definition)
 nmap K <Plug>(ale_hover)
+nmap <leader>e <Plug>(ale_detail)
 
 nmap [f <Plug>(ale_previous_wrap)
 nmap ]f <Plug>(ale_next_wrap)
+
+" After 300ms open a preview window for errors
+" let g:ale_cursor_detail = 1
+" set updatetime=300
 
 " Use ALE's function for omnicompletion.
 " set omnifunc=ale#completion#OmniFunc
@@ -419,3 +467,7 @@ nmap ]f <Plug>(ale_next_wrap)
 
 " format JSON
 " :%!jq .
+"
+
+" better TypeScript indenting
+autocmd FileType typescript,typescriptreact setlocal indentexpr=GetJavascriptIndent()

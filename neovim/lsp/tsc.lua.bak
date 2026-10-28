@@ -1,0 +1,10 @@
+-- local lspconfig = require('lspconfig')
+return {
+  cmd = { "npx", "tsc", "--lsp", "--stdio" },
+  filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+  -- root_dir = lspconfig.util.root_pattern("tsconfig.json", "package.json", ".git")
+  -- Optional: Performance tuning configuration 
+  -- init_options = {
+  --   hostInfo = "neovim"
+  -- }
+}

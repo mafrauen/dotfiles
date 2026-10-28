@@ -32,11 +32,13 @@ zstyle ':prezto:load' pmodule \
   'spectrum' \
   'utility' \
   'completion' \
-  'prompt' \
-  'python' \
-  'docker' \
   'git' \
-  'syntax-highlighting'
+  'syntax-highlighting' \
+  'prompt'
+  # 'python' \
+  # 'docker' \
+  # 'git' \
+  # 'syntax-highlighting'
 
 #
 # Editor
@@ -93,6 +95,7 @@ zstyle ':prezto:module:editor' dot-expansion 'yes'
 # Setting it to 'random' loads a random theme.
 # Auto set to 'off' on dumb terminals.
 zstyle ':prezto:module:prompt' theme 'pure'
+# zstyle ':prezto:module:prompt' theme 'sorin'
 
 #
 # Screen
